@@ -1,6 +1,10 @@
 package fr.rainbow.ui.home
 
 import WeatherData
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,14 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
 import com.google.gson.Gson
+import fr.rainbow.Manifest
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentHomeBinding
 import kotlinx.android.synthetic.main.fragment_home.*
 import java.io.IOException
 import okhttp3.*
+import java.time.LocalDateTime
 
 class HomeFragment : Fragment() {
     private val client = OkHttpClient()
@@ -24,7 +33,6 @@ class HomeFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -65,15 +73,25 @@ class HomeFragment : Fragment() {
                 //response.body()?.let { Log.d("DATA", it.string()) }
                 val gson = Gson()
                 val weatherData = gson.fromJson(response.body()?.string(),WeatherData::class.java )
-                Log.d("DATA",weatherData.hourly.toString())
-                Log.d("DATA",weatherData.hourly.time[1])
-                Log.d("DATA",weatherData.hourly.temperature_2m[1].toString())
+                Log.d("DATA",weatherData.daily.weathercode.toString())
 
                 activity?.runOnUiThread {
                     updatingTempValue(tmp_min_value,weatherData.daily.temperature_2m_min[0])
                     updatingTempValue(tmp_max_value,weatherData.daily.temperature_2m_max[0])
                     updatingWeatherIc(weather_icon,weatherData.daily.weathercode[0])
+                    updatingTempValue(temperature_now_value,weatherData.hourly.temperature_2m[findCurrentSlotHourly(weatherData)])
                 }
+
+                val current = LocalDateTime.now()
+                for (i in 0..weatherData.hourly.time.size) {
+                    if (weatherData.hourly.time[i] < current.toString()) {
+                        if (weatherData.hourly.time[i+1] > current.toString()) {
+                            Log.d("DATA",weatherData.hourly.time[i])
+                            break
+                        }
+                    }
+                }
+                println("Current Date and Time is: $current")
 
             }
 
@@ -82,6 +100,18 @@ class HomeFragment : Fragment() {
 
     fun updatingTempValue(temp: TextView, value: Any) {
         temp.text = value.toString()
+    }
+
+    fun findCurrentSlotHourly(weatherData: WeatherData): Int {
+        val current = LocalDateTime.now()
+        for (i in 0..weatherData.hourly.time.size) {
+            if (weatherData.hourly.time[i] < current.toString()) {
+                if (weatherData.hourly.time[i+1] > current.toString()) {
+                    return i
+                }
+            }
+        }
+        return -1
     }
     fun updatingWeatherIc(icon: ImageView, value: Any) {
         when(value) {
