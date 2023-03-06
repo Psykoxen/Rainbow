@@ -1,6 +1,7 @@
 package fr.rainbow
 
 import android.os.Bundle
+import android.widget.ImageView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -24,4 +25,6 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
     }
+
+
 }
