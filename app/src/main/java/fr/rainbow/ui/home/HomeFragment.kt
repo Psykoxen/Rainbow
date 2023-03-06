@@ -63,8 +63,8 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 Log.d("DATA","chui là")
                 //response.body()?.let { Log.d("DATA", it.string()) }
-                var gson = Gson()
-                var weatherData = gson.fromJson(response.body()?.string(),WeatherData::class.java )
+                val gson = Gson()
+                val weatherData = gson.fromJson(response.body()?.string(),WeatherData::class.java )
                 Log.d("DATA",weatherData.hourly.toString())
                 Log.d("DATA",weatherData.hourly.time[1])
                 Log.d("DATA",weatherData.hourly.temperature_2m[1].toString())
