@@ -133,7 +133,6 @@
             android:layout_height="150dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
-            android:src="@drawable/ic_weather_code_96_99"
             app:layout_constraintEnd_toEndOf="@id/main_section"
             app:layout_constraintTop_toTopOf="@id/main_section" />
 

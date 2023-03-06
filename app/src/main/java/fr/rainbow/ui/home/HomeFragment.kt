@@ -68,10 +68,11 @@ class HomeFragment : Fragment() {
                 Log.d("DATA",weatherData.hourly.toString())
                 Log.d("DATA",weatherData.hourly.time[1])
                 Log.d("DATA",weatherData.hourly.temperature_2m[1].toString())
-                updatingWeatherIc(weather_icon,weatherData.daily.weathercode[0])
+
                 activity?.runOnUiThread {
-                    tmp_min_value.text = weatherData.daily.temperature_2m_min[0].toString()
+                    updatingTempValue(tmp_min_value,weatherData.daily.temperature_2m_min[0])
                     updatingTempValue(tmp_max_value,weatherData.daily.temperature_2m_max[0])
+                    updatingWeatherIc(weather_icon,weatherData.daily.weathercode[0])
                 }
 
             }
