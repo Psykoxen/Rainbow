@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Rainbow</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="home">Home</string>
+    <string name="search">Search</string>
+    <string name="map">Map</string>
+    <string name="settings">Settings</string>
+</resources>
