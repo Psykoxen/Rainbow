@@ -29,10 +29,6 @@ class DetailedFragment : Fragment() {
         _binding = FragmentDetailedBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textDetailed
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         return root
     }
 
