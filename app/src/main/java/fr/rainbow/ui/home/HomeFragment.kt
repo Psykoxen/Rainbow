@@ -22,12 +22,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
 import com.google.gson.Gson
+import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentHomeBinding
+import fr.rainbow.ui.detailed.DetailedFragment
+import fr.rainbow.ui.search.SearchFragment
 import kotlinx.android.synthetic.main.fragment_home.*
 import okhttp3.*
 import java.io.IOException
 import java.time.LocalDateTime
+
 
 class HomeFragment : Fragment() {
     private val client = OkHttpClient()
@@ -62,9 +66,6 @@ class HomeFragment : Fragment() {
         homeViewModel.text.observe(viewLifecycleOwner) {
             textView.text = it
         }
-        requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=43.61&longitude=3.88&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin")
-
-
         //GPS
         fusedLocationProviderClient = this.activity?.let {
             LocationServices.getFusedLocationProviderClient(
@@ -80,9 +81,19 @@ class HomeFragment : Fragment() {
         this.activity?.let { checkForPermission(it) }
         startLocationUpdates()
 
-
         return root
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        main_section.setOnClickListener {
+            Log.d("CLICK","Click")
+            parentFragmentManager.beginTransaction()
+                .add(R.id.nav_host_fragment_activity_main, DetailedFragment())
+
+                .commitNow()
+        }
     }
 
     override fun onDestroyView() {
@@ -189,6 +200,8 @@ class HomeFragment : Fragment() {
             locationResult.lastLocation?.let { locationChanged(it) }
             latitude = locationResult.lastLocation?.latitude!!
             longitude = locationResult.lastLocation?.longitude!!
+            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin")
+
             Log.d("GPS","latitude : $latitude longitude : $longitude")
         }
     }

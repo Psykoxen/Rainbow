@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import fr.rainbow.databinding.FragmentMapBinding
-
 class MapFragment : Fragment() {
 
     private var _binding: FragmentMapBinding? = null
@@ -33,6 +32,7 @@ class MapFragment : Fragment() {
             textView.text = it
         }
         return root
+
     }
 
     override fun onDestroyView() {
