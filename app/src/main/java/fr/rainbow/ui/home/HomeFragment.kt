@@ -22,11 +22,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
 import com.google.gson.Gson
-import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentHomeBinding
-import fr.rainbow.ui.detailed.DetailedFragment
-import fr.rainbow.ui.search.SearchFragment
+import fr.rainbow.ui.detailed.DetailedActivity
 import kotlinx.android.synthetic.main.fragment_home.*
 import okhttp3.*
 import java.io.IOException
