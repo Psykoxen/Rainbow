@@ -27,7 +27,9 @@ object file {
 
     fun readFile(context:Context){
         val path = context.filesDir
-        val output = File(path,"somefile.txt").bufferedReader().use{it.readLines()}
+        val file = File(path,"somefile.txt")
+        file.createNewFile()
+        val output = file.bufferedReader().use{it.readLines()}
         if(!output.isNullOrEmpty()){
             for(i in output){
                 Log.d("fr.rainbow.favorite",i)
