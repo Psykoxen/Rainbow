@@ -15,14 +15,13 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/ic_weather_code_0"
         />
 
     <TextView
         android:id="@+id/cityName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Montpellier"
+        android:text="Localisation"
         android:textColor="@color/white"
         android:textSize="50sp"
         android:layout_marginTop="5dp"
@@ -45,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
-            android:text="15"
+            android:text=""
             android:textSize="50sp" />
     <TextView
         android:id="@+id/temperature_now_unit"
@@ -57,7 +56,16 @@
 
 
     </LinearLayout>
-
+    <View
+        android:id="@+id/barrier"
+        android:layout_width="100dp"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@id/cityName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
     <ImageView
         android:id="@+id/btn_return"
         android:layout_width="50dp"
@@ -67,5 +75,10 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/chevron_left_svgrepo_com" />
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/hourView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toTopOf="@+id/barrier"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

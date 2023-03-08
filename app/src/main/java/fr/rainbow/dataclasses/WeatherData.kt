@@ -1,3 +1,5 @@
+package fr.rainbow.dataclasses
+
 data class WeatherData(
     val daily: Daily,
     val daily_units: DailyUnits,

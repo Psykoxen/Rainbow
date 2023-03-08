@@ -1,19 +1,19 @@
 package fr.rainbow.ui.detailed
 
 
-import WeatherData
-import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import fr.rainbow.R
+import fr.rainbow.adapters.DetailedHourlyAdapter
+import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.databinding.ActivityDetailedBinding
-import fr.rainbow.databinding.ActivityMainBinding
+import fr.rainbow.dataclasses.HourWeatherData
 import kotlinx.android.synthetic.main.activity_detailed.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.temperature_now_value
 import kotlinx.android.synthetic.main.fragment_home.weather_icon
 import okhttp3.*
@@ -27,6 +27,9 @@ class DetailedActivity : AppCompatActivity() {
 
     private var latitude : Double = 0.0
     private var longitude : Double = 0.0
+
+    private val hourPrevisionList : ArrayList<HourWeatherData> = ArrayList()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -41,8 +44,36 @@ class DetailedActivity : AppCompatActivity() {
         longitude = intent.getStringExtra("longitude")!!.toDouble()
         requestData("https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin")
 
+
+
     }
 
+    fun createHoursPrevision(weatherData: WeatherData)
+    {
+        val index = findCurrentSlotHourly(weatherData)
+        for (i in index..index+7)
+        {
+            hourPrevisionList.add(HourWeatherData(
+                weatherData.hourly.time[i].substring(weatherData.hourly.time[i].length-5),
+                weatherData.hourly.apparent_temperature[i],
+                weatherData.hourly.precipitation[i],
+                weatherData.hourly.precipitation_probability[i],
+                weatherData.hourly.rain[i],
+                weatherData.hourly.relativehumidity_2m[i],
+                weatherData.hourly.showers[i],
+                weatherData.hourly.snowfall[i],
+                weatherData.hourly.temperature_2m[i],
+                weatherData.hourly.weathercode[i],
+                weatherData.hourly.winddirection_10m[i],
+                weatherData.hourly.windspeed_10m[i]))
+        }
+
+        val recyclerView = hourView
+        with(recyclerView) {
+            layoutManager = LinearLayoutManager(this@DetailedActivity)
+            adapter = DetailedHourlyAdapter(hourPrevisionList, context)
+        }
+    }
 
     fun requestData(url: String) {
         val request = Request.Builder()
@@ -51,19 +82,23 @@ class DetailedActivity : AppCompatActivity() {
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.d("DATA","error api request")
+                Log.d("ERROR","API ERROR")
             }
             override fun onResponse(call: Call, response: Response) {
                 Log.d("DATA","chui là")
                 val gson = Gson()
-                val weatherData = gson.fromJson(response.body()?.string(),WeatherData::class.java )
+                val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 this@DetailedActivity.runOnUiThread {
+                    Log.d("WEATHER", weatherData.toString())
                     updatingWeatherIc(weather_icon, weatherData.daily.weathercode[0])
                     updatingTempValue(
                         temperature_now_value,
                         weatherData.hourly.temperature_2m[findCurrentSlotHourly(weatherData)]
+
                     )
+                    createHoursPrevision(weatherData)
                 }
+
             }
 
         })

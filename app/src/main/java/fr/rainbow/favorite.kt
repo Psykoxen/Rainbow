@@ -1,4 +1,4 @@
-import java.io.BufferedWriter
+package fr.rainbow
 
 data class favorite(
     val name:String,

@@ -2,7 +2,7 @@ package fr.rainbow.functions
 
 import android.content.Context
 import android.util.Log
-import favorite
+import fr.rainbow.favorite
 import java.io.BufferedWriter
 import java.io.File
 
@@ -30,12 +30,12 @@ object file {
         val output = File(path,"somefile.txt").bufferedReader().use{it.readLines()}
         if(!output.isNullOrEmpty()){
             for(i in output){
-                Log.d("favorite",i)
+                Log.d("fr.rainbow.favorite",i)
             }
-            Log.d("favorite", context.filesDir.toString())
-            Log.d("favorite", output.toString())
+            Log.d("fr.rainbow.favorite", context.filesDir.toString())
+            Log.d("fr.rainbow.favorite", output.toString())
         }else{
-            Log.d("favorite","nothing found")
+            Log.d("fr.rainbow.favorite","nothing found")
         }
 
     }

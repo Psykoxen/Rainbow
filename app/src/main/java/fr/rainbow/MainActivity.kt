@@ -1,14 +1,10 @@
 package fr.rainbow
 
 import android.os.Bundle
-import android.widget.ImageView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
-import favorite
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import fr.rainbow.databinding.ActivityMainBinding
 import fr.rainbow.functions.file
 
@@ -18,7 +14,7 @@ class MainActivity : AppCompatActivity() {
     private var favorites: ArrayList<favorite> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //testInitFavorite()
+        testInitFavorite()
         initFavorite()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)

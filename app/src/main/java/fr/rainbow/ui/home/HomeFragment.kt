@@ -1,6 +1,5 @@
 package fr.rainbow.ui.home
 
-import WeatherData
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -23,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import fr.rainbow.R
+import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.databinding.FragmentHomeBinding
 import fr.rainbow.ui.detailed.DetailedActivity
 import kotlinx.android.synthetic.main.fragment_home.*
@@ -116,7 +116,7 @@ class HomeFragment : Fragment() {
                 Log.d("DATA","chui là")
                 //response.body()?.let { Log.d("DATA", it.string()) }
                 val gson = Gson()
-                val weatherData = gson.fromJson(response.body()?.string(),WeatherData::class.java )
+                val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 Log.d("DATA",weatherData.daily.weathercode.toString())
 
                 activity?.runOnUiThread {
