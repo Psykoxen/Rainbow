@@ -87,8 +87,8 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         main_section.setOnClickListener {
             val detailedIntent = Intent(requireContext(), DetailedActivity::class.java)
-            detailedIntent.putExtra("latitude", longitude)
-            detailedIntent.putExtra("longitude", latitude)
+            detailedIntent.putExtra("latitude", latitude.toString())
+            detailedIntent.putExtra("longitude", longitude.toString())
             startActivity(detailedIntent)
         }
     }
@@ -125,18 +125,6 @@ class HomeFragment : Fragment() {
                     updatingWeatherIc(weather_icon,weatherData.daily.weathercode[0])
                     updatingTempValue(temperature_now_value,weatherData.hourly.temperature_2m[findCurrentSlotHourly(weatherData)])
                 }
-
-                val current = LocalDateTime.now()
-                for (i in 0..weatherData.hourly.time.size) {
-                    if (weatherData.hourly.time[i] < current.toString()) {
-                        if (weatherData.hourly.time[i+1] > current.toString()) {
-                            Log.d("DATA",weatherData.hourly.time[i])
-                            break
-                        }
-                    }
-                }
-                println("Current Date and Time is: $current")
-
             }
 
         })
