@@ -48,7 +48,7 @@ class DetailedActivity : AppCompatActivity() {
 
         var recyclerDayView = dayView
         with(recyclerDayView) {
-            layoutManager = LinearLayoutManager(this@DetailedActivity)
+            layoutManager = LinearLayoutManager(this@DetailedActivity,LinearLayoutManager.HORIZONTAL,false)
             adapter = DetailedDayAdapter(dayPrevisionList, context)
         }
 
