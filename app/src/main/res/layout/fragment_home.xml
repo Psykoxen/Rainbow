@@ -136,6 +136,23 @@
             app:layout_constraintEnd_toEndOf="@id/main_section"
             app:layout_constraintTop_toTopOf="@id/main_section" />
 
+        <com.github.lzyzsd.circleprogress.ArcProgress
+            android:id="@+id/arc_progress"
+            android:background="@color/teal_700"
+            android:layout_marginLeft="50dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:arc_stroke_width="10dp"
+            app:arc_progress="80"
+            app:arc_angle="250"
+            app:arc_unfinished_color="@color/light_blue"
+            app:arc_text_color="@color/white"
+            app:arc_bottom_text_size="20dp"
+            app:arc_bottom_text="OUI"
+            app:layout_constraintEnd_toEndOf="@id/main_section"
+            app:layout_constraintBottom_toBottomOf="@id/main_section"
+            />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!--<androidx.recyclerview.widget.RecyclerView
