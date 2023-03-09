@@ -19,7 +19,8 @@ data class Daily(
     val temperature_2m_min: List<Double>,
     val time: List<String>,
     val uv_index_max: List<Double>,
-    val weathercode: List<Int>
+    val weathercode: List<Int>,
+    val precipitation_probability_max : List<Int>
 )
 
 data class DailyUnits(

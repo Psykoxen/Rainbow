@@ -9,9 +9,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
 import fr.rainbow.R
+import fr.rainbow.adapters.DetailedDayAdapter
 import fr.rainbow.adapters.DetailedHourlyAdapter
 import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.databinding.ActivityDetailedBinding
+import fr.rainbow.dataclasses.DayWeatherData
 import fr.rainbow.dataclasses.HourWeatherData
 import kotlinx.android.synthetic.main.activity_detailed.*
 import kotlinx.android.synthetic.main.fragment_home.temperature_now_value
@@ -22,6 +24,7 @@ import java.time.LocalDateTime
 
 
 class DetailedActivity : AppCompatActivity() {
+
     private val client = OkHttpClient()
     private lateinit var binding: ActivityDetailedBinding
 
@@ -29,7 +32,7 @@ class DetailedActivity : AppCompatActivity() {
     private var longitude : Double = 0.0
 
     private val hourPrevisionList : ArrayList<HourWeatherData> = ArrayList()
-
+    private val dayPrevisionList: ArrayList<DayWeatherData> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -42,7 +45,7 @@ class DetailedActivity : AppCompatActivity() {
 
         latitude = intent.getStringExtra("latitude")!!.toDouble()
         longitude = intent.getStringExtra("longitude")!!.toDouble()
-        requestData("https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin")
+        requestData("https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin")
 
 
 
@@ -74,6 +77,27 @@ class DetailedActivity : AppCompatActivity() {
             adapter = DetailedHourlyAdapter(hourPrevisionList, context)
         }
     }
+    fun createDayPrevision(weatherData: WeatherData)
+    {
+
+        for (i in 1 until weatherData.daily.time.size)
+        {
+            dayPrevisionList.add(DayWeatherData(
+                weatherData.daily.temperature_2m_max[i],
+                weatherData.daily.temperature_2m_min[i],
+                weatherData.daily.time[i],
+                weatherData.daily.uv_index_max[i],
+                weatherData.daily.weathercode[i],
+                weatherData.daily.precipitation_probability_max[i])
+            )
+        }
+
+        val recyclerView = dayView
+        with(recyclerView) {
+            layoutManager = LinearLayoutManager(this@DetailedActivity)
+            adapter = DetailedDayAdapter(dayPrevisionList, context)
+        }
+    }
 
     fun requestData(url: String) {
         val request = Request.Builder()
@@ -97,6 +121,7 @@ class DetailedActivity : AppCompatActivity() {
 
                     )
                     createHoursPrevision(weatherData)
+                    createDayPrevision(weatherData)
                 }
 
             }

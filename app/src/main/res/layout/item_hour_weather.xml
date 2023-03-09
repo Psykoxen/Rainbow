@@ -29,57 +29,121 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         />
-    <TextView
-        android:id="@+id/temperature_value"
-        style="@style/TextAppearance.AppCompat.Display1"
+    <LinearLayout
+        android:id="@+id/temperature_section"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="20"
-        android:textSize="15sp"
+        android:orientation="horizontal"
         app:layout_constraintStart_toEndOf="@id/time_label"
+        app:layout_constraintEnd_toStartOf="@id/rain_section"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="10dp"/>
-    <TextView
-        android:id="@+id/temperature_unit"
-        style="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintBottom_toBottomOf="parent">
+        >
+        <TextView
+            android:id="@+id/temperature_value"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/time_label"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+        <TextView
+            android:id="@+id/temperature_unit"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="°C"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/temperature_value"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/rain_section"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="°C"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@id/temperature_value"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-    <ImageView
-        android:id="@+id/wind_arrow"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        style="@style/TextAppearance.AppCompat.Display1"
-        app:layout_constraintStart_toEndOf="@id/temperature_unit"
+        android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="30dp"
-        android:src="@drawable/ic_arrow"
-        />
-    <TextView
-        android:id="@+id/wind_value"
-        style="@style/TextAppearance.AppCompat.Display1"
+        app:layout_constraintEnd_toStartOf="@id/wind_section"
+        app:layout_constraintStart_toEndOf="@+id/temperature_section">
+        <ImageView
+            android:id="@+id/rain_icon"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            style="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintStart_toEndOf="@id/temperature_unit"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_water_drop"
+            />
+        <TextView
+            android:id="@+id/rain_value"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0.0"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/wind_arrow"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/rain_unit"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" mm"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/wind_value"
+            app:layout_constraintTop_toTopOf="@id/wind_section"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/wind_section"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/wind_section"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="20"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@id/wind_arrow"
+        android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="10dp"/>
-    <TextView
-        android:id="@+id/wind_unit"
-        style="@style/TextAppearance.AppCompat.Display1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="km/h"
-        android:textSize="15sp"
-        app:layout_constraintStart_toEndOf="@id/wind_value"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintEnd_toStartOf="@id/weather_icon"
+        app:layout_constraintStart_toEndOf="@+id/rain_section">
+        <ImageView
+            android:id="@+id/wind_arrow"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            style="@style/TextAppearance.AppCompat.Display1"
+            app:layout_constraintStart_toEndOf="@id/temperature_unit"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:src="@drawable/ic_arrow"
+            />
+        <TextView
+            android:id="@+id/wind_value"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/wind_arrow"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"/>
+        <TextView
+            android:id="@+id/wind_unit"
+            style="@style/TextAppearance.AppCompat.Display1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" km/h"
+            android:textSize="15sp"
+            app:layout_constraintStart_toEndOf="@id/wind_value"
+            app:layout_constraintTop_toTopOf="@id/wind_section"
+            android:layout_gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/wind_section"/>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

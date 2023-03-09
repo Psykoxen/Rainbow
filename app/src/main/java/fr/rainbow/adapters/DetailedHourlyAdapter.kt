@@ -39,8 +39,8 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
             updatingWeatherIc(itemView.weather_icon,hourWeather.weathercode)
             updatingTempValue(itemView.time_label,hourWeather.dateTime)
             updatingTempValue(itemView.temperature_value,hourWeather.temperature_2m)
-            updatingTempValue(itemView.wind_value,hourWeather.windspeed_10m)
-            itemView.wind_arrow.rotation = hourWeather.winddirection_10m.toFloat()
+            updatingTempValue(itemView.rain_value,hourWeather.rain)
+            itemView.wind_arrow.setRotation(hourWeather.winddirection_10m.toFloat())
         }
     }
 
