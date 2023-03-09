@@ -16,14 +16,13 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:src="@drawable/ic_weather_code_0"
         />
     <TextView
         android:id="@+id/time_label"
         style="@style/TextAppearance.AppCompat.Display1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00h00"
+
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +43,6 @@
             style="@style/TextAppearance.AppCompat.Display1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20"
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@id/time_label"
             app:layout_constraintTop_toTopOf="parent"
@@ -71,8 +69,8 @@
         app:layout_constraintStart_toEndOf="@+id/temperature_section">
         <ImageView
             android:id="@+id/rain_icon"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             style="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintStart_toEndOf="@id/temperature_unit"
             app:layout_constraintTop_toTopOf="parent"
@@ -84,7 +82,7 @@
             style="@style/TextAppearance.AppCompat.Display1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0.0"
+
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@id/wind_arrow"
             app:layout_constraintTop_toTopOf="parent"
@@ -127,7 +125,7 @@
             style="@style/TextAppearance.AppCompat.Display1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="20"
+
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@id/wind_arrow"
             app:layout_constraintTop_toTopOf="parent"

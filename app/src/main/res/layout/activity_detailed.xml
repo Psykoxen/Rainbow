@@ -83,15 +83,26 @@
         android:layout_marginHorizontal="10dp"
         app:layout_constraintTop_toTopOf="@+id/barrier"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_hour_weather"/>
+    <View
+        android:id="@+id/barrierDay"
+        android:layout_width="100dp"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/hourView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dayView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/hourView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/barrierDay"
+
         android:orientation="horizontal"
         tools:listitem="@layout/item_day_weather"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
