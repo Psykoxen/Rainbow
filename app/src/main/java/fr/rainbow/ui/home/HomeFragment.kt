@@ -19,13 +19,23 @@ import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import fr.rainbow.R
+import fr.rainbow.adapters.DetailedHourlyAdapter
+import fr.rainbow.adapters.FavoriteAdapter
 import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.databinding.FragmentHomeBinding
+import fr.rainbow.dataclasses.Favorite
+import fr.rainbow.dataclasses.HourWeatherData
+import fr.rainbow.functions.file.updatingTempValue
+import fr.rainbow.functions.file.updatingWeatherIc
 import fr.rainbow.ui.detailed.DetailedActivity
+import kotlinx.android.synthetic.main.activity_detailed.*
 import kotlinx.android.synthetic.main.fragment_home.*
+import kotlinx.android.synthetic.main.fragment_home.temperature_now_value
+import kotlinx.android.synthetic.main.fragment_home.weather_icon
 import okhttp3.*
 import java.io.IOException
 import java.time.LocalDateTime
@@ -44,6 +54,8 @@ class HomeFragment : Fragment() {
     private lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
     private val requestPermissionCode = 999
+
+    private val favorites : ArrayList<Favorite> = ArrayList()
 
 
     // This property is only valid between onCreateView and
@@ -78,6 +90,17 @@ class HomeFragment : Fragment() {
         }
         this.activity?.let { checkForPermission(it) }
         startLocationUpdates()
+
+        /**val fav1 = Favorite("Villeurbane",45.786,4.883)
+        val fav2 = Favorite("somewhere",42.0,6.0)
+        favorites.add(fav1)
+        favorites.add(fav2)
+
+        val recyclerView = hourView
+        with(recyclerView) {
+            layoutManager = LinearLayoutManager(this.context)
+            adapter = FavoriteAdapter(favorites, context)
+        }**/
 
         return root
 
@@ -130,10 +153,6 @@ class HomeFragment : Fragment() {
         })
     }
 
-    fun updatingTempValue(temp: TextView, value: Any) {
-        temp.text = value.toString()
-    }
-
     fun findCurrentSlotHourly(weatherData: WeatherData): Int {
         val current = LocalDateTime.now()
         for (i in 0..weatherData.hourly.time.size) {
@@ -144,37 +163,6 @@ class HomeFragment : Fragment() {
             }
         }
         return -1
-    }
-    fun updatingWeatherIc(icon: ImageView, value: Any) {
-        when(value) {
-            0 -> icon.setImageResource(R.drawable.ic_weather_code_0)
-            1 -> icon.setImageResource(R.drawable.ic_weather_code_1)
-            2 -> icon.setImageResource(R.drawable.ic_weather_code_2_3)
-            3 -> icon.setImageResource(R.drawable.ic_weather_code_2_3)
-            45 -> icon.setImageResource(R.drawable.ic_weather_code_45_48)
-            48 -> icon.setImageResource(R.drawable.ic_weather_code_45_48)
-            51 -> icon.setImageResource(R.drawable.ic_weather_code_51_53_55)
-            53 -> icon.setImageResource(R.drawable.ic_weather_code_51_53_55)
-            55 -> icon.setImageResource(R.drawable.ic_weather_code_51_53_55)
-            56 -> icon.setImageResource(R.drawable.ic_weather_code_56_57)
-            57 -> icon.setImageResource(R.drawable.ic_weather_code_56_57)
-            61 -> icon.setImageResource(R.drawable.ic_weather_code_61_63_65)
-            63 -> icon.setImageResource(R.drawable.ic_weather_code_61_63_65)
-            65 -> icon.setImageResource(R.drawable.ic_weather_code_61_63_65)
-            66 -> icon.setImageResource(R.drawable.ic_weather_code_66_67)
-            67 -> icon.setImageResource(R.drawable.ic_weather_code_66_67)
-            71 -> icon.setImageResource(R.drawable.ic_weather_code_71_73_75)
-            73 -> icon.setImageResource(R.drawable.ic_weather_code_71_73_75)
-            75 -> icon.setImageResource(R.drawable.ic_weather_code_71_73_75)
-            77 -> icon.setImageResource(R.drawable.ic_weather_code_77)
-            80 -> icon.setImageResource(R.drawable.ic_weather_code_80_81_82)
-            81 -> icon.setImageResource(R.drawable.ic_weather_code_80_81_82)
-            82 -> icon.setImageResource(R.drawable.ic_weather_code_80_81_82)
-            95 -> icon.setImageResource(R.drawable.ic_weather_code_95)
-            96 -> icon.setImageResource(R.drawable.ic_weather_code_96_99)
-            99 -> icon.setImageResource(R.drawable.ic_weather_code_96_99)
-            else -> icon.setImageResource(R.drawable.ic_weather_code_0)
-        }
     }
 
     //GPS

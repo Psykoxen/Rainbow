@@ -6,12 +6,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import fr.rainbow.databinding.ActivityMainBinding
+import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.file
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var favorites: ArrayList<favorite> = arrayListOf()
+    private var favorites: ArrayList<Favorite> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         testInitFavorite()
@@ -26,8 +27,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun testInitFavorite(){
-        val fav1 = favorite("Villeurbane",45.786,4.883)
-        val fav2 = favorite("somewhere",42.0,6.0)
+        val fav1 = Favorite("Villeurbane",45.786,4.883)
+        val fav2 = Favorite("somewhere",42.0,6.0)
         favorites.add(fav1)
         favorites.add(fav2)
         file.writeFile(this,favorites)
