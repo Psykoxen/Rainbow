@@ -147,7 +147,8 @@ class HomeFragment : Fragment() {
                     updatingTempValue(tmp_max_value,weatherData.daily.temperature_2m_max[0])
                     updatingWeatherIc(weather_icon,weatherData.daily.weathercode[0])
                     updatingTempValue(temperature_now_value,weatherData.hourly.temperature_2m[findCurrentSlotHourly(weatherData)])
-                    rain_probability.setProgress(weatherData.hourly.precipitation_probability[findCurrentSlotHourly(weatherData)])
+                    rain_probability.progress = weatherData.hourly.precipitation_probability[findCurrentSlotHourly(weatherData)]
+
                 }
             }
 

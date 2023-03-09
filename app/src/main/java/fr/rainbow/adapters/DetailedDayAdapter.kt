@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.R
 import fr.rainbow.dataclasses.DayWeatherData
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_day_weather.view.*
 import kotlinx.android.synthetic.main.item_hour_weather.view.weather_icon
 
@@ -39,6 +40,7 @@ class DetailedDayAdapter(private val dayWeatherList: ArrayList<DayWeatherData>, 
             updatingTempValue(itemView.date_label,dayWeather.time)
             updatingTempValue(itemView.tmp_max_value,dayWeather.temperature_2m_max)
             updatingTempValue(itemView.tmp_min_value,dayWeather.temperature_2m_min)
+            itemView.rain_probability.progress = dayWeather.precipitation_probability_max
         }
 
         fun updatingWeatherIc(icon: ImageView, value: Any) {
