@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import fr.rainbow.R
 import fr.rainbow.adapters.DetailedDayAdapter
@@ -33,6 +34,8 @@ class DetailedActivity : AppCompatActivity() {
 
     private val hourPrevisionList : ArrayList<HourWeatherData> = ArrayList()
     private val dayPrevisionList: ArrayList<DayWeatherData> = ArrayList()
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -43,15 +46,26 @@ class DetailedActivity : AppCompatActivity() {
             finish()
         }
 
+        var recyclerDayView = dayView
+        with(recyclerDayView) {
+            layoutManager = LinearLayoutManager(this@DetailedActivity)
+            adapter = DetailedDayAdapter(dayPrevisionList, context)
+        }
+
+        var recyclerHourView = hourView
+        with(recyclerHourView) {
+            layoutManager = LinearLayoutManager(this@DetailedActivity)
+            adapter = DetailedHourlyAdapter(hourPrevisionList, context)
+        }
+
         latitude = intent.getStringExtra("latitude")!!.toDouble()
         longitude = intent.getStringExtra("longitude")!!.toDouble()
-        requestData("https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin")
-
+        requestData(recyclerDayView,recyclerHourView,"https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin")
 
 
     }
 
-    fun createHoursPrevision(weatherData: WeatherData)
+    fun createHoursPrevision(weatherData: WeatherData, recyclerHourView: RecyclerView)
     {
         val index = findCurrentSlotHourly(weatherData)
         for (i in index..index+7)
@@ -70,14 +84,9 @@ class DetailedActivity : AppCompatActivity() {
                 weatherData.hourly.winddirection_10m[i],
                 weatherData.hourly.windspeed_10m[i]))
         }
-
-        val recyclerView = hourView
-        with(recyclerView) {
-            layoutManager = LinearLayoutManager(this@DetailedActivity)
-            adapter = DetailedHourlyAdapter(hourPrevisionList, context)
-        }
+        recyclerHourView.adapter!!.notifyDataSetChanged()
     }
-    fun createDayPrevision(weatherData: WeatherData)
+    fun createDayPrevision(weatherData: WeatherData, recyclerDayView: RecyclerView)
     {
 
         for (i in 1 until weatherData.daily.time.size)
@@ -91,15 +100,10 @@ class DetailedActivity : AppCompatActivity() {
                 weatherData.daily.precipitation_probability_max[i])
             )
         }
-
-        val recyclerView = dayView
-        with(recyclerView) {
-            layoutManager = LinearLayoutManager(this@DetailedActivity)
-            adapter = DetailedDayAdapter(dayPrevisionList, context)
-        }
+        recyclerDayView.adapter!!.notifyDataSetChanged()
     }
 
-    fun requestData(url: String) {
+    fun requestData(dayView : RecyclerView , hourView : RecyclerView, url: String) {
         val request = Request.Builder()
             .url(url)
             .build()
@@ -120,8 +124,8 @@ class DetailedActivity : AppCompatActivity() {
                         weatherData.hourly.temperature_2m[findCurrentSlotHourly(weatherData)]
 
                     )
-                    createHoursPrevision(weatherData)
-                    createDayPrevision(weatherData)
+                    createHoursPrevision(weatherData, hourView)
+                    createDayPrevision(weatherData, dayView)
                 }
 
             }
