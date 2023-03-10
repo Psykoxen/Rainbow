@@ -22,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.gms.location.*
 import com.google.gson.Gson
+import fr.rainbow.BuildConfig
 import fr.rainbow.R
 import fr.rainbow.adapters.DetailedHourlyAdapter
 import fr.rainbow.adapters.FavoriteAdapter
@@ -144,7 +145,8 @@ class HomeFragment : Fragment() {
                 val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 Log.d("DATA",weatherData.daily.weathercode.toString())
                 if(city_label.text == "Your Position"){
-                    requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAbpc3f28ZVfprT3AY9c-pgPDSWkWuu4pk&latlng=$latitude,$longitude")
+                    val key = BuildConfig.apiMaps
+                    requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?key=$key&latlng=$latitude,$longitude")
                 }
                 activity?.runOnUiThread {
                     updatingTempValue(tmp_min_value,weatherData.daily.temperature_2m_min[0])
