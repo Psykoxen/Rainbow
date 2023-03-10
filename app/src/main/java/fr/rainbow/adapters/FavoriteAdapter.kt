@@ -51,6 +51,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
             detailedIntent.putExtra("latitude", favoriteItem.latitude.toString())
             detailedIntent.putExtra("longitude", favoriteItem.longitude.toString())
             detailedIntent.putExtra("name",favoriteItem.name)
+            detailedIntent.putExtra("index",position)
             startActivity(context,detailedIntent,null)
         }
     }

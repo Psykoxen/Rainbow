@@ -8,20 +8,18 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
-import android.provider.DocumentsContract
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
 import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
@@ -29,18 +27,13 @@ import com.google.gson.Gson
 import fr.rainbow.BuildConfig
 import fr.rainbow.MainActivity
 import fr.rainbow.R
-import fr.rainbow.adapters.DetailedHourlyAdapter
 import fr.rainbow.adapters.FavoriteAdapter
-import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.databinding.FragmentHomeBinding
 import fr.rainbow.dataclasses.Favorite
-import fr.rainbow.dataclasses.HourWeatherData
 import fr.rainbow.dataclasses.Position
+import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.functions.file.updatingTempValue
 import fr.rainbow.functions.file.updatingWeatherIc
-import fr.rainbow.ui.detailed.DetailedActivity
-import kotlinx.android.synthetic.main.activity_detailed.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
@@ -115,6 +108,12 @@ class HomeFragment() : Fragment() {
             layoutManager = LinearLayoutManager(this.context)
             adapter = FavoriteAdapter(favorites, context)
         }
+        recyclerView.addItemDecoration(
+            DividerItemDecoration(
+                context,
+                DividerItemDecoration.VERTICAL
+            )
+        )
         initAllData()
 
         return root
