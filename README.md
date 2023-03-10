@@ -28,6 +28,6 @@ L'application Rainbow peut envoyer des notifications d'alerte météo aux utilis
 Nous accueillons les contributions de la communauté des développeurs pour améliorer l'application Rainbow. Vous pouvez contribuer en proposant des améliorations, des corrections de bugs et de nouvelles fonctionnalités en créant des pull requests. Pour en savoir plus sur la contribution, consultez le fichier CONTRIBUTING.md.
 
 ## Auteurs
-Le projet Rainbow a été créé par [Psykoxen](https://github.com/Psykoxen), [Larcherbc](https://github.com/Larcherbc), [Niskko](https://github.com/Niskko). Contactez-nous à [adresse e-mail] pour toute question ou préoccupation.
+Le projet Rainbow a été créé par [Psykoxen](https://github.com/Psykoxen), [Larcherbc](https://github.com/Larcherbc), [Niskko](https://github.com/Niskko). Creez une issue pour toute question ou préoccupation.
 
 Nous espérons que vous apprécierez l'application Rainbow et que vous en ferez une utilisation utile et agréable pour suivre la météo et explorer le monde qui vous entoure.
