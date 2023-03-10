@@ -77,10 +77,11 @@ class SearchFragment : Fragment() {
         return root
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-            when (resultCode) {
+    private val autocompleteResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            when (result.resultCode) {
                 Activity.RESULT_OK -> {
+                    val data = result.data
                     data?.let {
                         val place = Autocomplete.getPlaceFromIntent(data)
                         Log.i(TAG, "Place: ${place.name}, ${place.id}")
@@ -88,6 +89,7 @@ class SearchFragment : Fragment() {
                 }
                 AutocompleteActivity.RESULT_ERROR -> {
                     // TODO: Handle the error.
+                    val data = result.data
                     data?.let {
                         val status = Autocomplete.getStatusFromIntent(data)
                         Log.i(TAG, status.statusMessage ?: "")
@@ -97,8 +99,6 @@ class SearchFragment : Fragment() {
                     // The user canceled the operation.
                 }
             }
-            return
-        super.onActivityResult(requestCode, resultCode, data)
-    }
+        }
 
 }
