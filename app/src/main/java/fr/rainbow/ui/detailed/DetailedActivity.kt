@@ -17,8 +17,6 @@ import fr.rainbow.databinding.ActivityDetailedBinding
 import fr.rainbow.dataclasses.DayWeatherData
 import fr.rainbow.dataclasses.HourWeatherData
 import kotlinx.android.synthetic.main.activity_detailed.*
-import kotlinx.android.synthetic.main.fragment_home.temperature_now_value
-import kotlinx.android.synthetic.main.fragment_home.weather_icon
 import okhttp3.*
 import java.io.IOException
 import java.time.LocalDateTime

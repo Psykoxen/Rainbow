@@ -13,10 +13,10 @@ import fr.rainbow.functions.file
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var favorites: ArrayList<Favorite> = arrayListOf()
+    var favorites: ArrayList<Favorite> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //testInitFavorite()
+        testInitFavorite()
         initFavorite()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -28,8 +28,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun testInitFavorite(){
-        val fav1 = Favorite("Villeurbane",45.786,4.883)
-        val fav2 = Favorite("somewhere",42.0,6.0)
+        val fav0 = Favorite("Your Position", 0.0 ,0.0, true, true,null)
+        val fav1 = Favorite("Villeurbanne",45.786,4.883,false,false,null)
+        val fav2 = Favorite("somewhere",42.0,6.0,false,false,null)
+        favorites.add(fav0)
         favorites.add(fav1)
         favorites.add(fav2)
         file.writeFile(this,favorites)
@@ -38,4 +40,5 @@ class MainActivity : AppCompatActivity() {
     fun initFavorite(){
         favorites = file.readFile(this)
     }
+
 }

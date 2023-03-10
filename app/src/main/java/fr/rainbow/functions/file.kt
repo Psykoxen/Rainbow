@@ -23,7 +23,7 @@ object file {
         file.createNewFile()
         file.bufferedWriter().use { out ->
             Favorites.forEach {
-                out.writeLn("${it.name}, ${it.latitude}, ${it.longitude}")
+                out.writeLn("${it.name},${it.latitude},${it.longitude},${it.isGPS},${it.isBig}")
             }
         }
     }
@@ -37,7 +37,7 @@ object file {
         if(!output.isNullOrEmpty()){
             for(i in output){
                 val string = i.split(",")
-                val temp = Favorite(string[0],string[1].toDouble(),string[2].toDouble())
+                val temp = Favorite(string[0],string[1].toDouble(),string[2].toDouble(),string[3].toBoolean(),string[4].toBoolean(),null)
                 favorites.add(temp)
             }
         }else{

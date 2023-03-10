@@ -1,9 +1,12 @@
 package fr.rainbow.dataclasses
 
 data class Favorite(
-    val name:String,
-    val latitude:Double,
-    val longitude:Double){
+    var name:String,
+    var latitude:Double,
+    var longitude:Double,
+    val isGPS: Boolean,
+    var isBig:Boolean,
+    var weatherData: WeatherData?){
 
 }
 
