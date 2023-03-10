@@ -2,11 +2,12 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-android-extensions'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 def getApiKey() {
     Properties properties = new Properties()
     properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return properties.getProperty("apiMaps");
+    return properties.getProperty("apiMaps")
 }
 android {
     namespace 'fr.rainbow'
@@ -58,4 +59,5 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.github.lzyzsd:circleprogress:1.2.1'
+    implementation 'com.google.android.libraries.places:places:3.0.0'
 }
