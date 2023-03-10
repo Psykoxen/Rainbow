@@ -1,6 +1,7 @@
 package fr.rainbow
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
     private var favorites: ArrayList<Favorite> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        testInitFavorite()
+        //testInitFavorite()
         initFavorite()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -35,6 +36,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initFavorite(){
-        file.readFile(this)
+        favorites = file.readFile(this)
     }
 }

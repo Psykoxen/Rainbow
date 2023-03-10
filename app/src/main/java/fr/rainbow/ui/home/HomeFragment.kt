@@ -29,6 +29,7 @@ import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.databinding.FragmentHomeBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.HourWeatherData
+import fr.rainbow.dataclasses.Position
 import fr.rainbow.functions.file.updatingTempValue
 import fr.rainbow.functions.file.updatingWeatherIc
 import fr.rainbow.ui.detailed.DetailedActivity
@@ -49,6 +50,7 @@ class HomeFragment : Fragment() {
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private var longitude: Double = 0.0
     private var latitude: Double = 0.0
+    private var name = "Your Position";
     private val interval: Long = 10000 // 10seconds
     private val fastestInterval: Long = 5000 // 5 seconds
     private lateinit var mLastLocation: Location
@@ -112,6 +114,7 @@ class HomeFragment : Fragment() {
             val detailedIntent = Intent(requireContext(), DetailedActivity::class.java)
             detailedIntent.putExtra("latitude", latitude.toString())
             detailedIntent.putExtra("longitude", longitude.toString())
+            detailedIntent.putExtra("name",name)
             startActivity(detailedIntent)
         }
     }
@@ -136,18 +139,44 @@ class HomeFragment : Fragment() {
                 Log.d("DATA","error api request")
             }
             override fun onResponse(call: Call, response: Response) {
-                Log.d("DATA","chui là")
                 //response.body()?.let { Log.d("DATA", it.string()) }
                 val gson = Gson()
                 val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 Log.d("DATA",weatherData.daily.weathercode.toString())
-
+                if(city_label.text == "Your Position"){
+                    requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyAbpc3f28ZVfprT3AY9c-pgPDSWkWuu4pk&latlng=$latitude,$longitude")
+                }
                 activity?.runOnUiThread {
                     updatingTempValue(tmp_min_value,weatherData.daily.temperature_2m_min[0])
                     updatingTempValue(tmp_max_value,weatherData.daily.temperature_2m_max[0])
                     updatingWeatherIc(weather_icon,weatherData.daily.weathercode[0])
                     updatingTempValue(temperature_now_value,weatherData.hourly.temperature_2m[findCurrentSlotHourly(weatherData)])
-                    rain_probability.setProgress(weatherData.hourly.precipitation_probability[findCurrentSlotHourly(weatherData)])
+                    rain_probability.progress = weatherData.hourly.precipitation_probability[findCurrentSlotHourly(weatherData)]
+                }
+            }
+
+        })
+    }
+
+    fun requestYourPosition(url: String) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.d("DATA","error api reverseGeocoding request")
+            }
+            override fun onResponse(call: Call, response: Response) {
+                //response.body()?.let { Log.d("DATA", it.string()) }
+                val gson = Gson()
+                val position = gson.fromJson(response.body()?.string(), Position::class.java )
+                Log.d("DATA",position.toString())
+                var temp = position.plus_code.compound_code
+                temp = temp.substring(temp.indexOf(" "))
+                name = temp
+                activity?.runOnUiThread {
+                    city_label.text = temp
                 }
             }
 

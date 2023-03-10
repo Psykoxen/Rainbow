@@ -31,6 +31,7 @@ class DetailedActivity : AppCompatActivity() {
 
     private var latitude : Double = 0.0
     private var longitude : Double = 0.0
+    private var name = "Your Position"
 
     private val hourPrevisionList : ArrayList<HourWeatherData> = ArrayList()
     private val dayPrevisionList: ArrayList<DayWeatherData> = ArrayList()
@@ -60,6 +61,7 @@ class DetailedActivity : AppCompatActivity() {
 
         latitude = intent.getStringExtra("latitude")!!.toDouble()
         longitude = intent.getStringExtra("longitude")!!.toDouble()
+        name = intent.getStringExtra("name")!!
         requestData(recyclerDayView,recyclerHourView,"https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin")
 
 
@@ -113,7 +115,6 @@ class DetailedActivity : AppCompatActivity() {
                 Log.d("ERROR","API ERROR")
             }
             override fun onResponse(call: Call, response: Response) {
-                Log.d("DATA","chui là")
                 val gson = Gson()
                 val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 this@DetailedActivity.runOnUiThread {
@@ -126,6 +127,7 @@ class DetailedActivity : AppCompatActivity() {
                     )
                     createHoursPrevision(weatherData, hourView)
                     createDayPrevision(weatherData, dayView)
+                    cityName.text = name
                 }
 
             }

@@ -12,7 +12,7 @@ import java.io.File
 
 object file {
 
-    fun BufferedWriter.writeLn(line: String) {
+    private fun BufferedWriter.writeLn(line: String) {
         this.write(line)
         this.newLine()
     }
@@ -28,20 +28,22 @@ object file {
         }
     }
 
-    fun readFile(context:Context){
+    fun readFile(context:Context): ArrayList<Favorite> {
         val path = context.filesDir
         val file = File(path,"somefile.txt")
+        val favorites = ArrayList<Favorite>()
         file.createNewFile()
         val output = file.bufferedReader().use{it.readLines()}
         if(!output.isNullOrEmpty()){
             for(i in output){
-                Log.d("fr.rainbow.favorite",i)
+                val string = i.split(",")
+                val temp = Favorite(string[0],string[1].toDouble(),string[2].toDouble())
+                favorites.add(temp)
             }
-            Log.d("fr.rainbow.favorite", context.filesDir.toString())
-            Log.d("fr.rainbow.favorite", output.toString())
         }else{
             Log.d("fr.rainbow.favorite","nothing found")
         }
+        return favorites
     }
 
     fun updatingWeatherIc(icon: ImageView, value: Any) {
