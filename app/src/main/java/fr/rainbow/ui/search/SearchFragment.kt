@@ -77,28 +77,4 @@ class SearchFragment : Fragment() {
         return root
     }
 
-    private val autocompleteResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-            when (result.resultCode) {
-                Activity.RESULT_OK -> {
-                    val data = result.data
-                    data?.let {
-                        val place = Autocomplete.getPlaceFromIntent(data)
-                        Log.i(TAG, "Place: ${place.name}, ${place.id}")
-                    }
-                }
-                AutocompleteActivity.RESULT_ERROR -> {
-                    // TODO: Handle the error.
-                    val data = result.data
-                    data?.let {
-                        val status = Autocomplete.getStatusFromIntent(data)
-                        Log.i(TAG, status.statusMessage ?: "")
-                    }
-                }
-                Activity.RESULT_CANCELED -> {
-                    // The user canceled the operation.
-                }
-            }
-        }
-
 }
