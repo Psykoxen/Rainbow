@@ -42,7 +42,7 @@ import java.io.IOException
 import java.time.LocalDateTime
 
 
-class HomeFragment() : Fragment() {
+class HomeFragment : Fragment() {
     private val client = OkHttpClient()
     private var _binding: FragmentHomeBinding? = null
 
@@ -153,7 +153,7 @@ class HomeFragment() : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 //response.body()?.let { Log.d("DATA", it.string()) }
                 val gson = Gson()
-                var weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
+                val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 favorites[index].weatherData = weatherData
                 if(favorites[index].name == "Your Position"){
                     val key = BuildConfig.apiMaps
@@ -200,7 +200,7 @@ class HomeFragment() : Fragment() {
                 //response.body()?.let { Log.d("DATA", it.string()) }
                 val gson = Gson()
                 val position = gson.fromJson(response.body()?.string(), Position::class.java )
-                if (position.plus_code!=null){
+                if (position.plus_code != null){
                     var temp = position.plus_code.compound_code
                     temp = temp.substring(temp.indexOf(" "))
                     favorites[index].name = temp
@@ -236,7 +236,7 @@ class HomeFragment() : Fragment() {
             gpsFavorite.latitude = locationResult.lastLocation?.latitude!!
             gpsFavorite.longitude = locationResult.lastLocation?.longitude!!
 
-            var index = favorites.indexOf(gpsFavorite)
+            val index = favorites.indexOf(gpsFavorite)
             requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[index].latitude}&longitude=${favorites[index].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",index)
 
             Log.d("GPS","latitude : ${gpsFavorite.latitude} longitude : ${gpsFavorite.longitude}")
@@ -317,6 +317,7 @@ class HomeFragment() : Fragment() {
         Log.d("GPS", "function: ${gpsFavorite.latitude} ${gpsFavorite.longitude}")
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

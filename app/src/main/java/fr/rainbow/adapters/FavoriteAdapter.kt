@@ -20,7 +20,6 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        Log.d("test", viewType.toString())
         if(viewType==1){
             return(ViewHolderBig(
                 LayoutInflater.from(parent.context)
@@ -51,7 +50,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
             detailedIntent.putExtra("latitude", favoriteItem.latitude.toString())
             detailedIntent.putExtra("longitude", favoriteItem.longitude.toString())
             detailedIntent.putExtra("name",favoriteItem.name)
-            detailedIntent.putExtra("index",position)
+            detailedIntent.putExtra("favorite",favoriteItem)
             startActivity(context,detailedIntent,null)
         }
     }

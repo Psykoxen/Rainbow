@@ -6,7 +6,7 @@ data class Favorite(
     var longitude:Double,
     val isGPS: Boolean,
     var isBig:Boolean,
-    var weatherData: WeatherData?){
+    var weatherData: WeatherData?):java.io.Serializable{
 
 }
 

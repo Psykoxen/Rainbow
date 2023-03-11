@@ -1,15 +1,17 @@
 package fr.rainbow.ui.detailed
 
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
-import fr.rainbow.MainActivity
+
 import fr.rainbow.R
 import fr.rainbow.adapters.DetailedDayAdapter
 import fr.rainbow.adapters.DetailedHourlyAdapter
@@ -22,7 +24,7 @@ import kotlinx.android.synthetic.main.activity_detailed.*
 import okhttp3.*
 import java.io.IOException
 import java.time.LocalDateTime
-import kotlin.properties.Delegates
+
 
 
 class DetailedActivity : AppCompatActivity() {
@@ -33,12 +35,13 @@ class DetailedActivity : AppCompatActivity() {
     private var latitude : Double = 0.0
     private var longitude : Double = 0.0
     private var name = "Your Position"
-    private var index =-1
+    private lateinit var favorite:Favorite
 
     private val hourPrevisionList : ArrayList<HourWeatherData> = ArrayList()
     private val dayPrevisionList: ArrayList<DayWeatherData> = ArrayList()
 
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -49,13 +52,13 @@ class DetailedActivity : AppCompatActivity() {
             finish()
         }
 
-        var recyclerDayView = dayView
+        val recyclerDayView = dayView
         with(recyclerDayView) {
             layoutManager = LinearLayoutManager(this@DetailedActivity,LinearLayoutManager.HORIZONTAL,false)
             adapter = DetailedDayAdapter(dayPrevisionList, context)
         }
 
-        var recyclerHourView = hourView
+        val recyclerHourView = hourView
         with(recyclerHourView) {
             layoutManager = LinearLayoutManager(this@DetailedActivity)
             adapter = DetailedHourlyAdapter(hourPrevisionList, context)
@@ -64,8 +67,10 @@ class DetailedActivity : AppCompatActivity() {
         latitude = intent.getStringExtra("latitude")!!.toDouble()
         longitude = intent.getStringExtra("longitude")!!.toDouble()
         name = intent.getStringExtra("name")!!
-        index = intent.getIntExtra("index",0)
-        Log.d("test", index.toString())
+        favorite = (intent.getSerializableExtra("favorite") as? Favorite)!!
+        Log.d("test", favorite.toString())
+
+
         requestData(recyclerDayView,recyclerHourView,"https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin")
 
 
@@ -109,7 +114,7 @@ class DetailedActivity : AppCompatActivity() {
         recyclerDayView.adapter!!.notifyDataSetChanged()
     }
 
-    fun requestData(dayView : RecyclerView , hourView : RecyclerView, url: String) {
+    private fun requestData(dayView : RecyclerView, hourView : RecyclerView, url: String) {
         val request = Request.Builder()
             .url(url)
             .build()

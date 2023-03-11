@@ -12,7 +12,7 @@ data class WeatherData(
     val timezone: String,
     val timezone_abbreviation: String,
     val utc_offset_seconds: Int
-)
+):java.io.Serializable
 
 data class Daily(
     val temperature_2m_max: List<Double>,
@@ -21,7 +21,7 @@ data class Daily(
     val uv_index_max: List<Double>,
     val weathercode: List<Int>,
     val precipitation_probability_max : List<Int>
-)
+):java.io.Serializable
 
 data class DailyUnits(
     val temperature_2m_max: String,
@@ -29,7 +29,7 @@ data class DailyUnits(
     val time: String,
     val uv_index_max: String,
     val weathercode: String
-)
+):java.io.Serializable
 
 data class Hourly(
     val apparent_temperature: List<Double>,
@@ -44,7 +44,7 @@ data class Hourly(
     val weathercode: List<Int>,
     val winddirection_10m: List<Int>,
     val windspeed_10m: List<Double>
-)
+):java.io.Serializable
 
 data class HourlyUnits(
     val apparent_temperature: String,
@@ -59,4 +59,4 @@ data class HourlyUnits(
     val weathercode: String,
     val winddirection_10m: String,
     val windspeed_10m: String
-)
+):java.io.Serializable
