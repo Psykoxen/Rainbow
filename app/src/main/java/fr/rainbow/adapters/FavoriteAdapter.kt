@@ -1,5 +1,6 @@
 package fr.rainbow.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -35,24 +36,37 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
     }
 
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val favoriteItem : Favorite = favorites[position]
         if (getItemViewType(position)==1){
             (holder as ViewHolderBig).bind(favoriteItem)
+            holder.itemView.setOnClickListener {
+                val detailedIntent = Intent(context, DetailedActivity::class.java)
+                detailedIntent.putExtra("latitude", favoriteItem.latitude.toString())
+                detailedIntent.putExtra("longitude", favoriteItem.longitude.toString())
+                detailedIntent.putExtra("name",favoriteItem.name)
+                detailedIntent.putExtra("favorite",favoriteItem)
+                startActivity(context,detailedIntent,null)
+            }
+            holder.itemView.setOnLongClickListener {
+                favoriteItem.isBig = false
+                notifyDataSetChanged()
+                return@setOnLongClickListener true
+            }
         }else{
             (holder as ViewHolder).bind(favoriteItem)
+
+            holder.itemView.setOnClickListener{
+                favoriteItem.isBig = true
+                notifyDataSetChanged()
+            }
+
         }
 
 
 
-        holder.itemView.setOnClickListener {
-            val detailedIntent = Intent(context, DetailedActivity::class.java)
-            detailedIntent.putExtra("latitude", favoriteItem.latitude.toString())
-            detailedIntent.putExtra("longitude", favoriteItem.longitude.toString())
-            detailedIntent.putExtra("name",favoriteItem.name)
-            detailedIntent.putExtra("favorite",favoriteItem)
-            startActivity(context,detailedIntent,null)
-        }
+
     }
 
     override fun getItemCount(): Int = favorites.size
