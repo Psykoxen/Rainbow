@@ -1,7 +1,5 @@
 package fr.rainbow.ui.search
 
-import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,32 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.maps.MapFragment
 import com.google.android.libraries.places.api.Places
 import fr.rainbow.BuildConfig
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentSearchBinding
-import kotlinx.android.synthetic.main.fragment_search.*
-import kotlinx.android.synthetic.main.activity_main.*
-import android.app.Activity
 import android.util.Log
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.android.libraries.places.api.net.PlacesClient
-import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.gson.Gson
 import fr.rainbow.dataclasses.Favorite
-import fr.rainbow.dataclasses.Position
 import fr.rainbow.dataclasses.WeatherData
-import fr.rainbow.ui.detailed.DetailedActivity
+import fr.rainbow.DetailedActivity
 import okhttp3.*
 import java.io.IOException
 

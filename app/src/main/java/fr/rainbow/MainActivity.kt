@@ -8,7 +8,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import fr.rainbow.databinding.ActivityMainBinding
 import fr.rainbow.dataclasses.Favorite
-import fr.rainbow.functions.file
+import fr.rainbow.functions.Functions
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,11 +42,11 @@ class MainActivity : AppCompatActivity() {
         favorites.add(fav3)
         favorites.add(fav4)
         favorites.add(fav5)
-        file.writeFile(this,favorites)
+        Functions.writeFile(this,favorites)
     }
 
     fun initFavorite(){
-        favorites = file.readFile(this)
+        favorites = Functions.readFile(this)
     }
 
 }

@@ -1,6 +1,8 @@
 package fr.rainbow.adapters
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,7 +41,21 @@ class DetailedDayAdapter(private val dayWeatherList: ArrayList<DayWeatherData>, 
             updatingWeatherIc(itemView.weather_icon,dayWeather.weathercode)
             updatingTempValue(itemView.date_label,dayWeather.time)
             updatingTempValue(itemView.tmp_max_value,dayWeather.temperature_2m_max)
+            if (dayWeather.temperature_2m_max < 0) {
+                itemView.tmp_max_unit.setTextColor(Color.parseColor("#3F4DE1"))
+                itemView.tmp_max_value.setTextColor(Color.parseColor("#3F4DE1"))
+            } else if (dayWeather.temperature_2m_max > 40) {
+                itemView.tmp_max_unit.setTextColor(Color.parseColor("E13F3F"))
+                itemView.tmp_max_value.setTextColor(Color.parseColor("E13F3F"))
+            }
             updatingTempValue(itemView.tmp_min_value,dayWeather.temperature_2m_min)
+            if (dayWeather.temperature_2m_min < 0) {
+                itemView.tmp_min_unit.setTextColor(Color.parseColor("#3F4DE1"))
+                itemView.tmp_min_value.setTextColor(Color.parseColor("#3F4DE1"))
+            } else if (dayWeather.temperature_2m_min > 40) {
+                itemView.tmp_min_unit.setTextColor(Color.parseColor("E13F3F"))
+                itemView.tmp_min_value.setTextColor(Color.parseColor("E13F3F"))
+            }
             itemView.rain_probability.progress = dayWeather.precipitation_probability_max
         }
 

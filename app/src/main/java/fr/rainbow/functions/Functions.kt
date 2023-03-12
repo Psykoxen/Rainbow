@@ -1,7 +1,9 @@
 package fr.rainbow.functions
 
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import fr.rainbow.dataclasses.Favorite
@@ -12,7 +14,7 @@ import java.io.File
 import java.time.LocalDateTime
 
 
-object file {
+object Functions {
 
     private fun BufferedWriter.writeLn(line: String) {
         this.write(line)
@@ -47,9 +49,40 @@ object file {
         }
         return favorites
     }
+    fun updatingBackgroundWeatherColor(layout : View, code: Int)
+    {
+        when (code) {
+            1 -> layout.setBackgroundColor(Color.parseColor("#9CC0F4"))
+            2 -> layout.setBackgroundColor(Color.parseColor("#D8D8D8"))
+            3 -> layout.setBackgroundColor(Color.parseColor("#D8D8D8"))
+            45 -> layout.setBackgroundColor(Color.parseColor("#D8D8D8"))
+            48 -> layout.setBackgroundColor(Color.parseColor("#D8D8D8"))
+            51 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            53 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            55 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            56 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            57 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            61 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            63 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            65 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            66 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            67 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            71 -> layout.setBackgroundColor(Color.parseColor("#CAC8EA"))
+            73 -> layout.setBackgroundColor(Color.parseColor("#CAC8EA"))
+            75 -> layout.setBackgroundColor(Color.parseColor("#CAC8EA"))
+            77 -> layout.setBackgroundColor(Color.parseColor("#CAC8EA"))
+            80 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            81 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            82 -> layout.setBackgroundColor(Color.parseColor("#407AE5"))
+            95 -> layout.setBackgroundColor(Color.parseColor("#A7A7AD"))
+            96 -> layout.setBackgroundColor(Color.parseColor("#818181"))
+            99 -> layout.setBackgroundColor(Color.parseColor("#818181"))
+            else -> layout.setBackgroundColor(Color.parseColor("#BF4792FF"))
 
-    fun updatingWeatherIc(icon: ImageView, value: Any) {
-        when(value) {
+        }
+    }
+    fun updatingWeatherIc(icon: ImageView, code: Int) {
+        when(code) {
             0 -> icon.setImageResource(R.drawable.ic_weather_code_0)
             1 -> icon.setImageResource(R.drawable.ic_weather_code_1)
             2 -> icon.setImageResource(R.drawable.ic_weather_code_2_3)
@@ -97,4 +130,6 @@ object file {
         }
         return -1
     }
+
+
 }

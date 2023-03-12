@@ -10,10 +10,10 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.R
-import fr.rainbow.functions.file.findCurrentSlotHourly
-import fr.rainbow.functions.file.updatingTempValue
-import fr.rainbow.functions.file.updatingWeatherIc
-import fr.rainbow.ui.detailed.DetailedActivity
+import fr.rainbow.functions.Functions.findCurrentSlotHourly
+import fr.rainbow.functions.Functions.updatingTempValue
+import fr.rainbow.functions.Functions.updatingWeatherIc
+import fr.rainbow.DetailedActivity
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
 

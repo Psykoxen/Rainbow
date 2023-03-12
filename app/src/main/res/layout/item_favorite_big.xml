@@ -24,8 +24,8 @@
     android:textSize="50sp"
     app:layout_constraintEnd_toStartOf="@id/weather_icon"
     app:layout_constraintStart_toEndOf="@id/temperature_now_value"
-    app:layout_constraintTop_toBottomOf="@id/city_label"
-    app:layout_constraintBottom_toTopOf="@id/tmp_max_label"/>
+    app:layout_constraintTop_toTopOf="@id/weather_icon"
+    app:layout_constraintBottom_toBottomOf="@id/weather_icon"/>
 
 <TextView
     android:id="@+id/temperature_now_value"
@@ -36,8 +36,8 @@
     android:textSize="50sp"
     app:layout_constraintEnd_toStartOf="@id/temperature_now_unit"
     app:layout_constraintStart_toStartOf="@id/main_section"
-    app:layout_constraintBottom_toTopOf="@id/tmp_max_label"
-    app:layout_constraintTop_toBottomOf="@id/city_label" />
+    app:layout_constraintTop_toTopOf="@id/weather_icon"
+    app:layout_constraintBottom_toBottomOf="@id/weather_icon"/>
 <TextView
     android:id="@+id/city_label"
     android:layout_width="wrap_content"
@@ -135,6 +135,7 @@
     app:arc_bottom_text_size="20dp"
     app:arc_bottom_text="Rain"
     app:layout_constraintEnd_toEndOf="@id/main_section"
+    app:layout_constraintStart_toStartOf="@id/weather_icon"
     app:layout_constraintTop_toTopOf="@id/tmp_max_unit"
     android:layout_marginEnd="20dp"
     tools:ignore="MissingClass" />
