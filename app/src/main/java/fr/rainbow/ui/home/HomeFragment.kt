@@ -13,14 +13,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.view.get
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
@@ -33,14 +29,11 @@ import fr.rainbow.databinding.FragmentHomeBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.Position
 import fr.rainbow.dataclasses.WeatherData
-import fr.rainbow.functions.file.updatingTempValue
-import fr.rainbow.functions.file.updatingWeatherIc
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
 import okhttp3.*
 import java.io.IOException
-import java.time.LocalDateTime
 
 
 class HomeFragment : Fragment() {
@@ -50,7 +43,7 @@ class HomeFragment : Fragment() {
     //TODO bloquer fonctionnement gps si pas dans la liste de favoris
     //GPS
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    private val interval: Long = 10000 // 10seconds
+    private val interval: Long = 100000 // 10seconds
     private val fastestInterval: Long = 5000 // 5 seconds
     private lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
@@ -105,22 +98,12 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(this.context)
             adapter = FavoriteAdapter(favorites, context)
         }
-        recyclerView.addItemDecoration(
-            DividerItemDecoration(
-                context,
-                DividerItemDecoration.VERTICAL
-            )
-        )
         initAllData()
 
         return root
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -133,9 +116,8 @@ class HomeFragment : Fragment() {
     }
 
     fun initAllData(){
-        for(i in 0 until favorites.size){
-            Log.d("I",i.toString())
-            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[i].latitude}&longitude=${favorites[i].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",i)
+        favorites.forEachIndexed { index, favorite ->
+            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorite.latitude}&longitude=${favorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",index)
         }
     }
     fun requestMainSection(url: String,index: Int) {
@@ -154,24 +136,10 @@ class HomeFragment : Fragment() {
                     val key = BuildConfig.apiMaps
                     requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?key=$key&latlng=${favorites[index].latitude},${favorites[index].longitude}",index)
                 }
-                Log.d("RECYCLER",recyclerView.size.toString())
                 activity?.runOnUiThread {
                     if(favorites[index].weatherData!=null) {
-                        if (recyclerView[index].city_label2 != null) {
-                            updatingTempValue(recyclerView[index].city_label2,favorites[index].name)
-                            updatingTempValue(recyclerView[index].temperature_now_value2,favorites[index].weatherData!!.hourly.temperature_2m.get(
-                                findCurrentSlotHourly(favorites[index].weatherData)).toString())
-                            updatingWeatherIc(recyclerView[index].weather_icon2,favorites[index].weatherData!!.daily.weathercode[0])
-                        } else {
-                            updatingTempValue(recyclerView[index].city_label,favorites[index].name)
-                            updatingTempValue(recyclerView[index].temperature_now_value,favorites[index].weatherData?.hourly?.temperature_2m?.get(
-                                findCurrentSlotHourly(favorites[index].weatherData)).toString())
-                            updatingWeatherIc(recyclerView[index].weather_icon,
-                                favorites[index].weatherData?.daily?.weathercode!![0])
-                            updatingTempValue(tmp_min_value, favorites[index].weatherData!!.daily.temperature_2m_min[0])
-                            updatingTempValue(tmp_max_value, favorites[index].weatherData!!.daily.temperature_2m_max[0])
-                            rain_probability.progress = favorites[index].weatherData!!.hourly.precipitation_probability[findCurrentSlotHourly(favorites[index].weatherData)]
-                        }
+                        recyclerView.adapter!!.notifyDataSetChanged()
+
                     }else{
                         Log.e("ERROR","Error when trying to display data")
                     }
@@ -199,6 +167,9 @@ class HomeFragment : Fragment() {
 
                     temp = temp.substring(temp.indexOf(" ")).substring(0,temp.indexOf(","))
                     favorites[index].name = temp
+                    activity?.runOnUiThread {
+                        recyclerView.adapter!!.notifyDataSetChanged()
+                    }
                 }else{
                     Log.e("GPS","No Name for location")
                 }
@@ -208,19 +179,7 @@ class HomeFragment : Fragment() {
         })
     }
 
-    fun findCurrentSlotHourly(weatherData: WeatherData?): Int {
-        if(weatherData!= null){
-            val current = LocalDateTime.now()
-            for (i in 0 until weatherData.hourly.time.size) {
-                if (weatherData.hourly.time[i] < current.toString()) {
-                    if (weatherData.hourly.time[i+1] > current.toString()) {
-                        return i
-                    }
-                }
-            }
-        }
-        return -1
-    }
+
 
     //GPS
     private val mLocationCallback = object : LocationCallback() {

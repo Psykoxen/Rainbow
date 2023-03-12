@@ -9,7 +9,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import fr.rainbow.databinding.ActivityMainBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.file
-import android.content.SharedPreferences;
 
 class MainActivity : AppCompatActivity() {
 

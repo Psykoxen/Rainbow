@@ -6,8 +6,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.R
+import fr.rainbow.dataclasses.WeatherData
 import java.io.BufferedWriter
 import java.io.File
+import java.time.LocalDateTime
 
 
 object file {
@@ -80,5 +82,19 @@ object file {
 
     fun updatingTempValue(temp: TextView, value: Any) {
         temp.text = value.toString()
+    }
+
+    fun findCurrentSlotHourly(weatherData: WeatherData?): Int {
+        if(weatherData!= null){
+            val current = LocalDateTime.now()
+            for (i in 0 until weatherData.hourly.time.size) {
+                if (weatherData.hourly.time[i] < current.toString()) {
+                    if (weatherData.hourly.time[i+1] > current.toString()) {
+                        return i
+                    }
+                }
+            }
+        }
+        return -1
     }
 }
