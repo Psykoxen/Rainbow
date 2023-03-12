@@ -10,7 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.gson.Gson
 
 import fr.rainbow.R
 import fr.rainbow.adapters.DetailedDayAdapter
@@ -22,7 +21,6 @@ import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.HourWeatherData
 import kotlinx.android.synthetic.main.activity_detailed.*
 import okhttp3.*
-import java.io.IOException
 import java.time.LocalDateTime
 
 
@@ -70,10 +68,7 @@ class DetailedActivity : AppCompatActivity() {
         favorite = (intent.getSerializableExtra("favorite") as? Favorite)!!
         Log.d("test", favorite.toString())
 
-
-        requestData(recyclerDayView,recyclerHourView,"https://api.open-meteo.com/v1/forecast?latitude=$latitude&longitude=$longitude&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin")
-
-
+        requestData(recyclerDayView,recyclerHourView, favorite.weatherData!!)
     }
 
     fun createHoursPrevision(weatherData: WeatherData, recyclerHourView: RecyclerView)
@@ -114,34 +109,17 @@ class DetailedActivity : AppCompatActivity() {
         recyclerDayView.adapter!!.notifyDataSetChanged()
     }
 
-    private fun requestData(dayView : RecyclerView, hourView : RecyclerView, url: String) {
-        val request = Request.Builder()
-            .url(url)
-            .build()
+    private fun requestData(dayView: RecyclerView, hourView: RecyclerView, data: WeatherData) {
+        updatingWeatherIc(weather_icon, data.daily.weathercode[0])
+        updatingTempValue(
+            temperature_now_value,
+            data.hourly.temperature_2m[findCurrentSlotHourly(data)]
 
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {
-                Log.d("ERROR","API ERROR")
-            }
-            override fun onResponse(call: Call, response: Response) {
-                val gson = Gson()
-                val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
-                this@DetailedActivity.runOnUiThread {
-                    Log.d("WEATHER", weatherData.toString())
-                    updatingWeatherIc(weather_icon, weatherData.daily.weathercode[0])
-                    updatingTempValue(
-                        temperature_now_value,
-                        weatherData.hourly.temperature_2m[findCurrentSlotHourly(weatherData)]
+        )
+        createHoursPrevision(data, hourView)
+        createDayPrevision(data, dayView)
+        cityName.text = name
 
-                    )
-                    createHoursPrevision(weatherData, hourView)
-                    createDayPrevision(weatherData, dayView)
-                    cityName.text = name
-                }
-
-            }
-
-        })
     }
     fun updatingTempValue(temp: TextView, value: Any) {
         temp.text = value.toString()

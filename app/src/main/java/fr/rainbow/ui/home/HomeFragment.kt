@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.view.get
+import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -75,10 +76,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
         //GPS
         fusedLocationProviderClient = this.activity?.let {
             LocationServices.getFusedLocationProviderClient(
@@ -136,10 +133,9 @@ class HomeFragment : Fragment() {
     }
 
     fun initAllData(){
-        var index = 0
-        for(i in favorites){
-            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${i.latitude}&longitude=${i.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",index)
-            index++
+        for(i in 0 until favorites.size){
+            Log.d("I",i.toString())
+            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[i].latitude}&longitude=${favorites[i].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",i)
         }
     }
     fun requestMainSection(url: String,index: Int) {
@@ -148,10 +144,9 @@ class HomeFragment : Fragment() {
             .build()
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.d("DATA","error api request")
+                Log.e("API","Error API Request")
             }
             override fun onResponse(call: Call, response: Response) {
-                //response.body()?.let { Log.d("DATA", it.string()) }
                 val gson = Gson()
                 val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 favorites[index].weatherData = weatherData
@@ -159,6 +154,7 @@ class HomeFragment : Fragment() {
                     val key = BuildConfig.apiMaps
                     requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?key=$key&latlng=${favorites[index].latitude},${favorites[index].longitude}",index)
                 }
+                Log.d("RECYCLER",recyclerView.size.toString())
                 activity?.runOnUiThread {
                     if(favorites[index].weatherData!=null) {
                         if (recyclerView[index].city_label2 != null) {
@@ -177,7 +173,7 @@ class HomeFragment : Fragment() {
                             rain_probability.progress = favorites[index].weatherData!!.hourly.precipitation_probability[findCurrentSlotHourly(favorites[index].weatherData)]
                         }
                     }else{
-                        Log.d("ERROR","Error when trying to display data")
+                        Log.e("ERROR","Error when trying to display data")
                     }
 
                 }
@@ -187,25 +183,24 @@ class HomeFragment : Fragment() {
     }
 
     fun requestYourPosition(url: String,index:Int) {
-        Log.d("GPS","url : $url")
         val request = Request.Builder()
             .url(url)
             .build()
 
         client.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
-                Log.d("GPS","error api reverseGeocoding request")
+                Log.e("GPS","Error API reverseGeocoding request")
             }
             override fun onResponse(call: Call, response: Response) {
-                //response.body()?.let { Log.d("DATA", it.string()) }
                 val gson = Gson()
                 val position = gson.fromJson(response.body()?.string(), Position::class.java )
                 if (position.plus_code != null){
                     var temp = position.plus_code.compound_code
-                    temp = temp.substring(temp.indexOf(" "))
+
+                    temp = temp.substring(temp.indexOf(" ")).substring(0,temp.indexOf(","))
                     favorites[index].name = temp
                 }else{
-                    Log.d("GPS","No Name for location")
+                    Log.e("GPS","No Name for location")
                 }
 
             }
@@ -216,7 +211,7 @@ class HomeFragment : Fragment() {
     fun findCurrentSlotHourly(weatherData: WeatherData?): Int {
         if(weatherData!= null){
             val current = LocalDateTime.now()
-            for (i in 0..weatherData.hourly.time.size) {
+            for (i in 0 until weatherData.hourly.time.size) {
                 if (weatherData.hourly.time[i] < current.toString()) {
                     if (weatherData.hourly.time[i+1] > current.toString()) {
                         return i
@@ -231,15 +226,12 @@ class HomeFragment : Fragment() {
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             locationResult.lastLocation
-            Log.d("MainActivity", "callback: ${gpsFavorite.latitude} ${gpsFavorite.longitude}")
             locationResult.lastLocation?.let { locationChanged(it) }
             gpsFavorite.latitude = locationResult.lastLocation?.latitude!!
             gpsFavorite.longitude = locationResult.lastLocation?.longitude!!
 
             val index = favorites.indexOf(gpsFavorite)
             requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[index].latitude}&longitude=${favorites[index].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",index)
-
-            Log.d("GPS","latitude : ${gpsFavorite.latitude} longitude : ${gpsFavorite.longitude}")
         }
     }
 
@@ -314,7 +306,6 @@ class HomeFragment : Fragment() {
         mLastLocation = location
         gpsFavorite.longitude = mLastLocation.longitude
         gpsFavorite.latitude = mLastLocation.latitude
-        Log.d("GPS", "function: ${gpsFavorite.latitude} ${gpsFavorite.longitude}")
     }
 
     @Deprecated("Deprecated in Java")

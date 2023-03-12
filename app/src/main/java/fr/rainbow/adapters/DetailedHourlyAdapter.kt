@@ -40,6 +40,7 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
             updatingTempValue(itemView.time_label,hourWeather.dateTime)
             updatingTempValue(itemView.temperature_value,hourWeather.temperature_2m)
             updatingTempValue(itemView.rain_value,hourWeather.rain)
+            updatingTempValue(itemView.wind_value,hourWeather.windspeed_10m)
             itemView.wind_arrow.setRotation(hourWeather.winddirection_10m.toFloat())
         }
     }

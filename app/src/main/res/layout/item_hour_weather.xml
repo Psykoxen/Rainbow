@@ -125,7 +125,6 @@
             style="@style/TextAppearance.AppCompat.Display1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:textSize="15sp"
             app:layout_constraintStart_toEndOf="@id/wind_arrow"
             app:layout_constraintTop_toTopOf="parent"
