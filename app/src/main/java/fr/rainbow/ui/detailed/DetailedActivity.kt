@@ -27,7 +27,6 @@ import java.time.LocalDateTime
 
 class DetailedActivity : AppCompatActivity() {
 
-    private val client = OkHttpClient()
     private lateinit var binding: ActivityDetailedBinding
 
     private var latitude : Double = 0.0
