@@ -43,9 +43,6 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
             (holder as ViewHolderBig).bind(favoriteItem)
             holder.itemView.setOnClickListener {
                 val detailedIntent = Intent(context, DetailedActivity::class.java)
-                detailedIntent.putExtra("latitude", favoriteItem.latitude.toString())
-                detailedIntent.putExtra("longitude", favoriteItem.longitude.toString())
-                detailedIntent.putExtra("name",favoriteItem.name)
                 detailedIntent.putExtra("favorite",favoriteItem)
                 startActivity(context,detailedIntent,null)
             }

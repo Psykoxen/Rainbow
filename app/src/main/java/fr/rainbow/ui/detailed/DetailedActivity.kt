@@ -29,9 +29,6 @@ class DetailedActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailedBinding
 
-    private var latitude : Double = 0.0
-    private var longitude : Double = 0.0
-    private var name = "Your Position"
     private lateinit var favorite:Favorite
 
     private val hourPrevisionList : ArrayList<HourWeatherData> = ArrayList()
@@ -61,9 +58,6 @@ class DetailedActivity : AppCompatActivity() {
             adapter = DetailedHourlyAdapter(hourPrevisionList, context)
         }
 
-        latitude = intent.getStringExtra("latitude")!!.toDouble()
-        longitude = intent.getStringExtra("longitude")!!.toDouble()
-        name = intent.getStringExtra("name")!!
         favorite = (intent.getSerializableExtra("favorite") as? Favorite)!!
         Log.d("test", favorite.toString())
 
@@ -117,7 +111,7 @@ class DetailedActivity : AppCompatActivity() {
         )
         createHoursPrevision(data, hourView)
         createDayPrevision(data, dayView)
-        cityName.text = name
+        cityName.text = favorite.name
 
     }
     fun updatingTempValue(temp: TextView, value: Any) {
