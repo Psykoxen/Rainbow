@@ -46,8 +46,6 @@ class SearchFragment : Fragment() {
             Places.initialize(requireContext(), BuildConfig.GOOGLE_MAPS_API_KEY)
         }
 
-        val searchViewModel = ViewModelProvider(this).get(SearchViewModel::class.java)
-
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -91,7 +89,7 @@ class SearchFragment : Fragment() {
 
                 val temp = place.results[0].geometry.location
                 tempFavorite = Favorite(name, temp.lat ,temp.lng, false, false,null)
-                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${tempFavorite.latitude}&longitude=${tempFavorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin")
+                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${tempFavorite.latitude}&longitude=${tempFavorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&timezone=auto")
             }
 
         })

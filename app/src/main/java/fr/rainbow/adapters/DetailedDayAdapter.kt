@@ -11,8 +11,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.R
 import fr.rainbow.dataclasses.DayWeatherData
+import fr.rainbow.functions.Functions.getDayName
 import fr.rainbow.functions.Functions.updatingTempValue
 import fr.rainbow.functions.Functions.updatingWeatherIc
+import fr.rainbow.functions.Functions.isTomorrow
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_day_weather.view.*
 import kotlinx.android.synthetic.main.item_hour_weather.view.weather_icon
@@ -41,7 +43,11 @@ class DetailedDayAdapter(private val dayWeatherList: ArrayList<DayWeatherData>, 
 
         fun bind(dayWeather: DayWeatherData) {
             updatingWeatherIc(itemView.weather_icon, dayWeather.weathercode)
-            updatingTempValue(itemView.date_label, dayWeather.time)
+            if (isTomorrow(dayWeather.time)){
+                itemView.date_label.text = "Tomorrow"
+            } else {
+                itemView.date_label.text = getDayName(dayWeather.time)
+            }
             updatingTempValue(itemView.tmp_max_value, dayWeather.temperature_2m_max)
             if (dayWeather.temperature_2m_max < 0) {
                 itemView.tmp_max_unit.setTextColor(Color.parseColor("#3F4DE1"))

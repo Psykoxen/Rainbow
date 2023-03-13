@@ -32,7 +32,6 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         android:layout_marginTop="10dp"
-
         app:layout_constraintTop_toBottomOf="@id/time_section"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -138,6 +137,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/chevron_left_svgrepo_com" />
+        <ImageView
+            android:id="@+id/btn_favorite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_star_empty" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hourView"
         android:layout_width="match_parent"

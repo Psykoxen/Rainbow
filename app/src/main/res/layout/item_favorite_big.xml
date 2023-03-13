@@ -46,13 +46,12 @@
     android:id="@+id/city_label"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="10dp"
+    android:layout_marginStart="20dp"
     android:layout_marginTop="20dp"
     android:text="Your Position"
     android:textColor="@color/white"
     android:textSize="30sp"
     app:layout_constraintStart_toStartOf="@id/main_section"
-    app:layout_constraintEnd_toStartOf="@id/weather_icon"
     app:layout_constraintTop_toTopOf="@id/main_section" />
 
 <TextView
@@ -100,7 +99,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="18dp"
+    android:layout_marginTop="10dp"
     android:text="T° max :"
     android:textColor="@color/white"
     android:textSize="30sp"
@@ -139,7 +138,6 @@
     app:arc_bottom_text_size="20dp"
     app:arc_bottom_text="Rain"
     app:layout_constraintEnd_toEndOf="@id/weather_icon"
-
     app:layout_constraintTop_toTopOf="@id/tmp_max_unit"
 
     tools:ignore="MissingClass" />
@@ -147,10 +145,10 @@
         android:id="@+id/ic_less"
         android:layout_width="300dp"
         android:layout_height="10dp"
-        android:layout_marginVertical="8dp"
+        android:layout_marginVertical="7dp"
         android:src="@drawable/ic_more"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rain_probability"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
