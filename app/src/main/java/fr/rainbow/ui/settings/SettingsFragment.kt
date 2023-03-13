@@ -1,6 +1,7 @@
 package fr.rainbow.ui.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,22 @@ class SettingsFragment : Fragment() {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if(AppCompatDelegate.getDefaultNightMode() != AppCompatDelegate.MODE_NIGHT_NO){
+            idRBDark.isChecked = true
+        }else{
+            idRBLight.isChecked = true
+        }
+        val root: View = binding.root
         val radioGroup = root.findViewById<RadioGroup>(R.id.idRGgroup)
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
@@ -42,12 +59,5 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
-
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
