@@ -18,7 +18,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
@@ -37,7 +36,6 @@ import kotlinx.android.synthetic.main.item_favorite_big.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
 import okhttp3.*
 import java.io.IOException
-import kotlin.concurrent.thread
 
 
 class HomeFragment : Fragment() {
@@ -47,7 +45,7 @@ class HomeFragment : Fragment() {
     //TODO bloquer fonctionnement gps si pas dans la liste de favoris
     //GPS
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    private val interval: Long = 10000 // 10seconds
+    private val interval: Long = 100000 // 10seconds
     private val fastestInterval: Long = 5000 // 5 seconds
     private lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
@@ -67,6 +65,7 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -98,7 +97,8 @@ class HomeFragment : Fragment() {
         with(recyclerView) {
             layoutManager = LinearLayoutManager(this.context)
             adapter = FavoriteAdapter(favorites, context){
-                favorite ->  openYourActivity(favorite)
+                favorite ->
+                (activity as MainActivity).openYourActivity(favorite)
             }
         }
         initAllData()
@@ -299,16 +299,5 @@ class HomeFragment : Fragment() {
         }
     }
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            val favorite = (data?.getSerializableExtra("favorite") as? Favorite)!!
-            Log.d("test", favorite.toString())
-        }
-    }
-    fun openYourActivity(favoriteItem: Favorite) {
-        val detailedIntent = Intent(context, DetailedActivity::class.java)
-        detailedIntent.putExtra("favorite",favoriteItem)
-        resultLauncher.launch(detailedIntent)
-    }
+
 }

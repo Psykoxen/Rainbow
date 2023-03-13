@@ -64,11 +64,22 @@ class DetailedActivity : AppCompatActivity() {
         favorite = (intent.getSerializableExtra("favorite") as? Favorite)!!
 
         requestData(recyclerDayView,recyclerHourView, favorite.weatherData!!)
+        if(favorite.isFavorite){
+            btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_full)
+        }
+        btn_favorite.setOnClickListener {
+            if(favorite.isFavorite){
+                favorite.isFavorite = false
+                btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_empty)
+            }else{
+                favorite.isFavorite = true
+                btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_full)
+            }
+        }
     }
 
     override fun onBackPressed() {
         returnMessage()
-        super.onBackPressed()
     }
 
     fun createHoursPrevision(weatherData: WeatherData, recyclerHourView: RecyclerView)

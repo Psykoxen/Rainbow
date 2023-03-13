@@ -24,13 +24,14 @@ object Functions {
         this.newLine()
     }
 
-    fun writeFile(context:Context, Favorites: ArrayList<Favorite>){
+    fun writeFile(context:Context, favorites: ArrayList<Favorite>){
+        Log.d("test"," write : ${favorites.size}")
         val path = context.filesDir
         val file = File(path,"somefile.txt")
         file.createNewFile()
         file.bufferedWriter().use { out ->
-            Favorites.forEach {
-                out.writeLn("${it.name},${it.latitude},${it.longitude},${it.isGPS},${it.isBig}")
+            favorites.forEach {
+                out.writeLn("${it.name},${it.latitude},${it.longitude},${it.isGPS},${it.isBig},${it.isFavorite}")
             }
         }
     }
@@ -44,11 +45,11 @@ object Functions {
         if(!output.isNullOrEmpty()){
             for(i in output){
                 val string = i.split(",")
-                val temp = Favorite(string[0],string[1].toDouble(),string[2].toDouble(),string[3].toBoolean(),string[4].toBoolean(),null)
+                val temp = Favorite(string[0],string[1].toDouble(),string[2].toDouble(),string[3].toBoolean(),string[4].toBoolean(),string[5].toBoolean(),null)
                 favorites.add(temp)
             }
         }else{
-            Log.d("fr.rainbow.favorite","nothing found")
+            Log.e("fr.rainbow.favorite","nothing found")
         }
         return favorites
     }
