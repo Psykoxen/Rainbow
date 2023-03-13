@@ -1,5 +1,6 @@
 package fr.rainbow.ui.home
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -14,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -22,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import fr.rainbow.BuildConfig
+import fr.rainbow.DetailedActivity
 import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.adapters.FavoriteAdapter
@@ -94,7 +97,9 @@ class HomeFragment : Fragment() {
         recyclerView = root.findViewById(R.id.favorite_list)
         with(recyclerView) {
             layoutManager = LinearLayoutManager(this.context)
-            adapter = FavoriteAdapter(favorites, context)
+            adapter = FavoriteAdapter(favorites, context){
+                favorite ->  openYourActivity(favorite)
+            }
         }
         initAllData()
 
@@ -292,5 +297,18 @@ class HomeFragment : Fragment() {
                 Toast.makeText(this.activity, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            val data: Intent? = result.data
+            val favorite = (data?.getSerializableExtra("favorite") as? Favorite)!!
+            Log.d("test", favorite.toString())
+        }
+    }
+    fun openYourActivity(favoriteItem: Favorite) {
+        val detailedIntent = Intent(context, DetailedActivity::class.java)
+        detailedIntent.putExtra("favorite",favoriteItem)
+        resultLauncher.launch(detailedIntent)
     }
 }
