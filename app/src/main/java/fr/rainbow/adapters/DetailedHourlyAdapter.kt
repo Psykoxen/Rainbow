@@ -1,6 +1,8 @@
 package fr.rainbow.adapters
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -38,6 +40,17 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
             updatingWeatherIc(itemView.weather_icon,hourWeather.weathercode)
             updatingTempValue(itemView.time_label,hourWeather.dateTime)
             updatingTempValue(itemView.temperature_value,hourWeather.temperature_2m)
+            if (hourWeather.temperature_2m < 0){
+                    itemView.temperature_unit.setTextColor(Color.parseColor("#3F4DE1"))
+                    itemView.temperature_value.setTextColor(Color.parseColor("#3F4DE1"))
+                    itemView.temperature_unit.setTypeface(null, Typeface.BOLD)
+                    itemView.temperature_value.setTypeface(null, Typeface.BOLD)
+            } else if (hourWeather.temperature_2m > 40) {
+                itemView.temperature_unit.setTextColor(Color.parseColor("E13F3F"))
+                itemView.temperature_value.setTextColor(Color.parseColor("E13F3F"))
+                itemView.temperature_unit.setTypeface(null, Typeface.BOLD)
+                itemView.temperature_value.setTypeface(null, Typeface.BOLD)
+            }
             Log.d("COMPARE",hourWeather.snowfall.toString() + " " + (hourWeather.snowfall > 0.0).toString())
             if (hourWeather.snowfall > 0.0) {
                 Log.d("SNOW","TRUE")

@@ -52,17 +52,25 @@ class DetailedDayAdapter(private val dayWeatherList: ArrayList<DayWeatherData>, 
             if (dayWeather.temperature_2m_max < 0) {
                 itemView.tmp_max_unit.setTextColor(Color.parseColor("#3F4DE1"))
                 itemView.tmp_max_value.setTextColor(Color.parseColor("#3F4DE1"))
+                itemView.tmp_max_unit.setTypeface(null, Typeface.BOLD)
+                itemView.tmp_max_value.setTypeface(null, Typeface.BOLD)
             } else if (dayWeather.temperature_2m_max > 40) {
                 itemView.tmp_max_unit.setTextColor(Color.parseColor("E13F3F"))
                 itemView.tmp_max_value.setTextColor(Color.parseColor("E13F3F"))
+                itemView.tmp_max_unit.setTypeface(null, Typeface.BOLD)
+                itemView.tmp_max_value.setTypeface(null, Typeface.BOLD)
             }
             updatingTempValue(itemView.tmp_min_value, dayWeather.temperature_2m_min)
             if (dayWeather.temperature_2m_min < 0) {
                 itemView.tmp_min_unit.setTextColor(Color.parseColor("#3F4DE1"))
                 itemView.tmp_min_value.setTextColor(Color.parseColor("#3F4DE1"))
+                itemView.tmp_min_unit.setTypeface(null, Typeface.BOLD)
+                itemView.tmp_min_value.setTypeface(null, Typeface.BOLD)
             } else if (dayWeather.temperature_2m_min > 40) {
                 itemView.tmp_min_unit.setTextColor(Color.parseColor("E13F3F"))
                 itemView.tmp_min_value.setTextColor(Color.parseColor("E13F3F"))
+                itemView.tmp_min_unit.setTypeface(null, Typeface.BOLD)
+                itemView.tmp_min_value.setTypeface(null, Typeface.BOLD)
             }
             itemView.rain_probability.progress = dayWeather.precipitation_probability_max
         }

@@ -155,7 +155,9 @@
         app:layout_constraintTop_toTopOf="@+id/barrier"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_hour_weather"/>
+        tools:listitem="@layout/item_hour_weather"
+        android:nestedScrollingEnabled="false"
+        android:clickable="false" />
     <View
         android:id="@+id/barrierDay"
         android:layout_width="100dp"

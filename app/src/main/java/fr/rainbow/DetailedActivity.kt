@@ -1,31 +1,31 @@
 package fr.rainbow
 
 
+import android.R
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import fr.rainbow.adapters.DetailedDayAdapter
 import fr.rainbow.adapters.DetailedHourlyAdapter
-import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.databinding.ActivityDetailedBinding
 import fr.rainbow.dataclasses.DayWeatherData
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.HourWeatherData
+import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
 import fr.rainbow.functions.Functions.updatingBackgroundWeatherColor
 import fr.rainbow.functions.Functions.updatingTempValue
 import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.activity_detailed.*
+import kotlinx.android.synthetic.main.item_hour_weather.view.*
 import okhttp3.*
-import java.time.LocalDateTime
-
 
 
 class DetailedActivity : AppCompatActivity() {
@@ -113,11 +113,23 @@ class DetailedActivity : AppCompatActivity() {
         Log.d("DetailedActivity", "requestData: $data")
         updatingBackgroundWeatherColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
         updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)])
+
         updatingTempValue(
             temperature_now_value,
             data.hourly.temperature_2m[findCurrentSlotHourly(data)]
 
         )
+        if (data.hourly.temperature_2m[findCurrentSlotHourly(data)] < 0) {
+            temperature_now_value.setTextColor(Color.parseColor("#3F4DE1"))
+            temperature_now_unit.setTextColor(Color.parseColor("#3F4DE1"))
+            temperature_now_unit.setTypeface(null, Typeface.BOLD)
+            temperature_now_value.setTypeface(null, Typeface.BOLD)
+        } else if (data.hourly.temperature_2m[findCurrentSlotHourly(data)] > 40) {
+            temperature_now_value.setTextColor(Color.parseColor("#E13F3F"))
+            temperature_now_unit.setTextColor(Color.parseColor("#E13F3F"))
+            temperature_now_unit.setTypeface(null, Typeface.BOLD)
+            temperature_now_value.setTypeface(null, Typeface.BOLD)
+        }
         updatingTempValue(sunrise_value, data.daily!!.sunrise[0].substring(data.daily.sunrise[0].indexOf("T")+1,data.daily.sunrise[0].length))
         updatingTempValue(sunset_value, data.daily!!.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
         createHoursPrevision(data, hourView)
