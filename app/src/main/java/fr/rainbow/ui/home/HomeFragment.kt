@@ -123,7 +123,7 @@ class HomeFragment : Fragment() {
             if(favorite.latitude==0.0 && favorite.longitude==0.0){
 
             }else{
-                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorite.latitude}&longitude=${favorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",index)
+                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorite.latitude}&longitude=${favorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&timezone=auto",index)
             }
         }
     }
@@ -174,7 +174,9 @@ class HomeFragment : Fragment() {
                 if (position.plus_code != null){
                     var temp = position.plus_code.compound_code
 
-                    temp = temp.substring(temp.indexOf(" ")).substring(0,temp.indexOf(","))
+                    temp = temp.substring(temp.indexOf(" "))
+                    temp = temp.substring(0,temp.indexOf(","))
+                    Log.d("NAME",temp)
                     favorites[index].name = temp
                     activity?.runOnUiThread {
                         recyclerView.adapter!!.notifyDataSetChanged()
@@ -199,7 +201,7 @@ class HomeFragment : Fragment() {
             gpsFavorite.longitude = locationResult.lastLocation?.longitude!!
 
             val index = favorites.indexOf(gpsFavorite)
-            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[index].latitude}&longitude=${favorites[index].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",index)
+            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[index].latitude}&longitude=${favorites[index].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&timezone=auto",index)
         }
     }
 

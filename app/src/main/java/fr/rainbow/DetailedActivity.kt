@@ -3,6 +3,7 @@ package fr.rainbow
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -104,13 +105,16 @@ class DetailedActivity : AppCompatActivity() {
     }
 
     private fun requestData(dayView: RecyclerView, hourView: RecyclerView, data: WeatherData) {
-        updatingBackgroundWeatherColor(detailed_activity_layout,data.daily.weathercode[0])
-        updatingWeatherIc(weather_icon, data.daily.weathercode[0])
+        Log.d("DetailedActivity", "requestData: $data")
+        updatingBackgroundWeatherColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
+        updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)])
         updatingTempValue(
             temperature_now_value,
             data.hourly.temperature_2m[findCurrentSlotHourly(data)]
 
         )
+        updatingTempValue(sunrise_value, data.daily!!.sunrise[0].substring(data.daily.sunrise[0].indexOf("T")+1,data.daily.sunrise[0].length))
+        updatingTempValue(sunset_value, data.daily!!.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
         createHoursPrevision(data, hourView)
         createDayPrevision(data, dayView)
         cityName.text = favorite.name

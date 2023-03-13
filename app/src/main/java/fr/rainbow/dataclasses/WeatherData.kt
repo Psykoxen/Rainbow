@@ -19,6 +19,8 @@ data class Daily(
     val temperature_2m_min: List<Double>,
     val time: List<String>,
     val uv_index_max: List<Double>,
+    val sunrise : List<String>,
+    val sunset : List<String>,
     val weathercode: List<Int>,
     val precipitation_probability_max : List<Int>
 ):java.io.Serializable
