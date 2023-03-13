@@ -8,12 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import fr.rainbow.dataclasses.Favorite
+import fr.rainbow.DetailedActivity
 import fr.rainbow.R
+import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
+import fr.rainbow.functions.Functions.updatingBackgroundShape
 import fr.rainbow.functions.Functions.updatingTempValue
 import fr.rainbow.functions.Functions.updatingWeatherIc
-import fr.rainbow.DetailedActivity
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
 
@@ -46,17 +47,22 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                 detailedIntent.putExtra("favorite",favoriteItem)
                 startActivity(context,detailedIntent,null)
             }
-            holder.itemView.setOnLongClickListener {
+            holder.itemView.ic_less.setOnClickListener {
                 favoriteItem.isBig = false
                 notifyDataSetChanged()
-                return@setOnLongClickListener true
             }
         }else{
             (holder as ViewHolder).bind(favoriteItem)
 
-            holder.itemView.setOnClickListener{
+            holder.itemView.ic_more.setOnClickListener{
                 favoriteItem.isBig = true
                 notifyDataSetChanged()
+            }
+
+            holder.itemView.setOnClickListener {
+                val detailedIntent = Intent(context, DetailedActivity::class.java)
+                detailedIntent.putExtra("favorite",favoriteItem)
+                startActivity(context,detailedIntent,null)
             }
 
         }
@@ -80,6 +86,8 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
             fun bind(favorite: Favorite) {
                 updatingTempValue(itemView.city_label2,favorite.name)
                 if(favorite.weatherData!= null){
+
+                    updatingBackgroundShape(itemView.fav_section,favorite.weatherData!!.daily.weathercode[0])
                     updatingWeatherIc(itemView.weather_icon2,favorite.weatherData!!.daily.weathercode[0])
                     updatingTempValue(itemView.temperature_now_value2,favorite.weatherData!!.hourly.temperature_2m.get(
                         findCurrentSlotHourly(favorite.weatherData!!)).toString())
@@ -89,8 +97,10 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
 
     inner    class ViewHolderBig(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bind(favorite: Favorite) {
+
                 updatingTempValue(itemView.city_label,favorite.name)
                 if(favorite.weatherData!=null){
+                    updatingBackgroundShape(itemView.main_section,favorite.weatherData!!.daily.weathercode[0])
                     updatingWeatherIc(itemView.weather_icon,favorite.weatherData!!.daily.weathercode[0])
                     updatingTempValue(itemView.temperature_now_value,favorite.weatherData!!.hourly.temperature_2m.get(
                         findCurrentSlotHourly(favorite.weatherData!!)).toString())

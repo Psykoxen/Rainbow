@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/fav_section"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:background="@drawable/shape_main_section"
+    android:layout_height="160dp"
+    android:background="@drawable/shape_main"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp">
 
@@ -19,6 +19,7 @@
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/weather_icon2"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -26,31 +27,56 @@
         android:id="@+id/temperature_now_unit2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="°C"
         android:textColor="@color/white"
         android:textSize="50sp"
         app:layout_constraintEnd_toStartOf="@id/weather_icon2"
         app:layout_constraintStart_toEndOf="@id/temperature_now_value2"
-        app:layout_constraintTop_toBottomOf="@id/city_label2" />
+        app:layout_constraintTop_toBottomOf="@id/city_label2"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
+        />
 
     <TextView
         android:id="@+id/temperature_now_value2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+
         android:textColor="@color/white"
         android:textSize="50sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="@id/temperature_now_unit2"
-        app:layout_constraintTop_toBottomOf="@id/city_label2" />
+        app:layout_constraintTop_toBottomOf="@id/city_label2"
+        app:layout_constraintBottom_toTopOf="@id/barrier"/>
 
     <ImageView
         android:id="@+id/weather_icon2"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/barrier"/>
+    <View
+        android:id="@+id/barrier"
+        android:layout_width="100dp"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/weather_icon2"
+        />
+
+    <ImageView
+        android:id="@+id/ic_more"
+        android:layout_width="80dp"
+        android:layout_height="10dp"
+
+        android:src="@drawable/ic_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/barrier"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

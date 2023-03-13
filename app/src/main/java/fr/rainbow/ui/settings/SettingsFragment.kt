@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentSettingsBinding
+import kotlinx.android.synthetic.main.fragment_settings.*
 
 
 class SettingsFragment : Fragment() {
@@ -26,17 +27,9 @@ class SettingsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(SettingsViewModel::class.java)
 
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textSettings
-        notificationsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
-        }
-
 
         val radioGroup = root.findViewById<RadioGroup>(R.id.idRGgroup)
         radioGroup.setOnCheckedChangeListener { _, checkedId ->

@@ -9,7 +9,11 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:background="@drawable/shape_main_section"
+    android:background="@drawable/shape_main"
+    android:topLeftRadius="32dp"
+    android:topRightRadius="32dp"
+    android:bottomLeftRadius="32dp"
+    android:bottomRightRadius="32dp"
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp">
 
@@ -48,6 +52,7 @@
     android:textColor="@color/white"
     android:textSize="30sp"
     app:layout_constraintStart_toStartOf="@id/main_section"
+    app:layout_constraintEnd_toStartOf="@id/weather_icon"
     app:layout_constraintTop_toTopOf="@id/main_section" />
 
 <TextView
@@ -95,7 +100,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginStart="16dp"
-    android:layout_marginTop="25dp"
+    android:layout_marginTop="18dp"
     android:text="T° max :"
     android:textColor="@color/white"
     android:textSize="30sp"
@@ -124,7 +129,6 @@
 <com.github.lzyzsd.circleprogress.ArcProgress
     android:id="@+id/rain_probability"
     android:background="@color/transparent"
-    android:layout_marginLeft="50dp"
     android:layout_width="100dp"
     android:layout_height="100dp"
     app:arc_stroke_width="10dp"
@@ -134,10 +138,19 @@
     app:arc_text_color="@color/white"
     app:arc_bottom_text_size="20dp"
     app:arc_bottom_text="Rain"
-    app:layout_constraintEnd_toEndOf="@id/main_section"
-    app:layout_constraintStart_toStartOf="@id/weather_icon"
-    app:layout_constraintTop_toTopOf="@id/tmp_max_unit"
-    android:layout_marginEnd="20dp"
-    tools:ignore="MissingClass" />
+    app:layout_constraintEnd_toEndOf="@id/weather_icon"
 
+    app:layout_constraintTop_toTopOf="@id/tmp_max_unit"
+
+    tools:ignore="MissingClass" />
+    <ImageView
+        android:id="@+id/ic_less"
+        android:layout_width="80dp"
+        android:layout_height="10dp"
+
+        android:src="@drawable/ic_more"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rain_probability"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
