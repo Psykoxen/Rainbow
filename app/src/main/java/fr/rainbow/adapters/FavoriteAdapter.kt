@@ -1,11 +1,13 @@
 package fr.rainbow.adapters
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.DetailedActivity
@@ -18,8 +20,9 @@ import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
 
-class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val context: Context)
+class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val context: Context,private var onItemClicked: ((favorite: Favorite) -> Unit))
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType==1){
@@ -43,9 +46,8 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
         if (getItemViewType(position)==1){
             (holder as ViewHolderBig).bind(favoriteItem)
             holder.itemView.setOnClickListener {
-                val detailedIntent = Intent(context, DetailedActivity::class.java)
-                detailedIntent.putExtra("favorite",favoriteItem)
-                startActivity(context,detailedIntent,null)
+
+                onItemClicked(favoriteItem)
             }
             holder.itemView.ic_less.setOnClickListener {
                 favoriteItem.isBig = false
@@ -60,9 +62,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
             }
 
             holder.itemView.setOnClickListener {
-                val detailedIntent = Intent(context, DetailedActivity::class.java)
-                detailedIntent.putExtra("favorite",favoriteItem)
-                startActivity(context,detailedIntent,null)
+                onItemClicked(favoriteItem)
             }
 
         }

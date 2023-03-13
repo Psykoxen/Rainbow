@@ -46,7 +46,7 @@ class DetailedActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         btn_return.setOnClickListener {
-            finish()
+            returnMessage()
         }
 
         val recyclerDayView = dayView
@@ -64,6 +64,11 @@ class DetailedActivity : AppCompatActivity() {
         favorite = (intent.getSerializableExtra("favorite") as? Favorite)!!
 
         requestData(recyclerDayView,recyclerHourView, favorite.weatherData!!)
+    }
+
+    override fun onBackPressed() {
+        returnMessage()
+        super.onBackPressed()
     }
 
     fun createHoursPrevision(weatherData: WeatherData, recyclerHourView: RecyclerView)
@@ -120,6 +125,14 @@ class DetailedActivity : AppCompatActivity() {
         cityName.text = favorite.name
 
 
+    }
+
+    fun returnMessage() {
+        val returnIntent = intent.apply {
+            putExtra("favorite",favorite)
+        }
+        setResult(RESULT_OK, returnIntent)
+        finish()
     }
 
 }
