@@ -50,16 +50,18 @@
 
     </LinearLayout>
 
-
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/weather_icon2"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginEnd="10dp"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
 
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        />
     <View
         android:id="@+id/barrier"
         android:layout_width="100dp"

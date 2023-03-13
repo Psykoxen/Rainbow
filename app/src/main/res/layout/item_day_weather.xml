@@ -20,11 +20,13 @@
         android:text="2023-03-11"
         android:textSize="15sp"
         />
-    <ImageView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/weather_icon"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:src="@drawable/ic_weather_code_0"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+
         />
     <com.github.lzyzsd.circleprogress.ArcProgress
         android:id="@+id/rain_probability"

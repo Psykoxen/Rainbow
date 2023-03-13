@@ -12,16 +12,18 @@
     tools:context=".DetailedActivity"
         android:id="@+id/detailed_activity_layout"
     android:background="#BF4792FF">
+        <com.airbnb.lottie.LottieAnimationView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/weather_icon"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_marginTop="20dp"
+            app:lottie_loop="true"
+            app:lottie_autoPlay="true"
 
-    <ImageView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/weather_icon"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginTop="20dp"
-        />
+            />
 
     <TextView
         android:id="@+id/cityName"

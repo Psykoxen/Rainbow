@@ -86,9 +86,9 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
             fun bind(favorite: Favorite) {
                 updatingTempValue(itemView.city_label2,favorite.name)
                 if(favorite.weatherData!= null){
-
                     updatingBackgroundShape(itemView.fav_section,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)])
                     updatingWeatherIc(itemView.weather_icon2,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)])
+
                     updatingTempValue(itemView.temperature_now_value2,favorite.weatherData!!.hourly.temperature_2m.get(
                         findCurrentSlotHourly(favorite.weatherData!!)).toString())
                 }

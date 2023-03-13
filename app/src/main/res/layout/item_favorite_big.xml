@@ -116,15 +116,19 @@
     app:layout_constraintStart_toEndOf="@id/tmp_max_label"
     app:layout_constraintTop_toTopOf="@id/tmp_max_label" />
 
-<ImageView
-    android:id="@+id/weather_icon"
-    android:layout_width="150dp"
-    android:layout_height="150dp"
-    android:layout_marginTop="3dp"
-    android:layout_marginEnd="20dp"
-    app:layout_constraintEnd_toEndOf="@id/main_section"
-    app:layout_constraintTop_toBottomOf="@id/city_label" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        app:layout_constraintEnd_toEndOf="@id/main_section"
+        app:layout_constraintTop_toBottomOf="@id/city_label"
+        android:id="@+id/weather_icon"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="20dp"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+
+        />
 <com.github.lzyzsd.circleprogress.ArcProgress
     android:id="@+id/rain_probability"
     android:background="@color/transparent"

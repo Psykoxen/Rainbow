@@ -41,13 +41,13 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
             updatingTempValue(itemView.time_label,hourWeather.dateTime)
             updatingTempValue(itemView.temperature_value,hourWeather.temperature_2m)
             if (hourWeather.temperature_2m < 0){
-                    itemView.temperature_unit.setTextColor(Color.parseColor("#3F4DE1"))
-                    itemView.temperature_value.setTextColor(Color.parseColor("#3F4DE1"))
+                    itemView.temperature_unit.setTextColor(Color.parseColor("#FF3D72B4"))
+                    itemView.temperature_value.setTextColor(Color.parseColor("#FF3D72B4"))
                     itemView.temperature_unit.setTypeface(null, Typeface.BOLD)
                     itemView.temperature_value.setTypeface(null, Typeface.BOLD)
             } else if (hourWeather.temperature_2m > 40) {
-                itemView.temperature_unit.setTextColor(Color.parseColor("E13F3F"))
-                itemView.temperature_value.setTextColor(Color.parseColor("E13F3F"))
+                itemView.temperature_unit.setTextColor(Color.parseColor("#FFE13F3F"))
+                itemView.temperature_value.setTextColor(Color.parseColor("#FFE13F3F"))
                 itemView.temperature_unit.setTypeface(null, Typeface.BOLD)
                 itemView.temperature_value.setTypeface(null, Typeface.BOLD)
             }

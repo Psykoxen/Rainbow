@@ -1,7 +1,5 @@
 package fr.rainbow
 
-
-import android.R
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
@@ -11,7 +9,6 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 import fr.rainbow.adapters.DetailedDayAdapter
 import fr.rainbow.adapters.DetailedHourlyAdapter
 import fr.rainbow.databinding.ActivityDetailedBinding
@@ -113,20 +110,19 @@ class DetailedActivity : AppCompatActivity() {
         Log.d("DetailedActivity", "requestData: $data")
         updatingBackgroundWeatherColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
         updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)])
-
         updatingTempValue(
             temperature_now_value,
             data.hourly.temperature_2m[findCurrentSlotHourly(data)]
 
         )
         if (data.hourly.temperature_2m[findCurrentSlotHourly(data)] < 0) {
-            temperature_now_value.setTextColor(Color.parseColor("#3F4DE1"))
-            temperature_now_unit.setTextColor(Color.parseColor("#3F4DE1"))
+            temperature_now_value.setTextColor(Color.parseColor("#FF3D72B4"))
+            temperature_now_unit.setTextColor(Color.parseColor("#FF3D72B4"))
             temperature_now_unit.setTypeface(null, Typeface.BOLD)
             temperature_now_value.setTypeface(null, Typeface.BOLD)
         } else if (data.hourly.temperature_2m[findCurrentSlotHourly(data)] > 40) {
-            temperature_now_value.setTextColor(Color.parseColor("#E13F3F"))
-            temperature_now_unit.setTextColor(Color.parseColor("#E13F3F"))
+            temperature_now_value.setTextColor(Color.parseColor("#FFE13F3F"))
+            temperature_now_unit.setTextColor(Color.parseColor("#FFE13F3F"))
             temperature_now_unit.setTypeface(null, Typeface.BOLD)
             temperature_now_value.setTypeface(null, Typeface.BOLD)
         }

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import com.airbnb.lottie.LottieAnimationView
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.R
 import fr.rainbow.dataclasses.WeatherData
@@ -116,36 +117,39 @@ object Functions {
             else -> layout.setBackgroundColor(Color.parseColor("#BF4792FF"))
         }
     }
-    fun updatingWeatherIc(icon: ImageView, code: Int) {
+    fun updatingWeatherIc(icon: LottieAnimationView, code: Int) {
         when(code) {
-            0 -> icon.setImageResource(R.drawable.ic_weather_code_0)
-            1 -> icon.setImageResource(R.drawable.ic_weather_code_1)
-            2 -> icon.setImageResource(R.drawable.ic_weather_code_2_3)
-            3 -> icon.setImageResource(R.drawable.ic_weather_code_2_3)
-            45 -> icon.setImageResource(R.drawable.ic_weather_code_45_48)
-            48 -> icon.setImageResource(R.drawable.ic_weather_code_45_48)
-            51 -> icon.setImageResource(R.drawable.ic_weather_code_51_53_55)
-            53 -> icon.setImageResource(R.drawable.ic_weather_code_51_53_55)
-            55 -> icon.setImageResource(R.drawable.ic_weather_code_51_53_55)
-            56 -> icon.setImageResource(R.drawable.ic_weather_code_56_57)
-            57 -> icon.setImageResource(R.drawable.ic_weather_code_56_57)
-            61 -> icon.setImageResource(R.drawable.ic_weather_code_61_63_65)
-            63 -> icon.setImageResource(R.drawable.ic_weather_code_61_63_65)
-            65 -> icon.setImageResource(R.drawable.ic_weather_code_61_63_65)
-            66 -> icon.setImageResource(R.drawable.ic_weather_code_66_67)
-            67 -> icon.setImageResource(R.drawable.ic_weather_code_66_67)
-            71 -> icon.setImageResource(R.drawable.ic_weather_code_71_73_75)
-            73 -> icon.setImageResource(R.drawable.ic_weather_code_71_73_75)
-            75 -> icon.setImageResource(R.drawable.ic_weather_code_71_73_75)
-            77 -> icon.setImageResource(R.drawable.ic_weather_code_77)
-            80 -> icon.setImageResource(R.drawable.ic_weather_code_80_81_82)
-            81 -> icon.setImageResource(R.drawable.ic_weather_code_80_81_82)
-            82 -> icon.setImageResource(R.drawable.ic_weather_code_80_81_82)
-            95 -> icon.setImageResource(R.drawable.ic_weather_code_95)
-            96 -> icon.setImageResource(R.drawable.ic_weather_code_96_99)
-            99 -> icon.setImageResource(R.drawable.ic_weather_code_96_99)
-            else -> icon.setImageResource(R.drawable.ic_weather_code_0)
+            0 -> icon.setAnimation(R.raw.clear_day)
+            1 -> icon.setAnimation(R.raw.partly_cloudy_day)
+            2 -> icon.setAnimation(R.raw.cloudy)
+            3 -> icon.setAnimation(R.raw.extreme)
+            45 -> icon.setAnimation(R.raw.fog)
+            48 -> icon.setAnimation(R.raw.extreme_fog)
+            51 -> icon.setAnimation(R.raw.partly_cloudy_day_drizzle)
+            53 -> icon.setAnimation(R.raw.overcast_drizzle)
+            55 -> icon.setAnimation(R.raw.overcast_rain)
+            56 -> icon.setAnimation(R.raw.overcast_rain)
+            57 -> icon.setAnimation(R.raw.overcast_rain)
+            61 -> icon.setAnimation(R.raw.extreme_drizzle)
+            63 -> icon.setAnimation(R.raw.extreme_rain)
+            65 -> icon.setAnimation(R.raw.extreme_rain)
+            66 -> icon.setAnimation(R.raw.extreme_rain)
+            67 -> icon.setAnimation(R.raw.extreme_rain)
+            71 -> icon.setAnimation(R.raw.partly_cloudy_day_snow)
+            73 -> icon.setAnimation(R.raw.partly_cloudy_day_snow)
+            75 -> icon.setAnimation(R.raw.partly_cloudy_day_snow)
+            77 -> icon.setAnimation(R.raw.snow)
+            80 -> icon.setAnimation(R.raw.extreme_rain)
+            81 -> icon.setAnimation(R.raw.extreme_rain)
+            82 -> icon.setAnimation(R.raw.extreme_rain)
+            85 -> icon.setAnimation(R.raw.extreme_snow)
+            86 -> icon.setAnimation(R.raw.extreme_snow)
+            95 -> icon.setAnimation(R.raw.thunderstorms_extreme)
+            96 -> icon.setAnimation(R.raw.thunderstorms_rain)
+            99 -> icon.setAnimation(R.raw.thunderstorms_rain)
+            else -> icon.setAnimation(R.raw.clear_day)
         }
+        icon.playAnimation()
     }
 
     fun updatingTempValue(temp: TextView, value: Any) {
