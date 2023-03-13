@@ -2,6 +2,7 @@ package fr.rainbow.functions
 
 import android.content.Context
 import android.graphics.Color
+import android.icu.text.SimpleDateFormat
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -12,6 +13,8 @@ import fr.rainbow.dataclasses.WeatherData
 import java.io.BufferedWriter
 import java.io.File
 import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 object Functions {
@@ -163,5 +166,20 @@ object Functions {
         return -1
     }
 
+    fun getDayName(dateString: String): String {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = dateFormat.parse(dateString)
+        val dayFormat = SimpleDateFormat("EEEE", Locale.getDefault())
+        return dayFormat.format(date)
+    }
+
+    fun isTomorrow(dateString: String): Boolean {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val date = dateFormat.parse(dateString)
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DAY_OF_YEAR, 1)
+        val tomorrow = calendar.time
+        return dateFormat.format(date) == dateFormat.format(tomorrow)
+    }
 
 }
