@@ -21,31 +21,35 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <TextView
-        android:id="@+id/temperature_now_unit2"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="°C"
-        android:textColor="@color/white"
-        android:textSize="50sp"
-        app:layout_constraintEnd_toStartOf="@id/weather_icon2"
-        app:layout_constraintStart_toEndOf="@id/temperature_now_value2"
+        android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/city_label2"
         app:layout_constraintBottom_toTopOf="@id/barrier"
-        />
-
-    <TextView
-        android:id="@+id/temperature_now_value2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:textColor="@color/white"
-        android:textSize="50sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/temperature_now_unit2"
-        app:layout_constraintTop_toBottomOf="@id/city_label2"
-        app:layout_constraintBottom_toTopOf="@id/barrier"/>
+        app:layout_constraintEnd_toStartOf="@id/weather_icon2">
+        <TextView
+            android:id="@+id/temperature_now_value2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textColor="@color/white"
+            android:textSize="50sp"
+            />
+        <TextView
+            android:id="@+id/temperature_now_unit2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="°C"
+            android:textColor="@color/white"
+            android:textSize="50sp"
+
+            />
+
+
+    </LinearLayout>
+
 
     <ImageView
         android:id="@+id/weather_icon2"
@@ -61,6 +65,7 @@
         android:layout_width="100dp"
         android:layout_height="2dp"
         android:background="@color/white"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/weather_icon2"
