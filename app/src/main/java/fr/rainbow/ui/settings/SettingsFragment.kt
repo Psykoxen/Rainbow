@@ -1,6 +1,7 @@
 package fr.rainbow.ui.settings
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentSettingsBinding
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -31,6 +33,17 @@ class SettingsFragment : Fragment() {
         _binding = FragmentSettingsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        val root: View = binding.root
         val radioGroup = root.findViewById<RadioGroup>(R.id.idRGgroup)
         radioGroup.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
@@ -42,12 +55,11 @@ class SettingsFragment : Fragment() {
                 }
             }
         }
-
-        return root
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+        gpsAddButton.setOnClickListener {
+            (activity as MainActivity).addGps()
+        }
+        gpsRemoveButton.setOnClickListener {
+            (activity as MainActivity).removeGps()
+        }
     }
 }

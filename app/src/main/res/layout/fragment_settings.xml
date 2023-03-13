@@ -52,4 +52,19 @@
 
     </RadioGroup>
 
+    <Button
+        android:id="@+id/gpsAddButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/idRGgroup"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Ajouter ma position a mes favoris"/>
+    <Button
+        android:id="@+id/gpsRemoveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/gpsAddButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:text="Enlever ma position de mes favoris"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

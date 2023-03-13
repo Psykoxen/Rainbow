@@ -1,18 +1,19 @@
 package fr.rainbow
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import fr.rainbow.databinding.ActivityMainBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.Functions
+import fr.rainbow.ui.home.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -63,6 +64,8 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             val favorite = (data?.getSerializableExtra("favorite") as? Favorite)!!
+            if(favorite.isGPS)
+                updateHomeGps()
             if(favorite.isFavorite && !favorites.contains(favorite)){
                 favorites.add(favorite)
                 Functions.writeFile(this,favorites)
@@ -71,12 +74,48 @@ class MainActivity : AppCompatActivity() {
                 Functions.writeFile(this,favorites)
             }
         }
-        val test = Functions.readFile(this)
-        Log.d("test",test.size.toString())
     }
     fun openYourActivity(favoriteItem: Favorite) {
         val detailedIntent = Intent(this, DetailedActivity::class.java)
         detailedIntent.putExtra("favorite",favoriteItem)
         resultLauncher.launch(detailedIntent)
+    }
+
+    fun addGps(){
+        var j = 0
+        for (i in favorites){
+            if (i.isGPS){
+                j++
+            }
+        }
+        if (j==0){
+            val gps = Favorite("Your Position", 0.0 ,0.0, true, false,true,null)
+            favorites.add(gps)
+            Functions.writeFile(this,favorites)
+            updateHomeGps()
+        }
+
+    }
+
+    fun removeGps(){
+        var temp:Int = -1
+        favorites.forEachIndexed { index, element ->
+            if (element.isGPS){
+                temp = index
+            }
+        }
+        if(temp!=-1){
+            favorites.removeAt(temp)
+        }
+
+        updateHomeGps()
+    }
+
+    private fun updateHomeGps(){
+        val fm: FragmentManager = supportFragmentManager
+        val fragment: HomeFragment? = fm.findFragmentByTag("HomeFragment") as HomeFragment?
+        if (fragment != null) {
+            fragment.initGps()
+        };
     }
 }

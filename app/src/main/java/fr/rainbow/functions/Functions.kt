@@ -25,7 +25,6 @@ object Functions {
     }
 
     fun writeFile(context:Context, favorites: ArrayList<Favorite>){
-        Log.d("test"," write : ${favorites.size}")
         val path = context.filesDir
         val file = File(path,"somefile.txt")
         file.createNewFile()

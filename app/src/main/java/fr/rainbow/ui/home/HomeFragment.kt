@@ -53,6 +53,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var favorites : ArrayList<Favorite>
     private lateinit var gpsFavorite: Favorite
+    private var gps = false
     private lateinit var recyclerView : RecyclerView
 
     // This property is only valid between onCreateView and
@@ -69,30 +70,10 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        //GPS
-        fusedLocationProviderClient = this.activity?.let {
-            LocationServices.getFusedLocationProviderClient(
-                it
-            )
-        }
-        mLocationRequest = LocationRequest.create()
-        val locationManager =
-            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            showAlertMessage()
-        }
-        this.activity?.let { checkForPermission(it) }
-        startLocationUpdates()
-
-
-
-
         favorites = (activity as MainActivity).favorites
-        for (i in favorites){
-            if (i.isGPS){
-                gpsFavorite = i
-            }
-        }
+
+        initGps()
+
         recyclerView = root.findViewById(R.id.favorite_list)
         with(recyclerView) {
             layoutManager = LinearLayoutManager(this.context)
@@ -108,6 +89,32 @@ class HomeFragment : Fragment() {
     }
 
 
+    fun initGps(){
+        gps = false
+        fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
+        for (i in favorites){
+            if (i.isGPS){
+                gps = true
+                gpsFavorite = i
+            }
+        }
+        if(gps){
+            fusedLocationProviderClient = this.activity?.let {
+                LocationServices.getFusedLocationProviderClient(
+                    it
+                )
+            }
+            mLocationRequest = LocationRequest.create()
+            val locationManager =
+                requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                showAlertMessage()
+            }
+            this.activity?.let { checkForPermission(it) }
+            startLocationUpdates()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -120,7 +127,9 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        startLocationUpdates()
+        if(this::gpsFavorite.isInitialized) {
+            startLocationUpdates()
+        }
     }
 
     fun initAllData(){
@@ -206,7 +215,8 @@ class HomeFragment : Fragment() {
             gpsFavorite.longitude = locationResult.lastLocation?.longitude!!
 
             val index = favorites.indexOf(gpsFavorite)
-            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[index].latitude}&longitude=${favorites[index].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&timezone=auto",index)
+            if(index!= -1)
+                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[index].latitude}&longitude=${favorites[index].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&timezone=auto",index)
         }
     }
 

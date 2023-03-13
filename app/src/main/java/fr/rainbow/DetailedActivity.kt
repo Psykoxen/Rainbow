@@ -76,6 +76,9 @@ class DetailedActivity : AppCompatActivity() {
                 btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_full)
             }
         }
+        if(favorite.isGPS){
+            btn_favorite.setOnClickListener(null)
+        }
     }
 
     override fun onBackPressed() {
