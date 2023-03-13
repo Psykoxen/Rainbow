@@ -63,7 +63,7 @@ class SearchFragment : Fragment() {
                 // TODO: Get info about the selected place.
                 Log.d(TAG, place.id)
                 Log.d(TAG,place.name)
-                val key = BuildConfig.apiMaps
+                val key = BuildConfig.GOOGLE_MAPS_API_KEY
                 requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?place_id=${place.id}&key=$key",place.name)
             }
 

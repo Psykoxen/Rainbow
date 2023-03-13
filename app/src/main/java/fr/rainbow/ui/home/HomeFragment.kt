@@ -130,7 +130,7 @@ class HomeFragment : Fragment() {
                 val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 favorites[index].weatherData = weatherData
                 if(favorites[index].name == "Your Position"){
-                    val key = BuildConfig.apiMaps
+                    val key = BuildConfig.GOOGLE_MAPS_API_KEY
                     requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?key=$key&latlng=${favorites[index].latitude},${favorites[index].longitude}",index)
                 }
                 activity?.runOnUiThread {
