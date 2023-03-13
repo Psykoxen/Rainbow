@@ -18,7 +18,6 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
@@ -37,7 +36,6 @@ import kotlinx.android.synthetic.main.item_favorite_big.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
 import okhttp3.*
 import java.io.IOException
-import kotlin.concurrent.thread
 
 
 class HomeFragment : Fragment() {
@@ -47,7 +45,7 @@ class HomeFragment : Fragment() {
     //TODO bloquer fonctionnement gps si pas dans la liste de favoris
     //GPS
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    private val interval: Long = 10000 // 10seconds
+    private val interval: Long = 100000 // 10seconds
     private val fastestInterval: Long = 5000 // 5 seconds
     private lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
@@ -55,6 +53,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var favorites : ArrayList<Favorite>
     private lateinit var gpsFavorite: Favorite
+    private var gps = false
     private lateinit var recyclerView : RecyclerView
 
     // This property is only valid between onCreateView and
@@ -67,38 +66,20 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        //GPS
-        fusedLocationProviderClient = this.activity?.let {
-            LocationServices.getFusedLocationProviderClient(
-                it
-            )
-        }
-        mLocationRequest = LocationRequest.create()
-        val locationManager =
-            requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            showAlertMessage()
-        }
-        this.activity?.let { checkForPermission(it) }
-        startLocationUpdates()
-
-
-
-
         favorites = (activity as MainActivity).favorites
-        for (i in favorites){
-            if (i.isGPS){
-                gpsFavorite = i
-            }
-        }
+
+        initGps()
+
         recyclerView = root.findViewById(R.id.favorite_list)
         with(recyclerView) {
             layoutManager = LinearLayoutManager(this.context)
             adapter = FavoriteAdapter(favorites, context){
-                favorite ->  openYourActivity(favorite)
+                favorite ->
+                (activity as MainActivity).openYourActivity(favorite)
             }
         }
         initAllData()
@@ -107,6 +88,32 @@ class HomeFragment : Fragment() {
 
     }
 
+
+    fun initGps(){
+        gps = false
+        fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
+        for (i in favorites){
+            if (i.isGPS){
+                gps = true
+                gpsFavorite = i
+            }
+        }
+        if(gps){
+            fusedLocationProviderClient = this.activity?.let {
+                LocationServices.getFusedLocationProviderClient(
+                    it
+                )
+            }
+            mLocationRequest = LocationRequest.create()
+            val locationManager =
+                requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                showAlertMessage()
+            }
+            this.activity?.let { checkForPermission(it) }
+            startLocationUpdates()
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -120,7 +127,9 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        startLocationUpdates()
+        if(this::gpsFavorite.isInitialized) {
+            startLocationUpdates()
+        }
     }
 
     fun initAllData(){
@@ -206,7 +215,8 @@ class HomeFragment : Fragment() {
             gpsFavorite.longitude = locationResult.lastLocation?.longitude!!
 
             val index = favorites.indexOf(gpsFavorite)
-            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[index].latitude}&longitude=${favorites[index].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&timezone=auto",index)
+            if(index!= -1)
+                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorites[index].latitude}&longitude=${favorites[index].longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&timezone=auto",index)
         }
     }
 
@@ -299,16 +309,5 @@ class HomeFragment : Fragment() {
         }
     }
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val data: Intent? = result.data
-            val favorite = (data?.getSerializableExtra("favorite") as? Favorite)!!
-            Log.d("test", favorite.toString())
-        }
-    }
-    fun openYourActivity(favoriteItem: Favorite) {
-        val detailedIntent = Intent(context, DetailedActivity::class.java)
-        detailedIntent.putExtra("favorite",favoriteItem)
-        resultLauncher.launch(detailedIntent)
-    }
+
 }
