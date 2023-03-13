@@ -17,6 +17,9 @@
         android:theme="@style/Theme.Rainbow"
         android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${GOOGLE_MAPS_API_KEY}" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
