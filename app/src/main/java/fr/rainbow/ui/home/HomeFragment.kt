@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.item_favorite_big.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
 import okhttp3.*
 import java.io.IOException
+import kotlin.concurrent.thread
 
 
 class HomeFragment : Fragment() {
@@ -43,7 +44,7 @@ class HomeFragment : Fragment() {
     //TODO bloquer fonctionnement gps si pas dans la liste de favoris
     //GPS
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    private val interval: Long = 100000 // 10seconds
+    private val interval: Long = 10000 // 10seconds
     private val fastestInterval: Long = 5000 // 5 seconds
     private lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
@@ -112,11 +113,22 @@ class HomeFragment : Fragment() {
         fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
     }
 
+    override fun onResume() {
+        super.onResume()
+        startLocationUpdates()
+    }
+
     fun initAllData(){
         favorites.forEachIndexed { index, favorite ->
-            requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorite.latitude}&longitude=${favorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",index)
+            if(favorite.latitude==0.0 && favorite.longitude==0.0){
+
+            }else{
+                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorite.latitude}&longitude=${favorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max&timezone=Europe%2FBerlin",index)
+            }
         }
     }
+
+
     fun requestMainSection(url: String,index: Int) {
         val request = Request.Builder()
             .url(url)
