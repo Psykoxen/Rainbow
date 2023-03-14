@@ -70,9 +70,8 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        favorites = (activity as MainActivity).favorites
 
-        initGps()
+        favorites = (activity as MainActivity).favorites
 
         recyclerView = root.findViewById(R.id.favorite_list)
         with(recyclerView) {
@@ -84,6 +83,7 @@ class HomeFragment : Fragment() {
         }
         initAllData()
 
+        initGps()
         return root
 
     }
@@ -91,6 +91,7 @@ class HomeFragment : Fragment() {
 
     fun initGps(){
         gps = false
+
         fusedLocationProviderClient?.removeLocationUpdates(mLocationCallback)
         for (i in favorites){
             if (i.isGPS){
@@ -127,9 +128,10 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if(this::gpsFavorite.isInitialized) {
+        if(gps) {
             startLocationUpdates()
         }
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     fun initAllData(){
