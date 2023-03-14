@@ -6,15 +6,15 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.R
 import fr.rainbow.dataclasses.DayWeatherData
 import fr.rainbow.functions.Functions.getDayName
+import fr.rainbow.functions.Functions.isTomorrow
 import fr.rainbow.functions.Functions.updatingTempValue
 import fr.rainbow.functions.Functions.updatingWeatherIc
-import fr.rainbow.functions.Functions.isTomorrow
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_day_weather.view.*
 import kotlinx.android.synthetic.main.item_hour_weather.view.weather_icon
@@ -42,6 +42,8 @@ class DetailedDayAdapter(private val dayWeatherList: ArrayList<DayWeatherData>, 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(dayWeather: DayWeatherData) {
+
+
             updatingWeatherIc(itemView.weather_icon, dayWeather.weathercode)
             if (isTomorrow(dayWeather.time)){
                 itemView.date_label.text = "Tomorrow"

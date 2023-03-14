@@ -53,6 +53,34 @@ object Functions {
         }
         return favorites
     }
+    fun updatingUvIc(icon: LottieAnimationView, value: Double) {
+            if (value < 2) {
+                icon.setAnimation(R.raw.uv_index_1)
+            } else if ((value >= 2) && (value < 3)) {
+                icon.setAnimation(R.raw.uv_index_2)
+            } else if (value >= 3 && value < 4) {
+                icon.setAnimation(R.raw.uv_index_3)
+            } else if (value >= 4 && value < 5) {
+                icon.setAnimation(R.raw.uv_index_4)
+            } else if (value >= 5 && value < 6) {
+                icon.setAnimation(R.raw.uv_index_5)
+            } else if (value >= 6 && value < 7) {
+                icon.setAnimation(R.raw.uv_index_6)
+            } else if (value >= 7 && value < 8) {
+                icon.setAnimation(R.raw.uv_index_7)
+            } else if (value >= 8 && value < 9) {
+                icon.setAnimation(R.raw.uv_index_8)
+            } else if (value >= 9 && value < 10) {
+                icon.setAnimation(R.raw.uv_index_9)
+            } else if (value >= 10 && value < 11) {
+                icon.setAnimation(R.raw.uv_index_10)
+            } else {
+                icon.setAnimation(R.raw.uv_index_11)
+            }
+        icon.playAnimation()
+        }
+
+
     fun updatingBackgroundShape(layout : View, code: Int)
     {
         when (code) {

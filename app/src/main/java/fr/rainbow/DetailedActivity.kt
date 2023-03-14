@@ -19,6 +19,7 @@ import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
 import fr.rainbow.functions.Functions.updatingBackgroundShapeColor
 import fr.rainbow.functions.Functions.updatingTempValue
+import fr.rainbow.functions.Functions.updatingUvIc
 import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.activity_detailed.*
 import kotlinx.android.synthetic.main.item_hour_weather.view.*
@@ -82,7 +83,7 @@ class DetailedActivity : AppCompatActivity() {
     fun createHoursPrevision(weatherData: WeatherData, recyclerHourView: RecyclerView)
     {
         val index = findCurrentSlotHourly(weatherData)
-        for (i in index..index+7)
+        for (i in index..index+20)
         {
             hourPrevisionList.add(HourWeatherData(
                 weatherData.hourly.time[i].substring(weatherData.hourly.time[i].length-5),
@@ -121,6 +122,7 @@ class DetailedActivity : AppCompatActivity() {
         Log.d("DetailedActivity", "requestData: $data")
         updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
         Log.d("ICO", data.hourly.weathercode[findCurrentSlotHourly(data)].toString())
+        updatingUvIc(uv_icon, data.daily.uv_index_max[1])
         updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)])
         updatingTempValue(
             temperature_now_value,
