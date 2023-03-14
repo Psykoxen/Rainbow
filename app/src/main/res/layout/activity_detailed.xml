@@ -148,6 +148,7 @@
             app:layout_constraintTop_toTopOf="@id/btn_return"
             app:layout_constraintBottom_toBottomOf="@id/btn_return"
             app:srcCompat="@drawable/ic_star_empty" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/hourView"
         android:layout_width="match_parent"
@@ -158,7 +159,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_hour_weather"
-        android:nestedScrollingEnabled="false"
+        android:nestedScrollingEnabled="true"
         android:clickable="false" />
     <View
         android:id="@+id/barrierDay"
