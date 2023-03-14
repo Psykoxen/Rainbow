@@ -3,6 +3,7 @@ package fr.rainbow.ui.map
 import android.os.Bundle
 import android.os.Parcel
 import android.os.Parcelable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -91,6 +92,7 @@ class MapFragment : Fragment() {
 
     private fun addMarkers(googleMap: GoogleMap) {
         cities.getAll().forEach() { place ->
+            Log.d("DEBUGMAP", place.name)
             val marker = googleMap.addMarker(
                 MarkerOptions()
                     .title(place.name)
