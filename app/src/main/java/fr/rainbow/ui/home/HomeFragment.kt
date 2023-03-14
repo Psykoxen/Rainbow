@@ -84,6 +84,7 @@ class HomeFragment : Fragment() {
         initAllData()
 
         initGps()
+        Log.d("test",gps.toString())
         return root
 
     }
@@ -128,9 +129,7 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if(gps) {
-            startLocationUpdates()
-        }
+        initGps()
         recyclerView.adapter?.notifyDataSetChanged()
     }
 
