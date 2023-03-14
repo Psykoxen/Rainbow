@@ -58,8 +58,5 @@ class SettingsFragment : Fragment() {
         gpsAddButton.setOnClickListener {
             (activity as MainActivity).addGps()
         }
-        gpsRemoveButton.setOnClickListener {
-            (activity as MainActivity).removeGps()
-        }
     }
 }

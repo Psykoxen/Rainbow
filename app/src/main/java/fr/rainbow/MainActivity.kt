@@ -64,8 +64,6 @@ class MainActivity : AppCompatActivity() {
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             val favorite = (data?.getSerializableExtra("favorite") as? Favorite)!!
-            if(favorite.isGPS)
-                updateHomeGps()
             if(favorite.isFavorite && !favorites.contains(favorite)){
                 favorites.add(favorite)
                 Functions.writeFile(this,favorites)
@@ -73,6 +71,9 @@ class MainActivity : AppCompatActivity() {
                 favorites.remove(favorite)
                 Functions.writeFile(this,favorites)
             }
+            if(favorite.isGPS)
+                updateHomeGps()
+            Log.d("test",favorite.toString())
         }
     }
     fun openYourActivity(favoriteItem: Favorite) {
@@ -95,20 +96,6 @@ class MainActivity : AppCompatActivity() {
             updateHomeGps()
         }
 
-    }
-
-    fun removeGps(){
-        var temp:Int = -1
-        favorites.forEachIndexed { index, element ->
-            if (element.isGPS){
-                temp = index
-            }
-        }
-        if(temp!=-1){
-            favorites.removeAt(temp)
-        }
-
-        updateHomeGps()
     }
 
     private fun updateHomeGps(){
