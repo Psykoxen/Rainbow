@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.DetailedActivity
 import fr.rainbow.R
 import fr.rainbow.dataclasses.Favorite
+import fr.rainbow.functions.Functions
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
 import fr.rainbow.functions.Functions.updatingBackgroundShape
 import fr.rainbow.functions.Functions.updatingTempValue
@@ -51,6 +52,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
             }
             holder.itemView.ic_less.setOnClickListener {
                 favoriteItem.isBig = false
+                Functions.writeFile(context,favorites)
                 notifyDataSetChanged()
             }
         }else{
@@ -58,6 +60,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
 
             holder.itemView.ic_more.setOnClickListener{
                 favoriteItem.isBig = true
+                Functions.writeFile(context,favorites)
                 notifyDataSetChanged()
             }
 

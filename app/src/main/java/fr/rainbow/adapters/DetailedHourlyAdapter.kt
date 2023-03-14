@@ -51,13 +51,10 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
                 itemView.temperature_unit.setTypeface(null, Typeface.BOLD)
                 itemView.temperature_value.setTypeface(null, Typeface.BOLD)
             }
-            Log.d("COMPARE",hourWeather.snowfall.toString() + " " + (hourWeather.snowfall > 0.0).toString())
             if (hourWeather.snowfall > 0.0) {
-                Log.d("SNOW","TRUE")
                 itemView.rain_icon.setImageResource(R.drawable.ic_snow)
                 updatingTempValue(itemView.rain_value,hourWeather.snowfall)
             } else {
-                Log.d("SNOW","FALSE")
                 updatingTempValue(itemView.rain_value,hourWeather.rain)
             }
 
