@@ -1,25 +1,26 @@
 package fr.rainbow.ui.map
 
+import android.content.Context
+import android.graphics.*
 import android.os.Bundle
-import android.os.Parcel
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
-import android.webkit.WebViewClient
+import androidx.annotation.DrawableRes
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentMapBinding
 import fr.rainbow.dataclasses.Favorite
-import kotlinx.android.synthetic.main.fragment_map.*
+import fr.rainbow.functions.Functions
+import fr.rainbow.functions.Functions.updatingWeatherBmpIc
 
 
 class MapFragment : Fragment() {
@@ -84,7 +85,7 @@ class MapFragment : Fragment() {
         cities.add(Cities("Avignon", LatLng(43.949317, 4.805528)))
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
-        mapFragment?.getMapAsync { googleMap ->  addMarkers(googleMap) }
+        mapFragment?.getMapAsync { googleMap ->  addMarkers(googleMap)}
 
         return root
 
@@ -92,13 +93,49 @@ class MapFragment : Fragment() {
 
     private fun addMarkers(googleMap: GoogleMap) {
         cities.getAll().forEach() { place ->
-            Log.d("DEBUGMAP", place.name)
             val marker = googleMap.addMarker(
                 MarkerOptions()
-                    .title(place.name)
+                    //.title(place.name)
                     .position(place.latLng)
             )
+            Log.d("DEBUGMAP", favorites.find { it.name == place.name }.toString())
+            if(favorites.find { it.name == place.name } != null) {
+                val fav = favorites.find { it.name == place.name }
+                fav?.weatherData?.let { data ->
+                    updatingWeatherBmpIc(marker, data.hourly.weathercode[Functions.findCurrentSlotHourly(data)])
+                }
+            }
+            /**val markerOptions = MarkerOptions()
+            markerOptions.position(place.latLng)
+            val marker: Marker?  = googleMap?.addMarker(markerOptions)
+            marker?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.sample))
+            marker?.showInfoWindow()**/
         }
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cities.get(0).latLng, 8f))
+    }
+
+    private fun bitmapDescriptorFromVector(
+        context: Context,
+        @DrawableRes vectorDrawableResourceId: Int
+    ): BitmapDescriptor? {
+        val background = ContextCompat.getDrawable(context, R.drawable.ic_launcher_background)
+        background!!.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight)
+        val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
+        vectorDrawable!!.setBounds(
+            40,
+            20,
+            vectorDrawable.intrinsicWidth + 40,
+            vectorDrawable.intrinsicHeight + 20
+        )
+        val bitmap = Bitmap.createBitmap(
+            background.intrinsicWidth,
+            background.intrinsicHeight,
+            Bitmap.Config.ARGB_8888
+        )
+        val canvas = Canvas(bitmap)
+        background.draw(canvas)
+        vectorDrawable.draw(canvas)
+        return BitmapDescriptorFactory.fromBitmap(bitmap)
     }
 
 
