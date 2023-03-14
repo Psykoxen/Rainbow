@@ -190,8 +190,7 @@ class HomeFragment : Fragment() {
                     var temp = position.plus_code.compound_code
 
                     temp = temp.substring(temp.indexOf(" "))
-                    temp = temp.substring(0,temp.indexOf(","))
-                    Log.d("NAME",temp)
+                    temp = temp.substring(0,temp.indexOf(",")).replace(" ","")
                     favorites[index].name = temp
                     activity?.runOnUiThread {
                         recyclerView.adapter!!.notifyDataSetChanged()
