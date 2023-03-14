@@ -3,7 +3,10 @@ package fr.rainbow
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -21,6 +24,7 @@ class MainActivity : AppCompatActivity() {
     var favorites: ArrayList<Favorite> = arrayListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
         if(prefs.getBoolean("firstrun",true)){
             testInitFavorite()
@@ -34,6 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
+
     }
 
     fun testInitFavorite(){
