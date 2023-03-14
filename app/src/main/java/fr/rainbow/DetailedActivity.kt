@@ -17,7 +17,7 @@ import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.HourWeatherData
 import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
-import fr.rainbow.functions.Functions.updatingBackgroundWeatherColor
+import fr.rainbow.functions.Functions.updatingBackgroundShapeColor
 import fr.rainbow.functions.Functions.updatingTempValue
 import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.activity_detailed.*
@@ -122,7 +122,8 @@ class DetailedActivity : AppCompatActivity() {
 
     private fun requestData(dayView: RecyclerView, hourView: RecyclerView, data: WeatherData) {
         Log.d("DetailedActivity", "requestData: $data")
-        updatingBackgroundWeatherColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
+        updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
+        Log.d("ICO", data.hourly.weathercode[findCurrentSlotHourly(data)].toString())
         updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)])
         updatingTempValue(
             temperature_now_value,
