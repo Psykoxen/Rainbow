@@ -17,6 +17,7 @@ import fr.rainbow.databinding.ActivityMainBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.Functions
 import fr.rainbow.ui.home.HomeFragment
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +39,21 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
+        checkInternet()
+    }
+
+    private fun checkInternet() {
+        val networkManager = NetworkManager(this)
+        thread {
+            while (true){
+                Thread.sleep(10000)
+                if(networkManager.isNetworkAvailable.value){
+                    //internet connection ok
+                }else{
+                    //todo notif car internet down
+                }
+            }
+        }
 
     }
 

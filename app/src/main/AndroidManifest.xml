@@ -27,6 +27,12 @@
 
         </activity>
         <activity
+            android:name=".NetworkManager"
+            android:exported="true"
+            android:label="@string/network">
+
+        </activity>
+        <activity
             android:name=".DetailedActivity"
             android:exported="true"/>
         <activity
