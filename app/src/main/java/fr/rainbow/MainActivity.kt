@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -46,12 +47,15 @@ class MainActivity : AppCompatActivity() {
         val networkManager = NetworkManager(this)
         thread {
             while (true){
-                Thread.sleep(10000)
                 if(networkManager.isNetworkAvailable.value){
                     //internet connection ok
                 }else{
-                    //todo notif car internet down
+                    this@MainActivity.runOnUiThread {
+                        Toast.makeText(this, "Vous n'avez pas de connextion internet", Toast.LENGTH_LONG).show()
+
+                    }
                 }
+                Thread.sleep(10000)
             }
         }
 
