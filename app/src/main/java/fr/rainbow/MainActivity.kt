@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -17,6 +18,7 @@ import fr.rainbow.databinding.ActivityMainBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.Functions
 import fr.rainbow.ui.home.HomeFragment
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +40,24 @@ class MainActivity : AppCompatActivity() {
 
         val navController = findNavController(R.id.nav_host_fragment_activity_main)
         navView.setupWithNavController(navController)
+        checkInternet()
+    }
+
+    private fun checkInternet() {
+        val networkManager = NetworkManager(this)
+        thread {
+            while (true){
+                if(networkManager.isNetworkAvailable.value){
+                    //internet connection ok
+                }else{
+                    this@MainActivity.runOnUiThread {
+                        Toast.makeText(this, "Vous n'avez pas de connextion internet", Toast.LENGTH_LONG).show()
+
+                    }
+                }
+                Thread.sleep(10000)
+            }
+        }
 
     }
 
