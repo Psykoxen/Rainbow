@@ -91,6 +91,11 @@ class MapFragment : Fragment() {
 
     }
 
+    private fun resizeImage(view: View?, bitmap: Bitmap) {
+        val resized = Bitmap.createScaledBitmap(bitmap, 400, 400, true)
+        //ivImage.setImageBitmap(resized)
+    }
+
     private fun addMarkers(googleMap: GoogleMap) {
         cities.getAll().forEach() { place ->
             val marker = googleMap.addMarker(
@@ -102,7 +107,7 @@ class MapFragment : Fragment() {
             if(favorites.find { it.name == place.name } != null) {
                 val fav = favorites.find { it.name == place.name }
                 fav?.weatherData?.let { data ->
-                    updatingWeatherBmpIc(marker, data.hourly.weathercode[Functions.findCurrentSlotHourly(data)])
+                    updatingWeatherBmpIc(marker, requireContext(), data.hourly.weathercode[Functions.findCurrentSlotHourly(data)])
                 }
             }
             /**val markerOptions = MarkerOptions()
@@ -113,33 +118,6 @@ class MapFragment : Fragment() {
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cities.get(0).latLng, 8f))
     }
-
-    private fun bitmapDescriptorFromVector(
-        context: Context,
-        @DrawableRes vectorDrawableResourceId: Int
-    ): BitmapDescriptor? {
-        val background = ContextCompat.getDrawable(context, R.drawable.ic_launcher_background)
-        background!!.setBounds(0, 0, background.intrinsicWidth, background.intrinsicHeight)
-        val vectorDrawable = ContextCompat.getDrawable(context, vectorDrawableResourceId)
-        vectorDrawable!!.setBounds(
-            40,
-            20,
-            vectorDrawable.intrinsicWidth + 40,
-            vectorDrawable.intrinsicHeight + 20
-        )
-        val bitmap = Bitmap.createBitmap(
-            background.intrinsicWidth,
-            background.intrinsicHeight,
-            Bitmap.Config.ARGB_8888
-        )
-        val canvas = Canvas(bitmap)
-        background.draw(canvas)
-        vectorDrawable.draw(canvas)
-        return BitmapDescriptorFactory.fromBitmap(bitmap)
-    }
-
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()

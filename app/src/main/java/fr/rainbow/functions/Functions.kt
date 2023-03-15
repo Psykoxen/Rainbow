@@ -2,24 +2,21 @@ package fr.rainbow.functions
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
 import android.util.Log
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
-import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.R
+import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.WeatherData
 import java.io.BufferedWriter
 import java.io.File
 import java.time.LocalDateTime
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 object Functions {
@@ -186,38 +183,47 @@ object Functions {
         icon.playAnimation()
     }
 
-    fun updatingWeatherBmpIc(icon: Marker?, code: Int) {
+    fun updatingWeatherBmpIc(icon: Marker?, context: Context, code: Int) {
+        val bitmapSize = 200
         when(code) {
-            0 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.clear_day_bmp))
-            1 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.partly_cloudy_day_bmp))
-            2 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.cloudy_bmp))
-            3 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_bmp))
-            45 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.fog_bmp))
-            48 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.fog_bmp))
-            51 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.partly_cloudy_day_drizzle_bmp))
-            53 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.overcast_rain_bmp))
-            55 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.overcast_rain_bmp))
-            56 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.overcast_rain_bmp))
-            57 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.overcast_rain_bmp))
-            61 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_rain_bmp))
-            63 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_rain_bmp))
-            65 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_rain_bmp))
-            66 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_rain_bmp))
-            67 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_rain_bmp))
-            71 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.partly_cloudy_day_snow_bmp))
-            73 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.partly_cloudy_day_snow_bmp))
-            75 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.partly_cloudy_day_snow_bmp))
-            77 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.snow_bmp))
-            80 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_rain_bmp))
-            81 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_rain_bmp))
-            82 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_rain_bmp))
-            85 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_snow_bmp))
-            86 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.extreme_snow_bmp))
-            95 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.thunderstorms_extreme_bmp))
-            96 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.thunderstorms_rain_bmp))
-            99 -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.thunderstorms_rain_bmp))
-            else -> icon?.setIcon(BitmapDescriptorFactory.fromResource(R.raw.clear_day_bmp))
+            0 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.clear_day_bmp, bitmapSize, bitmapSize)))
+            1 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.partly_cloudy_day_bmp, bitmapSize, bitmapSize)))
+            2 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.cloudy_bmp, bitmapSize, bitmapSize)))
+            3 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_bmp, bitmapSize, bitmapSize)))
+            45 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.fog_bmp, bitmapSize, bitmapSize)))
+            48 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.fog_bmp, bitmapSize, bitmapSize)))
+            51 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.partly_cloudy_day_drizzle_bmp, bitmapSize, bitmapSize)))
+            53 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.overcast_rain_bmp, bitmapSize, bitmapSize)))
+            55 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.overcast_rain_bmp, bitmapSize, bitmapSize)))
+            56 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.overcast_rain_bmp, bitmapSize, bitmapSize)))
+            57 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.overcast_rain_bmp, bitmapSize, bitmapSize)))
+            61 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_rain_bmp, bitmapSize, bitmapSize)))
+            63 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_rain_bmp, bitmapSize, bitmapSize)))
+            65 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_rain_bmp, bitmapSize, bitmapSize)))
+            66 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_rain_bmp, bitmapSize, bitmapSize)))
+            67 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_rain_bmp, bitmapSize, bitmapSize)))
+            71 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.partly_cloudy_day_snow_bmp, bitmapSize, bitmapSize)))
+            73 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.partly_cloudy_day_snow_bmp, bitmapSize, bitmapSize)))
+            75 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.partly_cloudy_day_snow_bmp, bitmapSize, bitmapSize)))
+            77 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.snow_bmp, bitmapSize, bitmapSize)))
+            80 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_rain_bmp, bitmapSize, bitmapSize)))
+            81 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_rain_bmp, bitmapSize, bitmapSize)))
+            82 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_rain_bmp, bitmapSize, bitmapSize)))
+            85 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_snow_bmp, bitmapSize, bitmapSize)))
+            86 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.extreme_snow_bmp, bitmapSize, bitmapSize)))
+            95 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.thunderstorms_extreme_bmp, bitmapSize, bitmapSize)))
+            96 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.thunderstorms_rain_bmp, bitmapSize, bitmapSize)))
+            99 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.thunderstorms_rain_bmp, bitmapSize, bitmapSize)))
+            else -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.clear_day_bmp, bitmapSize, bitmapSize)))
         }
+    }
+
+    private fun resizeMapIcons(context: Context, iconId: Int, width: Int, height: Int): Bitmap {
+        val imageBitmap: Bitmap = BitmapFactory.decodeResource(
+            context.resources,
+            iconId
+        )
+        return Bitmap.createScaledBitmap(imageBitmap, width, height, false)
     }
 
     fun updatingTempValue(temp: TextView, value: Any) {
