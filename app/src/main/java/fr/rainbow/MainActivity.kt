@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
                     //internet connection ok
                 }else{
                     this@MainActivity.runOnUiThread {
-                        Toast.makeText(this, "Vous n'avez pas de connextion internet", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this, "Vous n'avez pas de connexion internet", Toast.LENGTH_LONG).show()
 
                     }
                 }
@@ -68,14 +68,12 @@ class MainActivity : AppCompatActivity() {
         val fav3 = Favorite("Montpellier",43.610,3.876,false,false,true,null)
         val fav4 = Favorite("Agde",43.309,3.475,false,false,true,null)
         val fav5 = Favorite("Marseille",43.296,5.369,false,false,true,null)
-        val fav6 = Favorite("somewhere",42.0,6.0,false,false,true,null)
         favorites.add(fav0)
         favorites.add(fav1)
         favorites.add(fav2)
         favorites.add(fav3)
         favorites.add(fav4)
         favorites.add(fav5)
-        favorites.add(fav6)
         Functions.writeFile(this,favorites)
         Log.e("error","erreur je ne devrais pas être là")
     }

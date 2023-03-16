@@ -15,6 +15,7 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import fr.rainbow.BuildConfig
 import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentMapBinding
@@ -110,6 +111,9 @@ class MapFragment : Fragment() {
                     updatingWeatherBmpIc(marker, requireContext(), data.hourly.weathercode[Functions.findCurrentSlotHourly(data)])
                 }
             }
+
+            val hourly = "https://api.open-meteo.com/v1/forecast?latitude=45.75&longitude=4.85&hourly=weathercode"
+            val daily = "https://api.open-meteo.com/v1/forecast?latitude=45.75&longitude=4.85&daily=weathercode&timezone=auto"
             /**val markerOptions = MarkerOptions()
             markerOptions.position(place.latLng)
             val marker: Marker?  = googleMap?.addMarker(markerOptions)
@@ -130,6 +134,12 @@ data class Cities(val name: String, val latLng: LatLng) {
             return other.name == name
         }
         return false
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + latLng.hashCode()
+        return result
     }
 }
 class ArrayListCities {
