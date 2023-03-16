@@ -54,7 +54,11 @@ object Functions {
         }
         return favorites
     }
-    fun updatingUvIc(icon: LottieAnimationView, value: Double) {
+    fun updatingUvIc(icon: LottieAnimationView, value: Double?): Int {
+        if (value == null) {
+            icon.visibility = View.GONE
+            return -1
+        }
             if (value < 2) {
                 icon.setAnimation(R.raw.uv_index_1)
             } else if ((value >= 2) && (value < 3)) {
@@ -79,6 +83,7 @@ object Functions {
                 icon.setAnimation(R.raw.uv_index_11)
             }
         icon.playAnimation()
+        return 0
         }
 
 

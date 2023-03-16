@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -122,7 +123,12 @@ class DetailedActivity : AppCompatActivity() {
         Log.d("DetailedActivity", "requestData: $data")
         updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
         Log.d("ICO", data.hourly.weathercode[findCurrentSlotHourly(data)].toString())
-        updatingUvIc(uv_icon, data.daily.uv_index_max[1])
+        if (updatingUvIc(uv_icon, data.daily.uv_index_max[1])!=0) {
+            label_uv.visibility = View.GONE
+            uv_icon.visibility = View.GONE
+            barrierUV.visibility = View.GONE
+        }
+
         updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)])
         updatingTempValue(
             temperature_now_value,
@@ -145,8 +151,6 @@ class DetailedActivity : AppCompatActivity() {
         createHoursPrevision(data, hourView)
         createDayPrevision(data, dayView)
         cityName.text = favorite.name
-
-
     }
 
     fun returnMessage() {
