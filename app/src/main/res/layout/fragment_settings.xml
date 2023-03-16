@@ -27,7 +27,9 @@
         android:layout_marginTop="30dp"
         android:orientation="horizontal"
         android:padding="4dp"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <!--radio button for light theme-->
         <RadioButton
@@ -58,6 +60,21 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/idRGgroup"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         android:text="Ajouter ma position a mes favoris"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/favoriteSettingView"
+        android:layout_width="match_parent"
+        android:layout_height="245dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintTop_toBottomOf="@+id/gpsAddButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/favorite_item_setting"
+        android:nestedScrollingEnabled="true"
+        android:clickable="false" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

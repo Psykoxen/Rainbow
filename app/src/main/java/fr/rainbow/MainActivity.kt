@@ -99,6 +99,11 @@ class MainActivity : AppCompatActivity() {
             Log.d("test",favorite.toString())
         }
     }
+
+    fun updateFav(favorites:ArrayList<Favorite>){
+        this.favorites = favorites
+    }
+
     fun openYourActivity(favoriteItem: Favorite) {
         val detailedIntent = Intent(this, DetailedActivity::class.java)
         detailedIntent.putExtra("favorite",favoriteItem)
