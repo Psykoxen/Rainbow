@@ -18,6 +18,7 @@ import fr.rainbow.R
 import fr.rainbow.adapters.FavoriteSettingAdatper
 import fr.rainbow.databinding.FragmentSettingsBinding
 import fr.rainbow.dataclasses.Favorite
+import fr.rainbow.functions.Functions
 import kotlinx.android.synthetic.main.fragment_settings.*
 
 
@@ -45,7 +46,7 @@ class SettingsFragment : Fragment() {
                 val favorite = favorites[from]
                 favorites.removeAt(from)
                 favorites.add(to, favorite)
-
+                context?.let { Functions.writeFile(it,favorites) }
 
                 Log.d("test","$favorites")
                 return true

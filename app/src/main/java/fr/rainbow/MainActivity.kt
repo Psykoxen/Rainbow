@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     private fun checkInternet() {
         val networkManager = NetworkManager(this)
         thread {
+            Thread.sleep(5000)
             while (true){
                 if(networkManager.isNetworkAvailable.value){
                     //internet connection ok
