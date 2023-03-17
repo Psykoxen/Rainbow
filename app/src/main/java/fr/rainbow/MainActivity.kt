@@ -101,10 +101,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun updateFav(favorites:ArrayList<Favorite>){
-        this.favorites = favorites
-    }
-
     fun openYourActivity(favoriteItem: Favorite) {
         val detailedIntent = Intent(this, DetailedActivity::class.java)
         detailedIntent.putExtra("favorite",favoriteItem)
@@ -123,6 +119,9 @@ class MainActivity : AppCompatActivity() {
             favorites.add(gps)
             Functions.writeFile(this,favorites)
             updateHomeGps()
+        }else{
+            Toast.makeText(this, "Impossible d'avoir plusieurs fois sa position", Toast.LENGTH_LONG).show()
+
         }
 
     }

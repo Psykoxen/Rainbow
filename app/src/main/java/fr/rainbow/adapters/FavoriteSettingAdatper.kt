@@ -67,7 +67,10 @@ class FavoriteSettingAdatper (private val context: Context)
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(fav: Favorite) {
-            itemView.favorite_name.text = fav.name
+            if(fav.isGPS)
+                itemView.favorite_name.text = "GPS"
+            else
+                itemView.favorite_name.text = fav.name
         }
 
     }
