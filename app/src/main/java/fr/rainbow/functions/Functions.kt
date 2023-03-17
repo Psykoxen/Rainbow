@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.Marker
 import fr.rainbow.R
 import fr.rainbow.dataclasses.Favorite
+import fr.rainbow.dataclasses.MapsData
 import fr.rainbow.dataclasses.WeatherData
 import java.io.BufferedWriter
 import java.io.File
@@ -241,6 +242,20 @@ object Functions {
             for (i in 0 until weatherData.hourly.time.size) {
                 if (weatherData.hourly.time[i] < current.toString()) {
                     if (weatherData.hourly.time[i+1] > current.toString()) {
+                        return i
+                    }
+                }
+            }
+        }
+        return -1
+    }
+
+    fun findCurrentSlotHourly(weatherCode: MapsData): Int {
+        if(weatherCode!= null){
+            val current = LocalDateTime.now()
+            for (i in 0 until weatherCode.hourly.time.size) {
+                if (weatherCode.hourly.time[i] < current.toString()) {
+                    if (weatherCode.hourly.time[i+1] > current.toString()) {
                         return i
                     }
                 }

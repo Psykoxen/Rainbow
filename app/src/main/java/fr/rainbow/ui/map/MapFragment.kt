@@ -1,32 +1,34 @@
 package fr.rainbow.ui.map
 
-import android.content.Context
 import android.graphics.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.DrawableRes
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
-import fr.rainbow.BuildConfig
+import com.google.gson.Gson
 import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentMapBinding
 import fr.rainbow.dataclasses.Favorite
+import fr.rainbow.dataclasses.MapsData
 import fr.rainbow.functions.Functions
+import fr.rainbow.functions.Functions.findCurrentSlotHourly
 import fr.rainbow.functions.Functions.updatingWeatherBmpIc
+import okhttp3.*
+import java.io.IOException
 
 
 class MapFragment : Fragment() {
 
     private var _binding: FragmentMapBinding? = null
+    private val client = OkHttpClient()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -86,10 +88,35 @@ class MapFragment : Fragment() {
         cities.add(Cities("Avignon", LatLng(43.949317, 4.805528)))
 
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as? SupportMapFragment
-        mapFragment?.getMapAsync { googleMap ->  addMarkers(googleMap)}
+        mapFragment?.getMapAsync { googleMap ->
+            getWeatherCode(googleMap)
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cities.get(0).latLng, 8f))
+        }
 
         return root
 
+    }
+
+    private fun getWeatherCode(googleMap: GoogleMap) {
+        cities.getAll().forEach() { city ->
+            val request = Request.Builder()
+                .url("https://api.open-meteo.com/v1/forecast?latitude=${city.latLng.latitude}&longitude=${city.latLng.longitude}&hourly=weathercode")
+                .build()
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    Log.e("MAPS","Error API reverseGeocoding request on ${city.name}")
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    val gson = Gson()
+                    val weatherCode = gson.fromJson(response.body()?.string(), MapsData::class.java)
+                    Log.d("DEBUGMAPS", weatherCode.toString())
+                    activity?.runOnUiThread {
+                        addMarkers2(city, googleMap, weatherCode.hourly.weathercode[findCurrentSlotHourly(weatherCode)])
+                    }
+                }
+            })
+        }
     }
 
     private fun resizeImage(view: View?, bitmap: Bitmap) {
@@ -97,6 +124,14 @@ class MapFragment : Fragment() {
         //ivImage.setImageBitmap(resized)
     }
 
+    private fun addMarkers2(city: Cities, googleMap: GoogleMap, weatherCode: Int) {
+        val marker = googleMap.addMarker(
+            MarkerOptions()
+                .title(city.name)
+                .position(city.latLng)
+        )
+        updatingWeatherBmpIc(marker, requireContext(), weatherCode)
+    }
     private fun addMarkers(googleMap: GoogleMap) {
         cities.getAll().forEach() { place ->
             val marker = googleMap.addMarker(
@@ -114,11 +149,6 @@ class MapFragment : Fragment() {
 
             val hourly = "https://api.open-meteo.com/v1/forecast?latitude=45.75&longitude=4.85&hourly=weathercode"
             val daily = "https://api.open-meteo.com/v1/forecast?latitude=45.75&longitude=4.85&daily=weathercode&timezone=auto"
-            /**val markerOptions = MarkerOptions()
-            markerOptions.position(place.latLng)
-            val marker: Marker?  = googleMap?.addMarker(markerOptions)
-            marker?.setIcon(BitmapDescriptorFactory.fromResource(R.drawable.sample))
-            marker?.showInfoWindow()**/
         }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cities.get(0).latLng, 8f))
     }
