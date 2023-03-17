@@ -59,16 +59,12 @@ class SearchFragment : Fragment() {
         // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
-                // TODO: Get info about the selected place.
-                Log.d(TAG, place.id)
-                Log.d(TAG,place.name)
                 val key = BuildConfig.GOOGLE_MAPS_API_KEY
                 requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?place_id=${place.id}&key=$key",place.name)
             }
 
             override fun onError(status: Status) {
-                // TODO: Handle the error.
-                Log.d(TAG, "An error occurred: $status")
+                Log.e(TAG, "An error occurred: $status")
             }
         })
 
@@ -90,7 +86,7 @@ class SearchFragment : Fragment() {
 
                 val temp = place.results[0].geometry.location
                 tempFavorite = Favorite(name, temp.lat ,temp.lng, false, false,false,null)
-                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${tempFavorite.latitude}&longitude=${tempFavorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&timezone=auto")
+                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${tempFavorite.latitude}&longitude=${tempFavorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&past_days=2&timezone=auto")
             }
 
         })

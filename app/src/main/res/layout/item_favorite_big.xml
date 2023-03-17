@@ -60,7 +60,7 @@
     android:layout_height="wrap_content"
     android:text="T° min :"
     android:textColor="@color/white"
-    android:textSize="30sp"
+    android:textSize="25sp"
     app:layout_constraintStart_toStartOf="@id/tmp_max_label"
     app:layout_constraintTop_toBottomOf="@id/tmp_max_label" />
 
@@ -70,7 +70,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
     android:textColor="@color/white"
-    android:textSize="30sp"
+    android:textSize="25sp"
     app:layout_constraintStart_toEndOf="@id/tmp_min_label"
     app:layout_constraintTop_toTopOf="@id/tmp_min_label" />
 
@@ -80,7 +80,7 @@
     android:layout_height="wrap_content"
     android:text="°C"
     android:textColor="@color/white"
-    android:textSize="30sp"
+    android:textSize="25sp"
     app:layout_constraintStart_toEndOf="@id/tmp_min_value"
     app:layout_constraintTop_toTopOf="@id/tmp_min_value" />
 
@@ -90,7 +90,7 @@
     android:layout_height="wrap_content"
     android:text="°C"
     android:textColor="@color/white"
-    android:textSize="30sp"
+    android:textSize="25sp"
     app:layout_constraintStart_toEndOf="@id/tmp_max_value"
     app:layout_constraintTop_toTopOf="@id/tmp_max_value" />
 
@@ -102,7 +102,7 @@
     android:layout_marginTop="10dp"
     android:text="T° max :"
     android:textColor="@color/white"
-    android:textSize="30sp"
+    android:textSize="25sp"
     app:layout_constraintStart_toStartOf="@id/main_section"
     app:layout_constraintTop_toBottomOf="@id/weather_icon" />
 
@@ -112,7 +112,7 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="10dp"
     android:textColor="@color/white"
-    android:textSize="30sp"
+    android:textSize="25sp"
     app:layout_constraintStart_toEndOf="@id/tmp_max_label"
     app:layout_constraintTop_toTopOf="@id/tmp_max_label" />
 

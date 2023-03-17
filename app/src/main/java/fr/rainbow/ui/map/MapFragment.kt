@@ -110,7 +110,6 @@ class MapFragment : Fragment() {
                 override fun onResponse(call: Call, response: Response) {
                     val gson = Gson()
                     val weatherCode = gson.fromJson(response.body()?.string(), MapsData::class.java)
-                    Log.d("DEBUGMAPS", weatherCode.toString())
                     activity?.runOnUiThread {
                         addMarkers2(city, googleMap, weatherCode.hourly.weathercode[findCurrentSlotHourly(weatherCode)])
                     }

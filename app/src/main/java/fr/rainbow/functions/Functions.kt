@@ -113,6 +113,8 @@ object Functions {
             80 -> layout.setBackgroundResource(R.drawable.shape_rain)
             81 -> layout.setBackgroundResource(R.drawable.shape_rain)
             82 -> layout.setBackgroundResource(R.drawable.shape_rain)
+            85 -> layout.setBackgroundResource(R.drawable.shape_snow)
+            86 -> layout.setBackgroundResource(R.drawable.shape_snow)
             95 -> layout.setBackgroundResource(R.drawable.shape_thunderstorm)
             96 -> layout.setBackgroundResource(R.drawable.shape_thunderstorm)
             99 -> layout.setBackgroundResource(R.drawable.shape_thunderstorm)
@@ -145,6 +147,8 @@ object Functions {
             80 -> layout.setBackgroundResource(R.drawable.shape_rain_color)
             81 -> layout.setBackgroundResource(R.drawable.shape_rain_color)
             82 -> layout.setBackgroundResource(R.drawable.shape_rain_color)
+            85 -> layout.setBackgroundResource(R.drawable.shape_snow_color)
+            86 -> layout.setBackgroundResource(R.drawable.shape_snow_color)
             95 -> layout.setBackgroundResource(R.drawable.shape_thunderstorm_color)
             96 -> layout.setBackgroundResource(R.drawable.shape_thunderstorm_color)
             99 -> layout.setBackgroundResource(R.drawable.shape_thunderstorm_color)
@@ -237,6 +241,7 @@ object Functions {
     }
 
     fun findCurrentSlotHourly(weatherData: WeatherData?): Int {
+        Log.d("LOCAL",LocalDateTime.now().toString())
         if(weatherData!= null){
             val current = LocalDateTime.now()
             for (i in 0 until weatherData.hourly.time.size) {

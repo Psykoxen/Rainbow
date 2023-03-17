@@ -1,0 +1,12 @@
+<resources>
+
+    <style name="Widget.Rainbow.AppWidget.Container" parent="android:Widget">
+        <item name="android:id">@android:id/background</item>
+        <item name="android:background">@color/light_blue</item>
+    </style>
+
+    <style name="Widget.Rainbow.AppWidget.InnerView" parent="android:Widget">
+        <item name="android:background">@color/light_blue</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+</resources>

@@ -7,7 +7,7 @@
         android:bottomRightRadius="32dp"
         />
     <gradient
-        android:startColor="#BF4792FF"
-        android:endColor="#ACDEF1"
+        android:startColor="#804792FF"
+        android:endColor="#80ACDEF1"
         android:type="linear" />
 </shape>

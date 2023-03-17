@@ -105,7 +105,7 @@ class DetailedActivity : AppCompatActivity() {
     fun createDayPrevision(weatherData: WeatherData, recyclerDayView: RecyclerView)
     {
 
-        for (i in 1 until weatherData.daily.time.size)
+        for (i in 2 until weatherData.daily.time.size)
         {
             dayPrevisionList.add(DayWeatherData(
                 weatherData.daily.temperature_2m_max[i],
@@ -120,7 +120,7 @@ class DetailedActivity : AppCompatActivity() {
     }
 
     private fun requestData(dayView: RecyclerView, hourView: RecyclerView, data: WeatherData) {
-        Log.d("DetailedActivity", "requestData: $data")
+        Log.d("DetailedActivity", data.hourly.time.toString())
         updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
         Log.d("ICO", data.hourly.weathercode[findCurrentSlotHourly(data)].toString())
         if (updatingUvIc(uv_icon, data.daily.uv_index_max[1])!=0) {
@@ -128,7 +128,7 @@ class DetailedActivity : AppCompatActivity() {
             uv_icon.visibility = View.GONE
             barrierUV.visibility = View.GONE
         }
-
+        Log.d("ICO", data.hourly.weathercode[findCurrentSlotHourly(data)].toString())
         updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)])
         updatingTempValue(
             temperature_now_value,

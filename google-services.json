@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "351443837994",
+    "project_id": "rainbow-034",
+    "storage_bucket": "rainbow-034.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351443837994:android:dc11fff7238af8bf124f53",
+        "android_client_info": {
+          "package_name": "fr.rainbow"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351443837994-kjnmi2emdtekcejp3tm0g918aqtch6kp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9R7IXKI1ZwfPSnmiQ7aDAAQXhtZlMBk8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351443837994-kjnmi2emdtekcejp3tm0g918aqtch6kp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
