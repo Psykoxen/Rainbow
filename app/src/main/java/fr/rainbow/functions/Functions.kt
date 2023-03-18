@@ -157,40 +157,81 @@ object Functions {
         }
     }
 
-
-    fun updatingWeatherIc(icon: LottieAnimationView, code: Int) {
+    fun dayUpdatingWeatherIc(icon: LottieAnimationView, code: Int) {
         when(code) {
             0 -> icon.setAnimation(R.raw.clear_day)
             1 -> icon.setAnimation(R.raw.partly_cloudy_day)
             2 -> icon.setAnimation(R.raw.cloudy)
-            3 -> icon.setAnimation(R.raw.extreme)
-            45 -> icon.setAnimation(R.raw.fog)
-            48 -> icon.setAnimation(R.raw.extreme_fog)
+            3 -> icon.setAnimation(R.raw.extreme_day)
+            45 -> icon.setAnimation(R.raw.fog_day)
+            48 -> icon.setAnimation(R.raw.extreme_day_fog)
             51 -> icon.setAnimation(R.raw.partly_cloudy_day_drizzle)
-            53 -> icon.setAnimation(R.raw.overcast_rain)
-            55 -> icon.setAnimation(R.raw.overcast_rain)
-            56 -> icon.setAnimation(R.raw.overcast_rain)
-            57 -> icon.setAnimation(R.raw.overcast_rain)
-            61 -> icon.setAnimation(R.raw.extreme_rain)
-            63 -> icon.setAnimation(R.raw.extreme_rain)
-            65 -> icon.setAnimation(R.raw.extreme_rain)
-            66 -> icon.setAnimation(R.raw.extreme_rain)
-            67 -> icon.setAnimation(R.raw.extreme_rain)
-            71 -> icon.setAnimation(R.raw.partly_cloudy_day_snow)
-            73 -> icon.setAnimation(R.raw.partly_cloudy_day_snow)
-            75 -> icon.setAnimation(R.raw.partly_cloudy_day_snow)
-            77 -> icon.setAnimation(R.raw.snow)
-            80 -> icon.setAnimation(R.raw.extreme_rain)
-            81 -> icon.setAnimation(R.raw.extreme_rain)
-            82 -> icon.setAnimation(R.raw.extreme_rain)
-            85 -> icon.setAnimation(R.raw.extreme_snow)
-            86 -> icon.setAnimation(R.raw.extreme_snow)
-            95 -> icon.setAnimation(R.raw.thunderstorms_extreme)
-            96 -> icon.setAnimation(R.raw.thunderstorms_rain)
-            99 -> icon.setAnimation(R.raw.thunderstorms_rain)
+            53 -> icon.setAnimation(R.raw.overcast_day_rain)
+            55 -> icon.setAnimation(R.raw.overcast_day_rain)
+            56 -> icon.setAnimation(R.raw.overcast_day_rain)
+            57 -> icon.setAnimation(R.raw.overcast_day_rain)
+            61 -> icon.setAnimation(R.raw.overcast_day_rain)
+            63 -> icon.setAnimation(R.raw.overcast_day_snow)
+            65 -> icon.setAnimation(R.raw.overcast_day_rain)
+            66 -> icon.setAnimation(R.raw.overcast_day_rain)
+            67 -> icon.setAnimation(R.raw.overcast_day_rain)
+            71 -> icon.setAnimation(R.raw.overcast_day_snow)
+            73 -> icon.setAnimation(R.raw.overcast_day_snow)
+            75 -> icon.setAnimation(R.raw.overcast_day_snow)
+            77 -> icon.setAnimation(R.raw.overcast_day_snow)
+            80 -> icon.setAnimation(R.raw.overcast_day_rain)
+            81 -> icon.setAnimation(R.raw.overcast_day_rain)
+            82 -> icon.setAnimation(R.raw.overcast_day_rain)
+            85 -> icon.setAnimation(R.raw.overcast_day_snow)
+            86 -> icon.setAnimation(R.raw.overcast_day_snow)
+            95 -> icon.setAnimation(R.raw.thunderstorms_day_extreme)
+            96 -> icon.setAnimation(R.raw.thunderstorms_day_rain)
+            99 -> icon.setAnimation(R.raw.thunderstorms_day_rain)
             else -> icon.setAnimation(R.raw.clear_day)
         }
         icon.playAnimation()
+    }
+
+    fun nightUpdatingWeatherIc(icon: LottieAnimationView, code: Int) {
+        when(code) {
+            0 -> icon.setAnimation(R.raw.clear_night)
+            1 -> icon.setAnimation(R.raw.partly_cloudy_night)
+            2 -> icon.setAnimation(R.raw.cloudy)
+            3 -> icon.setAnimation(R.raw.extreme_night)
+            45 -> icon.setAnimation(R.raw.fog_night)
+            48 -> icon.setAnimation(R.raw.extreme_night_fog)
+            51 -> icon.setAnimation(R.raw.partly_cloudy_night_drizzle)
+            53 -> icon.setAnimation(R.raw.overcast_night_rain)
+            55 -> icon.setAnimation(R.raw.overcast_night_rain)
+            56 -> icon.setAnimation(R.raw.overcast_night_rain)
+            57 -> icon.setAnimation(R.raw.overcast_night_rain)
+            61 -> icon.setAnimation(R.raw.overcast_night_rain)
+            63 -> icon.setAnimation(R.raw.overcast_night_snow)
+            65 -> icon.setAnimation(R.raw.overcast_night_rain)
+            66 -> icon.setAnimation(R.raw.overcast_night_rain)
+            67 -> icon.setAnimation(R.raw.overcast_night_rain)
+            71 -> icon.setAnimation(R.raw.overcast_night_snow)
+            73 -> icon.setAnimation(R.raw.overcast_night_snow)
+            75 -> icon.setAnimation(R.raw.overcast_night_snow)
+            77 -> icon.setAnimation(R.raw.overcast_night_snow)
+            80 -> icon.setAnimation(R.raw.overcast_night_rain)
+            81 -> icon.setAnimation(R.raw.overcast_night_rain)
+            82 -> icon.setAnimation(R.raw.overcast_night_rain)
+            85 -> icon.setAnimation(R.raw.overcast_night_snow)
+            86 -> icon.setAnimation(R.raw.overcast_night_snow)
+            95 -> icon.setAnimation(R.raw.thunderstorms_night_extreme)
+            96 -> icon.setAnimation(R.raw.thunderstorms_night_rain)
+            99 -> icon.setAnimation(R.raw.thunderstorms_night_rain)
+            else -> icon.setAnimation(R.raw.clear_night)
+        }
+        icon.playAnimation()
+    }
+    fun updatingWeatherIc(icon: LottieAnimationView, code: Int,sunset: String) {
+        if (LocalDateTime.now().toString() > sunset) {
+            nightUpdatingWeatherIc(icon, code)
+        } else {
+            dayUpdatingWeatherIc(icon, code)
+        }
     }
 
     fun updatingWeatherBmpIc(icon: Marker?, context: Context, code: Int) {

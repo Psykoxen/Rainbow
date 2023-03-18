@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -120,16 +119,13 @@ class DetailedActivity : AppCompatActivity() {
     }
 
     private fun requestData(dayView: RecyclerView, hourView: RecyclerView, data: WeatherData) {
-        Log.d("DetailedActivity", data.hourly.time.toString())
         updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
-        Log.d("ICO", data.hourly.weathercode[findCurrentSlotHourly(data)].toString())
         if (updatingUvIc(uv_icon, data.daily.uv_index_max[1])!=0) {
             label_uv.visibility = View.GONE
             uv_icon.visibility = View.GONE
             barrierUV.visibility = View.GONE
         }
-        Log.d("ICO", data.hourly.weathercode[findCurrentSlotHourly(data)].toString())
-        updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)])
+        updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)],data.daily!!.sunset[2])
         updatingTempValue(
             temperature_now_value,
             data.hourly.temperature_2m[findCurrentSlotHourly(data)]

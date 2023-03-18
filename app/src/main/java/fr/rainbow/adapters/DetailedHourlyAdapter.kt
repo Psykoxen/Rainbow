@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.R
 import fr.rainbow.dataclasses.HourWeatherData
+import fr.rainbow.functions.Functions.dayUpdatingWeatherIc
 import fr.rainbow.functions.Functions.updatingTempValue
 import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.item_hour_weather.view.*
@@ -37,7 +38,7 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(hourWeather: HourWeatherData) {
-            updatingWeatherIc(itemView.weather_icon,hourWeather.weathercode)
+            dayUpdatingWeatherIc(itemView.weather_icon,hourWeather.weathercode)
             updatingTempValue(itemView.time_label,hourWeather.dateTime)
             updatingTempValue(itemView.temperature_value,hourWeather.temperature_2m)
             if (hourWeather.temperature_2m < 0){

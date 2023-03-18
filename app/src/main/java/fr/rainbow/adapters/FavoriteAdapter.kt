@@ -91,7 +91,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                 updatingTempValue(itemView.city_label2,favorite.name)
                 if(favorite.weatherData!= null){
                     updatingBackgroundShape(itemView.fav_section,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)])
-                    updatingWeatherIc(itemView.weather_icon2,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)])
+                    updatingWeatherIc(itemView.weather_icon2,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunrise[2])
 
                     updatingTempValue(itemView.temperature_now_value2,favorite.weatherData!!.hourly.temperature_2m.get(
                         findCurrentSlotHourly(favorite.weatherData!!)).toString())
@@ -105,7 +105,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                 updatingTempValue(itemView.city_label,favorite.name)
                 if(favorite.weatherData!=null){
                     updatingBackgroundShape(itemView.main_section,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)])
-                    updatingWeatherIc(itemView.weather_icon,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)])
+                    updatingWeatherIc(itemView.weather_icon,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunrise[2])
                     updatingTempValue(itemView.temperature_now_value,favorite.weatherData!!.hourly.temperature_2m.get(
                         findCurrentSlotHourly(favorite.weatherData!!)).toString())
                     updatingTempValue(itemView.tmp_min_value, favorite.weatherData!!.daily.temperature_2m_min[0])

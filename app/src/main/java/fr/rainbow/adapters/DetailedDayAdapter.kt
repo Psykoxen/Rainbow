@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.R
 import fr.rainbow.dataclasses.DayWeatherData
+import fr.rainbow.functions.Functions.dayUpdatingWeatherIc
 import fr.rainbow.functions.Functions.getDayName
 import fr.rainbow.functions.Functions.isTomorrow
 import fr.rainbow.functions.Functions.updatingTempValue
@@ -41,7 +42,7 @@ class DetailedDayAdapter(private val dayWeatherList: ArrayList<DayWeatherData>, 
         fun bind(dayWeather: DayWeatherData) {
 
 
-            updatingWeatherIc(itemView.weather_icon, dayWeather.weathercode)
+            dayUpdatingWeatherIc(itemView.weather_icon, dayWeather.weathercode)
             if (isTomorrow(dayWeather.time)){
                 itemView.date_label.text = "Tomorrow"
             } else {
