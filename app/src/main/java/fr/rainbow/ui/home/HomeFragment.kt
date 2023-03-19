@@ -71,7 +71,7 @@ class HomeFragment : Fragment() {
         val root: View = binding.root
 
 
-        favorites = (activity as MainActivity).favorites
+        favorites = MainActivity.favorites
 
         recyclerView = root.findViewById(R.id.favorite_list)
         with(recyclerView) {

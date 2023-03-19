@@ -47,7 +47,7 @@ class MapFragment : Fragment() {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        favorites = (activity as MainActivity).favorites
+        favorites = MainActivity.favorites
         favorites.forEach { cities.add(Cities(it.name, LatLng(it.latitude, it.longitude))) }
 
         cities.add(Cities("Paris", LatLng(48.856614, 2.3522219)))

@@ -23,7 +23,9 @@ import kotlin.concurrent.thread
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    var favorites: ArrayList<Favorite> = arrayListOf()
+    companion object{
+        var favorites: ArrayList<Favorite> = arrayListOf()
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -133,4 +135,6 @@ class MainActivity : AppCompatActivity() {
             fragment.initGps()
         };
     }
+
+
 }

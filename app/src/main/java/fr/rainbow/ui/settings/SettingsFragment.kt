@@ -111,7 +111,7 @@ class SettingsFragment : Fragment() {
             (activity as MainActivity).addGps()
         }
 
-        favorites = (activity as MainActivity).favorites
+        favorites = MainActivity.favorites
         favoritess =  favorites.toMutableList()
 
         val recycler = favoriteSettingView
