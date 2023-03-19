@@ -119,7 +119,7 @@ class DetailedActivity : AppCompatActivity() {
     }
 
     private fun requestData(dayView: RecyclerView, hourView: RecyclerView, data: WeatherData) {
-        updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)])
+        updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)],data.daily!!.sunset[2])
         if (updatingUvIc(uv_icon, data.daily.uv_index_max[1])!=0) {
             label_uv.visibility = View.GONE
             uv_icon.visibility = View.GONE

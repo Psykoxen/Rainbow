@@ -9,7 +9,7 @@
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
-    android:background="@drawable/shape_main"
+    android:background="@drawable/shape_day_main"
     android:topLeftRadius="32dp"
     android:topRightRadius="32dp"
     android:bottomLeftRadius="32dp"
