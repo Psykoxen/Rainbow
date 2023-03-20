@@ -3,7 +3,6 @@ package fr.rainbow.adapters
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import fr.rainbow.R
 import fr.rainbow.dataclasses.HourWeatherData
 import fr.rainbow.functions.Functions.dayUpdatingWeatherIc
 import fr.rainbow.functions.Functions.updatingTempValue
-import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.item_hour_weather.view.*
 
 
@@ -42,13 +40,13 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
             updatingTempValue(itemView.time_label,hourWeather.dateTime)
             updatingTempValue(itemView.temperature_value,hourWeather.temperature_2m)
             if (hourWeather.temperature_2m < 0){
-                    itemView.temperature_unit.setTextColor(Color.parseColor("#FF3D72B4"))
-                    itemView.temperature_value.setTextColor(Color.parseColor("#FF3D72B4"))
+                    itemView.temperature_unit.setTextColor(itemView.context.getColor(R.color.cold_color))
+                    itemView.temperature_value.setTextColor(itemView.context.getColor(R.color.cold_color))
                     itemView.temperature_unit.setTypeface(null, Typeface.BOLD)
                     itemView.temperature_value.setTypeface(null, Typeface.BOLD)
             } else if (hourWeather.temperature_2m > 40) {
-                itemView.temperature_unit.setTextColor(Color.parseColor("#FFE13F3F"))
-                itemView.temperature_value.setTextColor(Color.parseColor("#FFE13F3F"))
+                itemView.temperature_unit.setTextColor(itemView.context.getColor(R.color.hot_color))
+                itemView.temperature_value.setTextColor(itemView.context.getColor(R.color.hot_color))
                 itemView.temperature_unit.setTypeface(null, Typeface.BOLD)
                 itemView.temperature_value.setTypeface(null, Typeface.BOLD)
             }
@@ -60,7 +58,7 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
             }
 
             updatingTempValue(itemView.wind_value,hourWeather.windspeed_10m)
-            itemView.wind_arrow.setRotation(hourWeather.winddirection_10m.toFloat())
+            itemView.wind_arrow.rotation = hourWeather.winddirection_10m.toFloat()
         }
     }
 

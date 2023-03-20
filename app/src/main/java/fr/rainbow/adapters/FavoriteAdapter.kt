@@ -1,17 +1,11 @@
 package fr.rainbow.adapters
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import fr.rainbow.DetailedActivity
 import fr.rainbow.R
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.Functions
@@ -47,10 +41,6 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
         val favoriteItem : Favorite = favorites[position]
         if (getItemViewType(position)==1){
             (holder as ViewHolderBig).bind(favoriteItem)
-            holder.itemView.setOnClickListener {
-
-                onItemClicked(favoriteItem)
-            }
             holder.itemView.ic_less.setOnClickListener {
                 favoriteItem.isBig = false
                 Functions.writeFile(context,favorites)
@@ -64,22 +54,41 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                 Functions.writeFile(context,favorites)
                 notifyDataSetChanged()
             }
-
-            holder.itemView.setOnClickListener {
-                onItemClicked(favoriteItem)
-            }
-
         }
-
+        holder.itemView.setOnClickListener {
+            onItemClicked(favoriteItem)
+        }
+        holder.itemView.setOnLongClickListener {
+            onItemClickListener?.let {
+                it(favoriteItem)
+            }
+            true
+        }
 
 
 
     }
 
+    fun moveItemInRecyclerViewList(from: Int, to: Int) {
+
+        val list = favorites
+
+        val fromLocation = list[from]
+        list.removeAt(from)
+        if (to < from) {
+            list.add(to + 1 , fromLocation)
+        } else {
+            list.add(to - 1, fromLocation)
+        }
+
+    }
+
+    private var onItemClickListener: ((Favorite) -> Unit)? = null
+
     override fun getItemCount(): Int = favorites.size
 
     override fun getItemViewType(position: Int): Int {
-        return if(favorites.get(position).isBig){
+        return if(favorites[position].isBig){
             1
         }else{
             0
@@ -89,9 +98,9 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
     inner    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bind(favorite: Favorite) {
                 if (favorite.isGPS) {
-                    itemView.ic_location.setVisibility(View.VISIBLE)
+                    itemView.ic_location.visibility = View.VISIBLE
                 } else {
-                    itemView.ic_location.setVisibility(View.GONE)
+                    itemView.ic_location.visibility = View.GONE
                 }
                 updatingTempValue(itemView.city_label2,favorite.name)
                 if(favorite.weatherData!= null) {
@@ -120,11 +129,10 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
 
     inner    class ViewHolderBig(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bind(favorite: Favorite) {
-                Log.d("FAVORITE",favorite.toString())
                 if (favorite.isGPS) {
-                    itemView.ic_location_big.setVisibility(View.VISIBLE)
+                    itemView.ic_location_big.visibility = View.VISIBLE
                 } else {
-                    itemView.ic_location_big.setVisibility(View.GONE)
+                    itemView.ic_location_big.visibility = View.GONE
                 }
                 updatingTempValue(itemView.city_label,favorite.name)
                 if(favorite.weatherData!=null){

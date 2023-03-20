@@ -64,15 +64,15 @@ class DetailedActivity : AppCompatActivity() {
 
         requestData(recyclerDayView,recyclerHourView, favorite)
         if(favorite.isFavorite){
-            btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_full)
+            btn_favorite.setBackgroundResource(R.drawable.ic_star_full)
         }
         btn_favorite.setOnClickListener {
             if(favorite.isFavorite){
                 favorite.isFavorite = false
-                btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_empty)
+                btn_favorite.setBackgroundResource(R.drawable.ic_star_empty)
             }else{
                 favorite.isFavorite = true
-                btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_full)
+                btn_favorite.setBackgroundResource(R.drawable.ic_star_full)
             }
         }
     }
@@ -102,7 +102,7 @@ class DetailedActivity : AppCompatActivity() {
         }
         recyclerHourView.adapter!!.notifyDataSetChanged()
     }
-    fun createDayPrevision(weatherData: WeatherData, recyclerDayView: RecyclerView)
+    private fun createDayPrevision(weatherData: WeatherData, recyclerDayView: RecyclerView)
     {
 
         for (i in 3 until weatherData.daily.time.size)
@@ -121,7 +121,6 @@ class DetailedActivity : AppCompatActivity() {
 
     private fun requestData(dayView: RecyclerView, hourView: RecyclerView, favorite: Favorite) {
         val data = favorite.weatherData
-        Log.d("DATA", favorite.toString())
         updatingBackgroundShapeColor(detailed_activity_layout,data?.hourly!!.weathercode[findCurrentSlotHourly(favorite)],data.daily!!.sunset[2],data.daily!!.sunrise[2],favorite.datetime!!.date_time)
         if (updatingUvIc(uv_icon, data?.daily!!.uv_index_max[1])!=0) {
             label_uv.visibility = View.GONE
@@ -152,7 +151,7 @@ class DetailedActivity : AppCompatActivity() {
         cityName.text = favorite.name
     }
 
-    fun returnMessage() {
+    private fun returnMessage() {
         val returnIntent = intent.apply {
             putExtra("favorite",favorite)
         }
