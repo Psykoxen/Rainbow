@@ -42,16 +42,26 @@
     app:layout_constraintStart_toStartOf="@id/main_section"
     app:layout_constraintTop_toTopOf="@id/weather_icon"
     app:layout_constraintBottom_toBottomOf="@id/weather_icon"/>
+    <ImageView
+        android:id="@+id/ic_location_big"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/ic_location"
+        android:layout_marginStart="15dp"
+        app:layout_constraintTop_toTopOf="@id/city_label"
+        app:layout_constraintBottom_toBottomOf="@id/city_label"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/city_label"/>
 <TextView
     android:id="@+id/city_label"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="20dp"
+    android:layout_marginStart="5dp"
     android:layout_marginTop="20dp"
     android:text="@string/your_position"
     android:textColor="@color/white"
     android:textSize="30sp"
-    app:layout_constraintStart_toStartOf="@id/main_section"
+    app:layout_constraintStart_toEndOf="@id/ic_location_big"
     app:layout_constraintTop_toTopOf="@id/main_section" />
 
 <TextView

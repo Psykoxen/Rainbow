@@ -104,7 +104,7 @@ class DetailedActivity : AppCompatActivity() {
     fun createDayPrevision(weatherData: WeatherData, recyclerDayView: RecyclerView)
     {
 
-        for (i in 2 until weatherData.daily.time.size)
+        for (i in 3 until weatherData.daily.time.size)
         {
             dayPrevisionList.add(DayWeatherData(
                 weatherData.daily.temperature_2m_max[i],
