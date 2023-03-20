@@ -41,7 +41,7 @@
             android:id="@+id/temperature_now_unit2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="°C"
+            android:text="@string/degrees"
             android:textColor="@color/white"
             android:textSize="50sp"
 

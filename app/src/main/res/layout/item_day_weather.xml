@@ -17,7 +17,7 @@
         style="@style/TextAppearance.AppCompat.Display1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2023-03-11"
+        android:text=""
         android:textSize="15sp"
         />
     <com.airbnb.lottie.LottieAnimationView
@@ -63,7 +63,7 @@
                 style="@style/TextAppearance.AppCompat.Display1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="10"
+                android:text=""
                 android:textSize="15sp"
                 />
             <TextView
@@ -71,7 +71,7 @@
                 style="@style/TextAppearance.AppCompat.Display1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="°C"
+                android:text="@string/degrees"
                 android:textSize="15sp"
                 />
         </LinearLayout>
@@ -96,7 +96,7 @@
                 style="@style/TextAppearance.AppCompat.Display1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="20"
+                android:text=""
                 android:textSize="15sp"
                 />
             <TextView
@@ -104,7 +104,7 @@
                 style="@style/TextAppearance.AppCompat.Display1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="°C"
+                android:text="@string/degrees"
                 android:textSize="15sp"
                 />
         </LinearLayout>

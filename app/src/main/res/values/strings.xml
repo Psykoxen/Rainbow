@@ -11,4 +11,14 @@
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
     <string name="app_widget_description">Rainbow widget of your current location</string>
+    <string name="uv_index">UV Index</string>
+    <string name="light">Light</string>
+    <string name="dark">Dark</string>
+    <string name="add_pos">Ajouter ma position a mes favoris</string>
+    <string name="degrees">°C</string>
+    <string name="your_position">Your Position</string>
+    <string name="t_min">T° min :</string>
+    <string name="t_max">T° max :</string>
+    <string name="mm">mm</string>
+    <string name="km_h">km/h</string>
 </resources>
