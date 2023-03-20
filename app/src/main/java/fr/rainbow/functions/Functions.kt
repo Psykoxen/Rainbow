@@ -14,8 +14,6 @@ import com.google.android.gms.maps.model.Marker
 import fr.rainbow.R
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.MapsData
-import fr.rainbow.dataclasses.TimeAtLocation
-import fr.rainbow.dataclasses.WeatherData
 import java.io.BufferedWriter
 import java.io.File
 import java.time.LocalDateTime
@@ -90,7 +88,7 @@ object Functions {
         }
 
 
-    fun dayUpdatingBackgroundShape(layout : View, code: Int)
+    private fun dayUpdatingBackgroundShape(layout : View, code: Int)
     {
         when (code) {
             1 -> layout.setBackgroundResource(R.drawable.shape_day_cloud_sun)
@@ -414,7 +412,7 @@ object Functions {
     }
 
     fun findCurrentSlotHourly(data: Favorite): Int {
-            var current = LocalDateTime.now()
+            val current = LocalDateTime.now()
 
                 for (i in 0 until data.weatherData!!.hourly.time.size) {
                 if (data.weatherData!!.hourly.time[i] < current.toString()) {

@@ -120,21 +120,6 @@ class MapFragment : Fragment() {
         )
         updatingWeatherBmpIc(marker, requireContext(), weatherCode)
     }
-    private fun addMarkers(googleMap: GoogleMap) {
-        cities.getAll().forEach() { place ->
-            val marker = googleMap.addMarker(
-                MarkerOptions()
-                    //.title(place.name)
-                    .position(place.latLng)
-            )
-            Log.d("DEBUGMAP", favorites.find { it.name == place.name }.toString())
-            if(favorites.find { it.name == place.name } != null) {
-                val fav = favorites.find { it.name == place.name }
-                updatingWeatherBmpIc(marker, requireContext(), fav!!.weatherData!!.hourly.weathercode[findCurrentSlotHourly(fav)])
-            }
- }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cities.get(0).latLng, 8f))
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

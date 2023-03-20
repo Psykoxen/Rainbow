@@ -125,8 +125,8 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                             favorite.weatherData!!.daily.sunrise[2],
                             favorite.datetime!!.date_time
                         )
-                        updatingTempValue(itemView.temperature_now_value2,favorite.weatherData!!.hourly.temperature_2m.get(
-                            findCurrentSlotHourly(favorite!!)).toString())
+                        updatingTempValue(itemView.temperature_now_value2,
+                            favorite.weatherData!!.hourly.temperature_2m[findCurrentSlotHourly(favorite)].toString())
                     }
 
                 }
@@ -165,8 +165,8 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                         itemView.rain_probability.progress = favorite.weatherData!!.hourly.precipitation_probability[findCurrentSlotHourly(favorite)]
 
                     }
-                    updatingTempValue(itemView.temperature_now_value,favorite.weatherData!!.hourly.temperature_2m.get(
-                        findCurrentSlotHourly(favorite!!)).toString())
+                    updatingTempValue(itemView.temperature_now_value,
+                        favorite.weatherData!!.hourly.temperature_2m[findCurrentSlotHourly(favorite)].toString())
                     updatingTempValue(itemView.tmp_min_value, favorite.weatherData!!.daily.temperature_2m_min[0])
                     updatingTempValue(itemView.tmp_max_value, favorite.weatherData!!.daily.temperature_2m_max[0])
                     }
