@@ -102,8 +102,8 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                 } else {
                     itemView.ic_location.visibility = View.GONE
                 }
-                if (favorite.name.length>18){
-                        updatingTempValue(itemView.city_label2,favorite.name.replace("Saint","St").substring(0,18)+"...")
+                if (favorite.name.length>15){
+                        updatingTempValue(itemView.city_label2,favorite.name.replace("Saint","St").substring(0,15)+"...")
 
                 }else{
                     updatingTempValue(itemView.city_label2,favorite.name)
@@ -140,8 +140,8 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                 } else {
                     itemView.ic_location_big.visibility = View.GONE
                 }
-                if (favorite.name.length>18){
-                    updatingTempValue(itemView.city_label,favorite.name.replace("Saint","St").substring(0,18)+"...")
+                if (favorite.name.length>15){
+                    updatingTempValue(itemView.city_label,favorite.name.replace("Saint","St").substring(0,15)+"...")
 
                 }else{
                     updatingTempValue(itemView.city_label,favorite.name)
