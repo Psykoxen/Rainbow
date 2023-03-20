@@ -16,4 +16,6 @@
     <string name="your_position">Your Position</string>
     <string name="samePos">Can\'t get current location multiple times</string>
     <string name="tomorrow">Tomorrow</string>
+    <string name="theme">Change Theme</string>
+    <string name="version">Release</string>
 </resources>
