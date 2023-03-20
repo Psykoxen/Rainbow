@@ -138,7 +138,6 @@ class MapFragment : Fragment() {
                     //.title(place.name)
                     .position(place.latLng)
             )
-            Log.d("DEBUGMAP", favorites.find { it.name == place.name }.toString())
             if(favorites.find { it.name == place.name } != null) {
                 val fav = favorites.find { it.name == place.name }
                 fav?.weatherData?.let { data ->

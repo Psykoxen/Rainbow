@@ -100,7 +100,6 @@ class HomeFragment : Fragment() {
         initAllData()
 
         initGps()
-        Log.d("test",gps.toString())
         return root
 
     }
