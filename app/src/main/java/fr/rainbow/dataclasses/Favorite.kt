@@ -12,7 +12,10 @@ data class Favorite(
     val isGPS: Boolean,
     var isBig:Boolean,
     var isFavorite:Boolean,
-    var weatherData: WeatherData?):java.io.Serializable{
+    var weatherData: WeatherData?,
+    var datetime: TimeAtLocation?
+):java.io.Serializable
+{
 
 
     override fun equals(other: Any?): Boolean {

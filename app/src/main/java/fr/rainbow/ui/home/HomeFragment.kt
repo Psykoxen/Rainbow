@@ -1,6 +1,5 @@
 package fr.rainbow.ui.home
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -15,7 +14,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,13 +21,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import fr.rainbow.BuildConfig
-import fr.rainbow.DetailedActivity
 import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.adapters.FavoriteAdapter
 import fr.rainbow.databinding.FragmentHomeBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.Position
+import fr.rainbow.dataclasses.TimeAtLocation
 import fr.rainbow.dataclasses.WeatherData
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.*
@@ -157,6 +155,8 @@ class HomeFragment : Fragment() {
                 val gson = Gson()
                 val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 favorites[index].weatherData = weatherData
+                val key = BuildConfig.TIME_LOCATION_API_KEY
+                requestTimeAtPosition("https://api.ipgeolocation.io/timezone?apiKey=$key&lat=${favorites[index].latitude}&long=${favorites[index].longitude}",favorites[index])
                 if(favorites[index].isGPS){
                     val key = BuildConfig.GOOGLE_MAPS_API_KEY
                     requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?key=$key&latlng=${favorites[index].latitude},${favorites[index].longitude}",index)
@@ -202,6 +202,24 @@ class HomeFragment : Fragment() {
 
             }
 
+        })
+    }
+    fun requestTimeAtPosition(url: String, favorite: Favorite) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("GPS","Error API TimeZone request")
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val time = gson.fromJson(response.body()?.string(), TimeAtLocation::class.java )
+                time.date_time = time.date_time.substring(0,time.date_time.length-2)
+                time.date_time = time.date_time.replace(" ","T")
+                favorite.datetime = time
+            }
         })
     }
 

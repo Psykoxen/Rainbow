@@ -22,6 +22,7 @@ import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.DetailedActivity
 import fr.rainbow.MainActivity
+import fr.rainbow.dataclasses.TimeAtLocation
 import okhttp3.*
 import java.io.IOException
 
@@ -85,7 +86,7 @@ class SearchFragment : Fragment() {
                 val place = gson.fromJson(response.body()?.string(), fr.rainbow.dataclasses.Place::class.java )
 
                 val temp = place.results[0].geometry.location
-                tempFavorite = Favorite(name, temp.lat ,temp.lng, false, false,false,null)
+                tempFavorite = Favorite(name, temp.lat ,temp.lng, false, false,false,null,null)
                 requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${tempFavorite.latitude}&longitude=${tempFavorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&past_days=2&timezone=auto")
             }
 
@@ -104,10 +105,32 @@ class SearchFragment : Fragment() {
                 val gson = Gson()
                 val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
                 tempFavorite.weatherData = weatherData
-                (activity as MainActivity).openYourActivity(tempFavorite)
+                val key = BuildConfig.TIME_LOCATION_API_KEY
+                requestTimeAtPosition("https://api.ipgeolocation.io/timezone?apiKey=$key&lat=${tempFavorite.latitude}&long=${tempFavorite.longitude}",tempFavorite)
             }
 
         })
     }
 
+    fun requestTimeAtPosition(url: String, favorite: Favorite) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("GPS","Error API TimeZone request")
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val time = gson.fromJson(response.body()?.string(), TimeAtLocation::class.java )
+                time.date_time = time.date_time.substring(0,time.date_time.length-3)
+                time.date_time = time.date_time.replace(" ","T")
+                favorite.datetime = time
+                Log.d("DEBUG",time.date_time.toString())
+                (activity as MainActivity).openYourActivity(tempFavorite)
+            }
+
+        })
+    }
 }

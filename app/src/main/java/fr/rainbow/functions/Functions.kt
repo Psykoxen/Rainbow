@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.Marker
 import fr.rainbow.R
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.MapsData
+import fr.rainbow.dataclasses.TimeAtLocation
 import fr.rainbow.dataclasses.WeatherData
 import java.io.BufferedWriter
 import java.io.File
@@ -48,7 +49,7 @@ object Functions {
         if(!output.isNullOrEmpty()){
             for(i in output){
                 val string = i.split(",")
-                val temp = Favorite(string[0],string[1].toDouble(),string[2].toDouble(),string[3].toBoolean(),string[4].toBoolean(),string[5].toBoolean(),null)
+                val temp = Favorite(string[0],string[1].toDouble(),string[2].toDouble(),string[3].toBoolean(),string[4].toBoolean(),string[5].toBoolean(),null,null)
                 favorites.add(temp)
             }
         }else{
@@ -88,13 +89,7 @@ object Functions {
         return 0
         }
 
-    fun updatingBackgroundShape(layout : View, code: Int,sunset: String) {
-        if (LocalDateTime.now().toString() > sunset) {
-            nightUpdatingBackgroundShape(layout, code)
-        } else {
-            dayUpdatingBackgroundShape(layout, code)
-        }
-    }
+
     fun dayUpdatingBackgroundShape(layout : View, code: Int)
     {
         when (code) {
@@ -163,11 +158,42 @@ object Functions {
 
         }
     }
-    fun updatingBackgroundShapeColor(layout : View, code: Int,sunset: String) {
-        if (LocalDateTime.now().toString() > sunset) {
+    fun updatingBackgroundShapeColor(
+        layout: View,
+        code: Int,
+        sunset: String,
+        sunrise: String,
+        datetime_now: String
+    ) {
+        val now = LocalDateTime.of(datetime_now.substring(0,4).toInt(), datetime_now.substring(5,7).toInt(), datetime_now.substring(8,10).toInt(), datetime_now.substring(11,13).toInt(),datetime_now.substring(14,16).toInt())
+        val sunset = LocalDateTime.of(sunset.substring(0,4).toInt(), sunset.substring(5,7).toInt(), sunset.substring(8,10).toInt(), sunset.substring(11,13).toInt(),sunset.substring(14,16).toInt())
+        val sunrise = LocalDateTime.of(sunrise.substring(0,4).toInt(), sunrise.substring(5,7).toInt(), sunrise.substring(8,10).toInt(), sunrise.substring(11,13).toInt(),sunrise.substring(14,16).toInt())
+        if (now.compareTo(sunset) > 0 || now.compareTo(sunrise) < 0) {
             nightUpdatingBackgroundShapeColor(layout, code)
+            Log.d("TIMET", "night")
         } else {
             dayUpdatingBackgroundShapeColor(layout, code)
+            Log.d("TIMET", "day")
+        }
+    }
+    fun updatingWeatherIc(icon: LottieAnimationView, code: Int, sunset: String,sunrise: String, datetime_now: String) {
+        val now = LocalDateTime.of(datetime_now.substring(0,4).toInt(), datetime_now.substring(5,7).toInt(), datetime_now.substring(8,10).toInt(), datetime_now.substring(11,13).toInt(),datetime_now.substring(14,16).toInt())
+        val sunset = LocalDateTime.of(sunset.substring(0,4).toInt(), sunset.substring(5,7).toInt(), sunset.substring(8,10).toInt(), sunset.substring(11,13).toInt(),sunset.substring(14,16).toInt())
+        val sunrise = LocalDateTime.of(sunrise.substring(0,4).toInt(), sunrise.substring(5,7).toInt(), sunrise.substring(8,10).toInt(), sunrise.substring(11,13).toInt(),sunrise.substring(14,16).toInt())
+        if (now.compareTo(sunset) > 0 || now.compareTo(sunrise) < 0) {
+            nightUpdatingWeatherIc(icon, code)
+        } else {
+            dayUpdatingWeatherIc(icon, code)
+        }
+    }
+    fun updatingBackgroundShape(layout : View, code: Int,sunset: String,sunrise: String,datetime_now: String) {
+        val now = LocalDateTime.of(datetime_now.substring(0,4).toInt(), datetime_now.substring(5,7).toInt(), datetime_now.substring(8,10).toInt(), datetime_now.substring(11,13).toInt(),datetime_now.substring(14,16).toInt())
+        val sunset = LocalDateTime.of(sunset.substring(0,4).toInt(), sunset.substring(5,7).toInt(), sunset.substring(8,10).toInt(), sunset.substring(11,13).toInt(),sunset.substring(14,16).toInt())
+        val sunrise = LocalDateTime.of(sunrise.substring(0,4).toInt(), sunrise.substring(5,7).toInt(), sunrise.substring(8,10).toInt(), sunrise.substring(11,13).toInt(),sunrise.substring(14,16).toInt())
+        if (now.compareTo(sunset) > 0 || now.compareTo(sunrise) < 0) {
+            nightUpdatingBackgroundShape(layout, code)
+        } else {
+            dayUpdatingBackgroundShape(layout, code)
         }
     }
     fun dayUpdatingBackgroundShapeColor(layout : View, code: Int)
@@ -308,13 +334,7 @@ object Functions {
         }
         icon.playAnimation()
     }
-    fun updatingWeatherIc(icon: LottieAnimationView, code: Int,sunset: String) {
-        if (LocalDateTime.now().toString() > sunset) {
-            nightUpdatingWeatherIc(icon, code)
-        } else {
-            dayUpdatingWeatherIc(icon, code)
-        }
-    }
+
     fun updatingWeatherWidgetIc(icon: RemoteViews, code: Int) {
         when (code) {
             0 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_clear_day)
@@ -395,17 +415,18 @@ object Functions {
         temp.text = value.toString()
     }
 
-    fun findCurrentSlotHourly(weatherData: WeatherData?): Int {
-        if(weatherData!= null){
-            val current = LocalDateTime.now()
-            for (i in 0 until weatherData.hourly.time.size) {
-                if (weatherData.hourly.time[i] < current.toString()) {
-                    if (weatherData.hourly.time[i+1] > current.toString()) {
+    fun findCurrentSlotHourly(data: Favorite): Int {
+            var current = LocalDateTime.now()
+            if (data.datetime!!.date_time != null) {
+                var current = data.datetime!!.date_time}
+                for (i in 0 until data.weatherData!!.hourly.time.size) {
+                if (data.weatherData!!.hourly.time[i] < current.toString()) {
+                    if (data.weatherData!!.hourly.time[i+1] > current.toString()) {
                         return i
                     }
                 }
             }
-        }
+
         return -1
     }
 

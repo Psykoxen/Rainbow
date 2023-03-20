@@ -141,9 +141,7 @@ class MapFragment : Fragment() {
             Log.d("DEBUGMAP", favorites.find { it.name == place.name }.toString())
             if(favorites.find { it.name == place.name } != null) {
                 val fav = favorites.find { it.name == place.name }
-                fav?.weatherData?.let { data ->
-                    updatingWeatherBmpIc(marker, requireContext(), data.hourly.weathercode[Functions.findCurrentSlotHourly(data)])
-                }
+                updatingWeatherBmpIc(marker, requireContext(), fav!!.weatherData!!.hourly.weathercode[Functions.findCurrentSlotHourly(fav)])
             }
 
             val hourly = "https://api.open-meteo.com/v1/forecast?latitude=45.75&longitude=4.85&hourly=weathercode"

@@ -94,12 +94,26 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                     itemView.ic_location.setVisibility(View.GONE)
                 }
                 updatingTempValue(itemView.city_label2,favorite.name)
-                if(favorite.weatherData!= null){
-                    updatingBackgroundShape(itemView.fav_section,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunset[2])
-                    updatingWeatherIc(itemView.weather_icon2,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunset[2])
+                if(favorite.weatherData!= null) {
+                    if ( favorite.datetime!=null) {
+                        updatingBackgroundShape(
+                            itemView.fav_section,
+                            favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite)],
+                            favorite.weatherData!!.daily.sunset[2],
+                            favorite.weatherData!!.daily.sunrise[2],
+                            favorite.datetime!!.date_time
+                        )
+                        updatingWeatherIc(
+                            itemView.weather_icon2,
+                            favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite)],
+                            favorite.weatherData!!.daily.sunset[2],
+                            favorite.weatherData!!.daily.sunrise[2],
+                            favorite.datetime!!.date_time
+                        )
+                        updatingTempValue(itemView.temperature_now_value2,favorite.weatherData!!.hourly.temperature_2m.get(
+                            findCurrentSlotHourly(favorite!!)).toString())
+                    }
 
-                    updatingTempValue(itemView.temperature_now_value2,favorite.weatherData!!.hourly.temperature_2m.get(
-                        findCurrentSlotHourly(favorite.weatherData!!)).toString())
                 }
             }
         }
@@ -114,14 +128,29 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                 }
                 updatingTempValue(itemView.city_label,favorite.name)
                 if(favorite.weatherData!=null){
-                    updatingBackgroundShape(itemView.main_section,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunset[2])
-                    updatingWeatherIc(itemView.weather_icon,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunset[2])
+                    if ( favorite.datetime!=null) {
+                        updatingBackgroundShape(
+                            itemView.main_section,
+                            favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite)],
+                            favorite.weatherData!!.daily.sunset[2],
+                            favorite.weatherData!!.daily.sunrise[2],
+                            favorite.datetime!!.date_time
+                        )
+                        updatingWeatherIc(
+                            itemView.weather_icon,
+                            favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite)],
+                            favorite.weatherData!!.daily.sunset[2],
+                            favorite.weatherData!!.daily.sunrise[2],
+                            favorite.datetime!!.date_time
+                        )
+                        itemView.rain_probability.progress = favorite.weatherData!!.hourly.precipitation_probability[findCurrentSlotHourly(favorite)]
+
+                    }
                     updatingTempValue(itemView.temperature_now_value,favorite.weatherData!!.hourly.temperature_2m.get(
-                        findCurrentSlotHourly(favorite.weatherData!!)).toString())
+                        findCurrentSlotHourly(favorite!!)).toString())
                     updatingTempValue(itemView.tmp_min_value, favorite.weatherData!!.daily.temperature_2m_min[0])
                     updatingTempValue(itemView.tmp_max_value, favorite.weatherData!!.daily.temperature_2m_max[0])
-                    itemView.rain_probability.progress = favorite.weatherData!!.hourly.precipitation_probability[findCurrentSlotHourly(favorite.weatherData)]
-                }
+                    }
             }
         }
 

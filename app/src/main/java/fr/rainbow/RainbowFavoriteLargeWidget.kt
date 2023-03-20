@@ -47,12 +47,12 @@ internal fun updateAppWidget(
     val views = RemoteViews(context.packageName, R.layout.rainbow_favorite_large_widget)
     views.setTextViewText(R.id.widgetText,favorites[0].name)
     views.setTextViewText(R.id.widgetTemp,favorites[0].weatherData!!.hourly.temperature_2m.get(
-        Functions.findCurrentSlotHourly(favorites[0].weatherData!!)
+        Functions.findCurrentSlotHourly(favorites[0])
     ).toString())
 
     Functions.updatingWeatherWidgetIc(
         views,
-        favorites[0].weatherData!!.hourly.weathercode[Functions.findCurrentSlotHourly(favorites[0].weatherData!!)])
+        favorites[0].weatherData!!.hourly.weathercode[Functions.findCurrentSlotHourly(favorites[0])])
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)

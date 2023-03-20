@@ -65,12 +65,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun testInitFavorite(){
-        val fav0 = Favorite("Your Position", 0.0 ,0.0, true, true,true,null)
-        val fav1 = Favorite("Mont Blanc",45.832622,6.865175,false,false,true,null)
-        val fav2 = Favorite("Villeurbanne",45.786,4.883,false,false,true,null)
-        val fav3 = Favorite("Montpellier",43.610,3.876,false,false,true,null)
-        val fav4 = Favorite("Agde",43.309,3.475,false,false,true,null)
-        val fav5 = Favorite("Marseille",43.296,5.369,false,false,true,null)
+        val fav0 = Favorite("Your Position", 0.0 ,0.0, true, true,true,null,null)
+        val fav1 = Favorite("Mont Blanc",45.832622,6.865175,false,false,true,null,null)
+        val fav2 = Favorite("Villeurbanne",45.786,4.883,false,false,true,null,null)
+        val fav3 = Favorite("Montpellier",43.610,3.876,false,false,true,null,null)
+        val fav4 = Favorite("Agde",43.309,3.475,false,false,true,null,null)
+        val fav5 = Favorite("Marseille",43.296,5.369,false,false,true,null,null)
         favorites.add(fav0)
         favorites.add(fav1)
         favorites.add(fav2)
@@ -117,7 +117,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
         if (j==0){
-            val gps = Favorite("Your Position", 0.0 ,0.0, true, false,true,null)
+            val gps = Favorite("Your Position", 0.0 ,0.0, true, false,true,null,null)
             favorites.add(gps)
             Functions.writeFile(this,favorites)
             updateHomeGps()
