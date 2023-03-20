@@ -15,6 +15,5 @@ class LoadingActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }, 2000)
-// Start the main activity after a delay
     }
 }

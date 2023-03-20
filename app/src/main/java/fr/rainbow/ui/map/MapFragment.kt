@@ -10,16 +10,14 @@ import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.google.gson.Gson
-import fr.rainbow.BuildConfig
 import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentMapBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.MapsData
-import fr.rainbow.dataclasses.TimeAtLocation
-import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
 import fr.rainbow.functions.Functions.updatingWeatherBmpIc
 import okhttp3.*
@@ -31,8 +29,6 @@ class MapFragment : Fragment() {
     private var _binding: FragmentMapBinding? = null
     private val client = OkHttpClient()
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private lateinit var tempFavorite:Favorite
     private val binding get() = _binding!!
     private val cities = ArrayListCities()

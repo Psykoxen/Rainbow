@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 class NetworkManager(context: Context) {
-
-    //val context = YourApplication.appContext
     private var networkCallback: ConnectivityManager.NetworkCallback
     private val connectivityManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
     private val _isNetworkAvailable = MutableStateFlow(false)
