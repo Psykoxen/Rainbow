@@ -150,6 +150,8 @@ class DetailedActivity : AppCompatActivity() {
         createDayPrevision(data, dayView)
         if (favorite.name.contains("-")){
             cityName.text = favorite.name.replace("-"," ")
+        } else {
+            cityName.text = favorite.name
         }
     }
 

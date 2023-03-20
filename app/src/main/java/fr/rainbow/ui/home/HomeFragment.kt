@@ -51,8 +51,8 @@ class HomeFragment : Fragment() {
 
     //GPS
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
-    private val interval: Long = 100000 // 10seconds
-    private val fastestInterval: Long = 5000 // 5 seconds
+    private val interval: Long = 100000
+    private val fastestInterval: Long = 5000
     private lateinit var mLastLocation: Location
     private lateinit var mLocationRequest: LocationRequest
     private val requestPermissionCode = 999
@@ -62,9 +62,6 @@ class HomeFragment : Fragment() {
     private lateinit var gpsFavorite: Favorite
     private var gps = false
     private lateinit var recyclerView : RecyclerView
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
 
@@ -77,7 +74,6 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        // Initialize Places.
         if (!Places.isInitialized()) {
             context?.let { Places.initialize(it, BuildConfig.GOOGLE_MAPS_API_KEY) }
         }
@@ -96,18 +92,13 @@ class HomeFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         itemTouchHelper.attachToRecyclerView(recyclerView)
-        //
 
         initAllData()
         initGps()
-
-        // Initialize the AutocompleteSupportFragment.
         val autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
 
-        // Specify the types of place data to return.
         autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
 
-        // Set up a PlaceSelectionListener to handle the response.
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 val key = BuildConfig.GOOGLE_MAPS_API_KEY

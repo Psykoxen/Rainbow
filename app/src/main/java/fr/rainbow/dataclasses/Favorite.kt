@@ -1,9 +1,5 @@
 package fr.rainbow.dataclasses
 
-import android.R.id
-
-
-
 
 data class Favorite(
     var name:String,
