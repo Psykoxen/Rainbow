@@ -69,7 +69,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginEnd="13dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginBottom="10dp"
         app:lottie_loop="true"
         app:lottie_autoPlay="true"
 
@@ -88,7 +88,7 @@
     <ImageView
         android:id="@+id/ic_more"
         android:layout_width="300dp"
-        android:layout_height="17dp"
+        android:layout_height="15dp"
         android:layout_marginVertical="8dp"
         android:src="@drawable/ic_more"
         app:layout_constraintEnd_toEndOf="parent"
