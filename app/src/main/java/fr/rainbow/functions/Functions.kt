@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.icu.text.SimpleDateFormat
 import android.util.Log
 import android.view.View
+import android.widget.RemoteViews
 import android.widget.TextView
 import com.airbnb.lottie.LottieAnimationView
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -314,7 +315,39 @@ object Functions {
             dayUpdatingWeatherIc(icon, code)
         }
     }
-
+    fun updatingWeatherWidgetIc(icon: RemoteViews, code: Int) {
+        when (code) {
+            0 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_clear_day)
+            1 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_partly_cloudy_day)
+            2 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_cloudy)
+            3 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme)
+            45 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_fog)
+            48 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_fog)
+            51 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_partly_cloudy_day_drizzle)
+            53 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_overcast_rain)
+            55 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_overcast_rain)
+            56 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_overcast_rain)
+            57 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_overcast_rain)
+            61 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            63 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            65 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            66 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            67 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            71 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_partly_cloudy_day_snow)
+            73 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_partly_cloudy_day_snow)
+            75 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_partly_cloudy_day_snow)
+            77 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_snow)
+            80 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            81 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            82 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            85 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            86 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_extreme_rain)
+            95 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_thunderstorms_extreme)
+            96 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_thunderstorms_rain)
+            99 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_thunderstorms_rain)
+            else -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_clear_day)
+        }
+    }
     fun updatingWeatherBmpIc(icon: Marker?, context: Context, code: Int) {
         val bitmapSize = 200
         when(code) {
