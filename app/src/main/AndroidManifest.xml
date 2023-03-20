@@ -36,11 +36,11 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"></activity>
+            android:label="@string/app_name"/>
         <activity
             android:name=".NetworkManager"
             android:exported="true"
-            android:label="@string/network"></activity>
+            android:label="@string/network"/>
         <activity
             android:name=".DetailedActivity"
             android:exported="true" />

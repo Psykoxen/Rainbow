@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper.*
+import fr.rainbow.BuildConfig
 import fr.rainbow.MainActivity
 import fr.rainbow.databinding.FragmentSettingsBinding
 import kotlinx.android.synthetic.main.fragment_settings.*
@@ -39,7 +40,7 @@ class SettingsFragment : Fragment() {
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        version_value.text = BuildConfig.VERSION_NAME
         switch1.setOnCheckedChangeListener{_,isChecked ->
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
