@@ -103,10 +103,10 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                     itemView.ic_location.visibility = View.GONE
                 }
                 if (favorite.name.length>15){
-                        updatingTempValue(itemView.city_label2,favorite.name.replace("Saint","St").replace("-"," ").substring(0,15)+"...")
+                        updatingTempValue(itemView.city_label_small,favorite.name.replace("Saint","St").replace("-"," ").substring(0,15)+"...")
 
                 }else{
-                    updatingTempValue(itemView.city_label2,favorite.name.replace("-"," "))
+                    updatingTempValue(itemView.city_label_small,favorite.name.replace("-"," "))
                 }
 
                 if(favorite.weatherData!= null) {
@@ -119,13 +119,13 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                             favorite.datetime!!.date_time
                         )
                         updatingWeatherIc(
-                            itemView.weather_icon2,
+                            itemView.weather_icon_small,
                             favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite)],
                             favorite.weatherData!!.daily.sunset[2],
                             favorite.weatherData!!.daily.sunrise[2],
                             favorite.datetime!!.date_time
                         )
-                        updatingTempValue(itemView.temperature_now_value2,
+                        updatingTempValue(itemView.temperature_now_value_small,
                             favorite.weatherData!!.hourly.temperature_2m[findCurrentSlotHourly(favorite)].toString())
                     }
 
