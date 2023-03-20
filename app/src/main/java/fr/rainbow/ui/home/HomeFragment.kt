@@ -19,7 +19,12 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.gson.Gson
 import fr.rainbow.BuildConfig
 import fr.rainbow.MainActivity
@@ -52,6 +57,7 @@ class HomeFragment : Fragment() {
     private val requestPermissionCode = 999
 
     private lateinit var favorites : ArrayList<Favorite>
+    private lateinit var tempFavorite:Favorite
     private lateinit var gpsFavorite: Favorite
     private var gps = false
     private lateinit var recyclerView : RecyclerView
@@ -70,6 +76,10 @@ class HomeFragment : Fragment() {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        // Initialize Places.
+        if (!Places.isInitialized()) {
+            context?.let { Places.initialize(it, BuildConfig.GOOGLE_MAPS_API_KEY) }
+        }
 
         favorites = MainActivity.favorites
 
@@ -87,10 +97,27 @@ class HomeFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
         //
 
-
         initAllData()
-
         initGps()
+
+        // Initialize the AutocompleteSupportFragment.
+        val autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME))
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                val key = BuildConfig.GOOGLE_MAPS_API_KEY
+                requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?place_id=${place.id}&key=$key",place.name)
+            }
+
+            override fun onError(status: Status) {
+                Log.e("ERROR", "An error occurred: $status")
+            }
+        })
+
         return root
 
     }
@@ -221,6 +248,46 @@ class HomeFragment : Fragment() {
         })
     }
 
+    fun requestMainSection(url: String) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("API","Error API Request")
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val weatherData = gson.fromJson(response.body()?.string(), WeatherData::class.java )
+                tempFavorite.weatherData = weatherData
+                val key = BuildConfig.TIME_LOCATION_API_KEY
+                requestTimeAtPosition("https://api.ipgeolocation.io/timezone?apiKey=$key&lat=${tempFavorite.latitude}&long=${tempFavorite.longitude}",tempFavorite, true)
+            }
+
+        })
+    }
+
+    fun requestYourPosition(url: String,name:String) {
+        val request = Request.Builder()
+            .url(url)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                Log.e("ERROR","Error API Geocoding request")
+            }
+            override fun onResponse(call: Call, response: Response) {
+                val gson = Gson()
+                val place = gson.fromJson(response.body()?.string(), fr.rainbow.dataclasses.Place::class.java )
+
+                val temp = place.results[0].geometry.location
+                tempFavorite = Favorite(name, temp.lat ,temp.lng, false, false,false,null,null)
+                requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${tempFavorite.latitude}&longitude=${tempFavorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&past_days=2&timezone=auto")
+            }
+
+        })
+    }
+
     fun requestYourPosition(url: String,index:Int) {
         val request = Request.Builder()
             .url(url)
@@ -245,7 +312,7 @@ class HomeFragment : Fragment() {
 
         })
     }
-    fun requestTimeAtPosition(url: String, favorite: Favorite) {
+    fun requestTimeAtPosition(url: String, favorite: Favorite, openAct: Boolean = false) {
         val request = Request.Builder()
             .url(url)
             .build()
@@ -260,11 +327,12 @@ class HomeFragment : Fragment() {
                 time.date_time = time.date_time.substring(0,time.date_time.length-2)
                 time.date_time = time.date_time.replace(" ","T")
                 favorite.datetime = time
+                if (openAct) {
+                    (activity as MainActivity).openYourActivity(favorite)
+                }
             }
         })
     }
-
-
 
     //GPS
     private val mLocationCallback = object : LocationCallback() {
