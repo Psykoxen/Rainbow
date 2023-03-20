@@ -123,7 +123,6 @@ class SearchFragment : Fragment() {
                 time.date_time = time.date_time.substring(0,time.date_time.length-3)
                 time.date_time = time.date_time.replace(" ","T")
                 favorite.datetime = time
-                Log.d("DEBUG",time.date_time.toString())
                 (activity as MainActivity).openYourActivity(tempFavorite)
             }
 
