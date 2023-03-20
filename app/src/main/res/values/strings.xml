@@ -22,4 +22,5 @@
     <string name="km_h" translatable="false">km/h</string>
     <string name="samePos">Impossible d\'avoir plusieurs fois sa position</string>
     <string name="tomorrow">Demain</string>
+    <string name="theme">Changer de thème</string>
 </resources>
