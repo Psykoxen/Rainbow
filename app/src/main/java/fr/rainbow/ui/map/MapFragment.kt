@@ -105,20 +105,20 @@ class MapFragment : Fragment() {
                     val gson = Gson()
                     val weatherCode = gson.fromJson(response.body()?.string(), MapsData::class.java)
                     activity?.runOnUiThread {
-                        addMarkers2(city, googleMap, weatherCode.hourly.weathercode[findCurrentSlotHourly(weatherCode)])
+                        addMarkers(city, googleMap, weatherCode.hourly.weathercode[findCurrentSlotHourly(weatherCode)])
                     }
                 }
             })
         }
     }
 
-    private fun addMarkers2(city: Cities, googleMap: GoogleMap, weatherCode: Int) {
+    private fun addMarkers(city: Cities, googleMap: GoogleMap, weatherCode: Int) {
         val marker = googleMap.addMarker(
             MarkerOptions()
                 .title(city.name)
                 .position(city.latLng)
         )
-        updatingWeatherBmpIc(marker, requireContext(), weatherCode)
+        context?.let { updatingWeatherBmpIc(marker, it, weatherCode) }
     }
 
     override fun onDestroyView() {

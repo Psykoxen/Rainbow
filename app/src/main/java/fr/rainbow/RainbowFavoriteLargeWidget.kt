@@ -56,7 +56,4 @@ internal fun updateAppWidget(
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
-
-
-    Log.d("test", favorites.toString())
 }
