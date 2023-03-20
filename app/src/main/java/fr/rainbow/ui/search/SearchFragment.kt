@@ -41,7 +41,7 @@ class SearchFragment : Fragment() {
 
         // Initialize Places.
         if (!Places.isInitialized()) {
-            Places.initialize(requireContext(), BuildConfig.GOOGLE_MAPS_API_KEY)
+            context?.let { Places.initialize(it, BuildConfig.GOOGLE_MAPS_API_KEY) }
         }
 
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
@@ -57,7 +57,9 @@ class SearchFragment : Fragment() {
         autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
             override fun onPlaceSelected(place: Place) {
                 val key = BuildConfig.GOOGLE_MAPS_API_KEY
-                requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?place_id=${place.id}&key=$key",place.name)
+                requestYourPosition("https://maps.googleapis.com/maps/api/geocode/json?place_id=${place.id}&key=$key",
+                    place.name
+                )
             }
 
             override fun onError(status: Status) {
