@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Rainbow</string>
+    <string name="app_name" translatable="false">Rainbow</string>
     <string name="title_dashboard">Menu</string>
     <string name="title_notifications">Notifications</string>
     <string name="home">Accueil</string>
@@ -10,16 +10,16 @@
     <string name="appwidget_text">Exemple</string>
     <string name="add_widget">Ajouter widget</string>
     <string name="app_widget_description">Position actuelle pour le widget</string>
-    <string name="uv_index">UV Index</string>
+    <string name="uv_index" translatable="false">UV Index</string>
     <string name="light">Clair</string>
     <string name="dark">Sombre</string>
     <string name="add_pos">Ajouter ma position a mes favoris</string>
-    <string name="degrees">°C</string>
+    <string name="degrees" translatable="false">°C</string>
     <string name="your_position">Votre Position</string>
-    <string name="t_min">T° min :</string>
-    <string name="t_max">T° max :</string>
-    <string name="mm">mm</string>
-    <string name="km_h">km/h</string>
+    <string name="t_min" translatable="false">T° min :</string>
+    <string name="t_max" translatable="false">T° max :</string>
+    <string name="mm" translatable="false">mm</string>
+    <string name="km_h" translatable="false">km/h</string>
     <string name="samePos">Impossible d\'avoir plusieurs fois sa position</string>
     <string name="tomorrow">Demain</string>
     <string name="theme">Changer de thème</string>
