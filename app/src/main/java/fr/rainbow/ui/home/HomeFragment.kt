@@ -42,7 +42,6 @@ class HomeFragment : Fragment() {
     private val client = OkHttpClient()
     private var _binding: FragmentHomeBinding? = null
 
-    //TODO bloquer fonctionnement gps si pas dans la liste de favoris
     //GPS
     private var fusedLocationProviderClient: FusedLocationProviderClient? = null
     private val interval: Long = 100000 // 10seconds
@@ -73,7 +72,7 @@ class HomeFragment : Fragment() {
 
         favorites = MainActivity.favorites
 
-        val favoritess =  favorites.toMutableList()
+        val newFavorites =  favorites.toMutableList()
 
         recyclerView = root.findViewById(R.id.favorite_list)
         /**with(recyclerView) {
@@ -90,7 +89,7 @@ class HomeFragment : Fragment() {
                 (activity as MainActivity).openYourActivity(favorite)
             }
         }
-        adapter?.differ?.submitList(favoritess)
+        adapter?.differ?.submitList(newFavorites)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         itemTouchHelper.attachToRecyclerView(recyclerView)
@@ -190,13 +189,10 @@ class HomeFragment : Fragment() {
         recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    fun initAllData(){
+    private fun initAllData(){
         favorites.forEachIndexed { index, favorite ->
-            if(favorite.latitude==0.0 && favorite.longitude==0.0){
-
-            }else{
+            if(!(favorite.latitude==0.0 && favorite.longitude==0.0)){
                 requestMainSection("https://api.open-meteo.com/v1/forecast?latitude=${favorite.latitude}&longitude=${favorite.longitude}&hourly=temperature_2m,relativehumidity_2m,apparent_temperature,precipitation_probability,precipitation,rain,showers,snowfall,weathercode,windspeed_10m,winddirection_10m&daily=weathercode,temperature_2m_max,temperature_2m_min,uv_index_max,precipitation_probability_max,sunrise,sunset&past_days=2&timezone=auto",index)
-
             }
         }
     }
@@ -244,17 +240,12 @@ class HomeFragment : Fragment() {
             override fun onResponse(call: Call, response: Response) {
                 val gson = Gson()
                 val position = gson.fromJson(response.body()?.string(), Position::class.java )
-                if (position.plus_code != null){
-                    var temp = position.plus_code.compound_code
-
-                    temp = temp.substring(temp.indexOf(" "))
-                    temp = temp.substring(0,temp.indexOf(",")).replace(" ","")
-                    favorites[index].name = temp
-                    activity?.runOnUiThread {
-                        recyclerView.adapter!!.notifyDataSetChanged()
-                    }
-                }else{
-                    Log.e("GPS","No Name for location")
+                var temp = position.plus_code.compound_code
+                temp = temp.substring(temp.indexOf(" "))
+                temp = temp.substring(0,temp.indexOf(",")).replace(" ","")
+                favorites[index].name = temp
+                activity?.runOnUiThread {
+                    recyclerView.adapter!!.notifyDataSetChanged()
                 }
 
             }
@@ -286,10 +277,8 @@ class HomeFragment : Fragment() {
         val builder = LocationSettingsRequest.Builder()
         builder.addLocationRequest(mLocationRequest)
         val locationSettingsRequest = builder.build()
-        val settingsClient = this.activity?.let { LocationServices.getSettingsClient(it) }
-        if (settingsClient != null) {
-            settingsClient.checkLocationSettings(locationSettingsRequest)
-        }
+        activity?.let { LocationServices.getSettingsClient(it) }
+            ?.checkLocationSettings(locationSettingsRequest)
 
         fusedLocationProviderClient = this.activity?.let {
             LocationServices.getFusedLocationProviderClient(
@@ -311,7 +300,8 @@ class HomeFragment : Fragment() {
         fusedLocationProviderClient!!.requestLocationUpdates(
             mLocationRequest,
             mLocationCallback,
-            Looper.myLooper()!!)
+            Looper.myLooper()!!
+        )
     }
 
     private fun checkForPermission(context: Context) {
