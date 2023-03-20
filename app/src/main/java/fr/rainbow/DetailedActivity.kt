@@ -18,7 +18,7 @@ import fr.rainbow.dataclasses.HourWeatherData
 import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
 import fr.rainbow.functions.Functions.updatingBackgroundShapeColor
-import fr.rainbow.functions.Functions.updatingTempValue
+import fr.rainbow.functions.Functions.updatingTextValue
 import fr.rainbow.functions.Functions.updatingUvIc
 import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.activity_detailed.*
@@ -128,7 +128,7 @@ class DetailedActivity : AppCompatActivity() {
             barrierUV.visibility = View.GONE
         }
         updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(favorite)],data.daily.sunset[2],data.daily.sunrise[2],favorite.datetime!!.date_time)
-        updatingTempValue(
+        updatingTextValue(
             temperature_now_value,
             data.hourly.temperature_2m[findCurrentSlotHourly(favorite)]
 
@@ -144,8 +144,8 @@ class DetailedActivity : AppCompatActivity() {
             temperature_now_unit.setTypeface(null, Typeface.BOLD)
             temperature_now_value.setTypeface(null, Typeface.BOLD)
         }
-        updatingTempValue(sunrise_value, data.daily.sunrise[0].substring(data.daily.sunrise[0].indexOf("T")+1,data.daily.sunrise[0].length))
-        updatingTempValue(sunset_value, data.daily.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
+        updatingTextValue(sunrise_value, data.daily.sunrise[0].substring(data.daily.sunrise[0].indexOf("T")+1,data.daily.sunrise[0].length))
+        updatingTextValue(sunset_value, data.daily.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
         createHoursPrevision(favorite, hourView)
         createDayPrevision(data, dayView)
         if (favorite.name.contains("-")){

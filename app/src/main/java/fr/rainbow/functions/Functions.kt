@@ -22,12 +22,21 @@ import java.util.*
 
 object Functions {
 
+    /** Cette fonction permet d'écire dans un fichier texte pour sauvegarder les favoris.
+     * @param line Un objet de type [String] qui représente la ligne à écrire.
+     */
     private fun BufferedWriter.writeLn(line: String) {
         this.write(line)
         this.newLine()
     }
 
-    fun writeFile(context:Context, favorites: ArrayList<Favorite>){
+    /**
+     * Cette fonction permet d'écrire dans un fichier texte pour sauvegarder les favoris.
+     * @param context Un objet de type [Context] utilisé pour avoir le contexte de l'application au sein du téléphone.
+     * @param favorites Un objet de type [ArrayList] contenant les favoris.
+     */
+    fun writeFile(context:Context, favorites: ArrayList<Favorite>)
+    {
         val path = context.filesDir
         val file = File(path,"saveFavorite.txt")
         file.createNewFile()
@@ -38,7 +47,13 @@ object Functions {
         }
     }
 
-    fun readFile(context:Context): ArrayList<Favorite> {
+    /**
+     * Cette fonction permet de lire un fichier texte pour récupérer les favoris.
+     * @param context Un objet de type [Context] utilisé pour avoir le contexte de l'application au sein du téléphone.
+     * @return Un objet de type [ArrayList] contenant les favoris.
+     */
+    fun readFile(context:Context): ArrayList<Favorite>
+    {
         val path = context.filesDir
         val file = File(path,"saveFavorite.txt")
         val favorites = ArrayList<Favorite>()
@@ -55,7 +70,15 @@ object Functions {
         }
         return favorites
     }
-    fun updatingUvIc(icon: LottieAnimationView, value: Double?): Int {
+
+    /**
+     * Cette fonction permet de modifier le LottieAnimationView dédié à l'indice UV.
+     * @param icon Un objet de type [LottieAnimationView] qui recevra l'indice UV.
+     * @param value Un objet de type [Double] qui représente l'indice UV.
+     * @return Un [Int] de 0 si tout a fonctioné, -1 sinon.
+     */
+    fun updatingUvIc(icon: LottieAnimationView, value: Double?): Int
+    {
         if (value == null) {
             icon.visibility = View.GONE
             return -1
@@ -87,7 +110,31 @@ object Functions {
         return 0
         }
 
+    /**
+     * Cette fonction permet de modifier le background de l'activité détaillé suivant les conditions météo et l'heure.
+     * @param layout Un objet de type [View] qui recevra le background.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     * @param sunset Un objet de type [String] qui représente l'heure du coucher du soleil.
+     * @param sunrise Un objet de type [String] qui représente l'heure du lever du soleil.
+     * @param datetime_now Un objet de type [String] qui représente l'heure actuelle.
+     */
+    fun updatingBackgroundShape(layout : View, code: Int,sunset: String,sunrise: String,datetime_now: String)
+    {
+        val now = LocalDateTime.of(datetime_now.substring(0,4).toInt(), datetime_now.substring(5,7).toInt(), datetime_now.substring(8,10).toInt(), datetime_now.substring(11,13).toInt(),datetime_now.substring(14,16).toInt())
+        val sunset = LocalDateTime.of(sunset.substring(0,4).toInt(), sunset.substring(5,7).toInt(), sunset.substring(8,10).toInt(), sunset.substring(11,13).toInt(),sunset.substring(14,16).toInt())
+        val sunrise = LocalDateTime.of(sunrise.substring(0,4).toInt(), sunrise.substring(5,7).toInt(), sunrise.substring(8,10).toInt(), sunrise.substring(11,13).toInt(),sunrise.substring(14,16).toInt())
+        if (now.compareTo(sunset) > 0 || now.compareTo(sunrise) < 0) {
+            nightUpdatingBackgroundShape(layout, code)
+        } else {
+            dayUpdatingBackgroundShape(layout, code)
+        }
+    }
 
+    /**
+     * Cette fonction permet de modifier le background des favoris durant le jour.
+     * @param layout Un objet de type [View] qui recevra le background.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     */
     private fun dayUpdatingBackgroundShape(layout : View, code: Int)
     {
         when (code) {
@@ -122,6 +169,12 @@ object Functions {
 
         }
     }
+
+    /**
+     * Cette fonction permet de modifier le background des favoris durant la nuit.
+     * @param layout Un objet de type [View] qui recevra le background.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     */
     private fun nightUpdatingBackgroundShape(layout : View, code: Int)
     {
         when (code) {
@@ -156,6 +209,15 @@ object Functions {
 
         }
     }
+
+    /**
+     * Cette fonction permet de modifier la couleur de background de l'activité détaillé suivant les conditions météo et l'heure.
+     * @param layout Un objet de type [View] qui recevra le background.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     * @param sunset Un objet de type [String] qui représente l'heure du coucher du soleil.
+     * @param sunrise Un objet de type [String] qui représente l'heure du lever du soleil.
+     * @param datetime_now Un objet de type [String] qui représente l'heure actuelle.
+     */
     fun updatingBackgroundShapeColor(
         layout: View,
         code: Int,
@@ -172,26 +234,12 @@ object Functions {
             dayUpdatingBackgroundShapeColor(layout, code)
         }
     }
-    fun updatingWeatherIc(icon: LottieAnimationView, code: Int, sunset: String,sunrise: String, datetime_now: String) {
-        val now = LocalDateTime.of(datetime_now.substring(0,4).toInt(), datetime_now.substring(5,7).toInt(), datetime_now.substring(8,10).toInt(), datetime_now.substring(11,13).toInt(),datetime_now.substring(14,16).toInt())
-        val sunset = LocalDateTime.of(sunset.substring(0,4).toInt(), sunset.substring(5,7).toInt(), sunset.substring(8,10).toInt(), sunset.substring(11,13).toInt(),sunset.substring(14,16).toInt())
-        val sunrise = LocalDateTime.of(sunrise.substring(0,4).toInt(), sunrise.substring(5,7).toInt(), sunrise.substring(8,10).toInt(), sunrise.substring(11,13).toInt(),sunrise.substring(14,16).toInt())
-        if (now.compareTo(sunset) > 0 || now.compareTo(sunrise) < 0) {
-            nightUpdatingWeatherIc(icon, code)
-        } else {
-            dayUpdatingWeatherIc(icon, code)
-        }
-    }
-    fun updatingBackgroundShape(layout : View, code: Int,sunset: String,sunrise: String,datetime_now: String) {
-        val now = LocalDateTime.of(datetime_now.substring(0,4).toInt(), datetime_now.substring(5,7).toInt(), datetime_now.substring(8,10).toInt(), datetime_now.substring(11,13).toInt(),datetime_now.substring(14,16).toInt())
-        val sunset = LocalDateTime.of(sunset.substring(0,4).toInt(), sunset.substring(5,7).toInt(), sunset.substring(8,10).toInt(), sunset.substring(11,13).toInt(),sunset.substring(14,16).toInt())
-        val sunrise = LocalDateTime.of(sunrise.substring(0,4).toInt(), sunrise.substring(5,7).toInt(), sunrise.substring(8,10).toInt(), sunrise.substring(11,13).toInt(),sunrise.substring(14,16).toInt())
-        if (now.compareTo(sunset) > 0 || now.compareTo(sunrise) < 0) {
-            nightUpdatingBackgroundShape(layout, code)
-        } else {
-            dayUpdatingBackgroundShape(layout, code)
-        }
-    }
+
+    /**
+     * Cette fonction permet de modifier la couleur de background des favoris durant le jour.
+     * @param layout Un objet de type [View] qui recevra le background.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     */
     private fun dayUpdatingBackgroundShapeColor(layout : View, code: Int)
     {
         when (code) {
@@ -226,6 +274,12 @@ object Functions {
 
         }
     }
+
+    /**
+     * Cette fonction permet de modifier la couleur de background des favoris durant la nuit.
+     * @param layout Un objet de type [View] qui recevra le background.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     */
     private fun nightUpdatingBackgroundShapeColor(layout : View, code: Int)
     {
         when (code) {
@@ -261,6 +315,31 @@ object Functions {
         }
     }
 
+    /**
+     * Cette fonction permet de modifier l'icône de météo suivant les conditions météo et l'heure.
+     * @param icon Un objet de type [LottieAnimationView] qui recevra l'icône.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     * @param sunset Un objet de type [String] qui représente l'heure du coucher du soleil.
+     * @param sunrise Un objet de type [String] qui représente l'heure du lever du soleil.
+     * @param datetime_now Un objet de type [String] qui représente l'heure actuelle.
+     */
+    fun updatingWeatherIc(icon: LottieAnimationView, code: Int, sunset: String,sunrise: String, datetime_now: String)
+    {
+        val now = LocalDateTime.of(datetime_now.substring(0,4).toInt(), datetime_now.substring(5,7).toInt(), datetime_now.substring(8,10).toInt(), datetime_now.substring(11,13).toInt(),datetime_now.substring(14,16).toInt())
+        val sunset = LocalDateTime.of(sunset.substring(0,4).toInt(), sunset.substring(5,7).toInt(), sunset.substring(8,10).toInt(), sunset.substring(11,13).toInt(),sunset.substring(14,16).toInt())
+        val sunrise = LocalDateTime.of(sunrise.substring(0,4).toInt(), sunrise.substring(5,7).toInt(), sunrise.substring(8,10).toInt(), sunrise.substring(11,13).toInt(),sunrise.substring(14,16).toInt())
+        if (now.compareTo(sunset) > 0 || now.compareTo(sunrise) < 0) {
+            nightUpdatingWeatherIc(icon, code)
+        } else {
+            dayUpdatingWeatherIc(icon, code)
+        }
+    }
+
+    /**
+     * Cette fonction permet de modifier l'icône de météo durant le jour.
+     * @param icon Un objet de type [LottieAnimationView] qui recevra l'icône.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     */
     fun dayUpdatingWeatherIc(icon: LottieAnimationView, code: Int) {
         when(code) {
             0 -> icon.setAnimation(R.raw.clear_day)
@@ -296,6 +375,11 @@ object Functions {
         icon.playAnimation()
     }
 
+    /**
+     * Cette fonction permet de modifier l'icône de météo durant la nuit.
+     * @param icon Un objet de type [LottieAnimationView] qui recevra l'icône.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     */
     private fun nightUpdatingWeatherIc(icon: LottieAnimationView, code: Int) {
         when(code) {
             0 -> icon.setAnimation(R.raw.clear_night)
@@ -331,6 +415,11 @@ object Functions {
         icon.playAnimation()
     }
 
+    /**
+     * Cette fonction permet de modifier l'icône de météo du widget.
+     * @param icon Un objet de type [RemoteViews] qui recevra l'icône.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     */
     fun updatingWeatherWidgetIc(icon: RemoteViews, code: Int) {
         when (code) {
             0 -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_clear_day)
@@ -364,6 +453,13 @@ object Functions {
             else -> icon.setImageViewResource(R.id.weather_icon,R.drawable.weather_ic_clear_day)
         }
     }
+
+    /**
+     * Cette fonction permet de modifier l'icône de météo de la carte.
+     * @param icon Un objet de type [Marker] qui recevra l'icône.
+     * @param context Un objet de type [Context] qui représente le contexte de l'application.
+     * @param code Un objet de type [Int] qui représente le code météo.
+     */
     fun updatingWeatherBmpIc(icon: Marker?, context: Context, code: Int) {
         when(code) {
             0 -> icon?.setIcon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(context, R.raw.clear_day_bmp)))
@@ -398,6 +494,12 @@ object Functions {
         }
     }
 
+    /**
+     * Cette fonction permet de redimensionner les icônes de météo de la carte.
+     * @param context Un objet de type [Context] qui représente le contexte de l'application.
+     * @param iconId Un objet de type [Int] qui représente l'identifiant de l'icône.
+     * @return Un objet de type [Bitmap] qui représente l'icône redimensionnée.
+     */
     private fun resizeMapIcons(context: Context, iconId: Int): Bitmap {
         val bitmapSize = 200
         val imageBitmap: Bitmap = BitmapFactory.decodeResource(
@@ -407,10 +509,20 @@ object Functions {
         return Bitmap.createScaledBitmap(imageBitmap, bitmapSize, bitmapSize, false)
     }
 
-    fun updatingTempValue(temp: TextView, value: Any) {
+    /**
+     * Cette fonction permet de modifier la valeur d'une TextView.
+     * @param temp Un objet de type [TextView] qui recevra la valeur.
+     * @param value Un objet de type [Any] qui représente la valeur.
+     */
+    fun updatingTextValue(temp: TextView, value: Any) {
         temp.text = value.toString()
     }
 
+    /**
+     * Cette fonction permet de trouver l'index de l'heure actuelle dans la liste des heures.
+     * @param data Un objet de type [Favorite] qui représente les données météo d'un favori.
+     * @return Un objet de type [Int] qui représente l'index de l'heure actuelle.
+     */
     fun findCurrentSlotHourly(data: Favorite): Int {
             val current = LocalDateTime.now()
 
@@ -425,6 +537,11 @@ object Functions {
         return -1
     }
 
+    /**
+     * Cette fonction permet de trouver l'index de l'heure actuelle dans la liste des heures.
+     * @param weatherCode Un objet de type [MapsData] qui représente les données météo d'une ville.
+     * @return Un objet de type [Int] qui représente l'index de l'heure actuelle.
+     */
     fun findCurrentSlotHourly(weatherCode: MapsData): Int {
         val current = LocalDateTime.now()
         for (i in 0 until weatherCode.hourly.time.size) {
@@ -437,6 +554,11 @@ object Functions {
         return -1
     }
 
+    /**
+     * Cette fonction permet de récupérer le nom du jour à partir d'une date.
+     * @param dateString Un objet de type [String] qui représente la date.
+     * @return Un objet de type [String] qui représente le nom du jour.
+     */
     fun getDayName(dateString: String): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = dateFormat.parse(dateString)
@@ -444,6 +566,11 @@ object Functions {
         return dayFormat.format(date)
     }
 
+    /**
+     * Cette fonction permet de savoir si une date est celle de demain.
+     * @param dateString Un objet de type [String] qui représente la date.
+     * @return Un objet de type [Boolean] qui représente si la date est celle de demain.
+     */
     fun isTomorrow(dateString: String): Boolean {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = dateFormat.parse(dateString)

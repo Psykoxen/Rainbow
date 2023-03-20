@@ -11,7 +11,7 @@ import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.Functions
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
 import fr.rainbow.functions.Functions.updatingBackgroundShape
-import fr.rainbow.functions.Functions.updatingTempValue
+import fr.rainbow.functions.Functions.updatingTextValue
 import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
@@ -103,10 +103,10 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                     itemView.ic_location.visibility = View.GONE
                 }
                 if (favorite.name.length>15){
-                        updatingTempValue(itemView.city_label_small,favorite.name.replace("Saint","St").replace("-"," ").substring(0,15)+"...")
+                        updatingTextValue(itemView.city_label_small,favorite.name.replace("Saint","St").replace("-"," ").substring(0,15)+"...")
 
                 }else{
-                    updatingTempValue(itemView.city_label_small,favorite.name.replace("-"," "))
+                    updatingTextValue(itemView.city_label_small,favorite.name.replace("-"," "))
                 }
 
                 if(favorite.weatherData!= null) {
@@ -125,7 +125,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                             favorite.weatherData!!.daily.sunrise[2],
                             favorite.datetime!!.date_time
                         )
-                        updatingTempValue(itemView.temperature_now_value_small,
+                        updatingTextValue(itemView.temperature_now_value_small,
                             favorite.weatherData!!.hourly.temperature_2m[findCurrentSlotHourly(favorite)].toString())
                     }
 
@@ -141,10 +141,10 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                     itemView.ic_location_big.visibility = View.GONE
                 }
                 if (favorite.name.length>15){
-                    updatingTempValue(itemView.city_label,favorite.name.replace("Saint","St").replace("-"," ").substring(0,15)+"...")
+                    updatingTextValue(itemView.city_label,favorite.name.replace("Saint","St").replace("-"," ").substring(0,15)+"...")
 
                 }else{
-                    updatingTempValue(itemView.city_label,favorite.name.replace("-"," "))
+                    updatingTextValue(itemView.city_label,favorite.name.replace("-"," "))
                 }
                 if(favorite.weatherData!=null){
                     if ( favorite.datetime!=null) {
@@ -165,10 +165,10 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                         itemView.rain_probability.progress = favorite.weatherData!!.hourly.precipitation_probability[findCurrentSlotHourly(favorite)]
 
                     }
-                    updatingTempValue(itemView.temperature_now_value,
+                    updatingTextValue(itemView.temperature_now_value,
                         favorite.weatherData!!.hourly.temperature_2m[findCurrentSlotHourly(favorite)].toString())
-                    updatingTempValue(itemView.tmp_min_value, favorite.weatherData!!.daily.temperature_2m_min[0])
-                    updatingTempValue(itemView.tmp_max_value, favorite.weatherData!!.daily.temperature_2m_max[0])
+                    updatingTextValue(itemView.tmp_min_value, favorite.weatherData!!.daily.temperature_2m_min[0])
+                    updatingTextValue(itemView.tmp_max_value, favorite.weatherData!!.daily.temperature_2m_max[0])
                     }
             }
         }

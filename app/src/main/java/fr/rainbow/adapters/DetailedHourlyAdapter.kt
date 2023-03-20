@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.R
 import fr.rainbow.dataclasses.HourWeatherData
 import fr.rainbow.functions.Functions.dayUpdatingWeatherIc
-import fr.rainbow.functions.Functions.updatingTempValue
+import fr.rainbow.functions.Functions.updatingTextValue
 import kotlinx.android.synthetic.main.item_hour_weather.view.*
 
 
@@ -36,8 +36,8 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
 
         fun bind(hourWeather: HourWeatherData) {
             dayUpdatingWeatherIc(itemView.weather_icon,hourWeather.weathercode)
-            updatingTempValue(itemView.time_label,hourWeather.dateTime)
-            updatingTempValue(itemView.temperature_value,hourWeather.temperature_2m)
+            updatingTextValue(itemView.time_label,hourWeather.dateTime)
+            updatingTextValue(itemView.temperature_value,hourWeather.temperature_2m)
             if (hourWeather.temperature_2m < 0){
                     itemView.temperature_unit.setTextColor(itemView.context.getColor(R.color.cold_color))
                     itemView.temperature_value.setTextColor(itemView.context.getColor(R.color.cold_color))
@@ -51,12 +51,12 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
             }
             if (hourWeather.snowfall > 0.0) {
                 itemView.rain_icon.setImageResource(R.drawable.ic_snow)
-                updatingTempValue(itemView.rain_value,hourWeather.snowfall)
+                updatingTextValue(itemView.rain_value,hourWeather.snowfall)
             } else {
-                updatingTempValue(itemView.rain_value,hourWeather.rain)
+                updatingTextValue(itemView.rain_value,hourWeather.rain)
             }
 
-            updatingTempValue(itemView.wind_value,hourWeather.windspeed_10m)
+            updatingTextValue(itemView.wind_value,hourWeather.windspeed_10m)
             itemView.wind_arrow.rotation = hourWeather.winddirection_10m.toFloat()
         }
     }
