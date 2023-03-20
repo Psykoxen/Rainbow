@@ -501,12 +501,11 @@ object Functions {
      * @return Un objet de type [Bitmap] qui représente l'icône redimensionnée.
      */
     private fun resizeMapIcons(context: Context, iconId: Int): Bitmap {
-        val bitmapSize = 200
         val imageBitmap: Bitmap = BitmapFactory.decodeResource(
             context.resources,
             iconId
         )
-        return Bitmap.createScaledBitmap(imageBitmap, bitmapSize, bitmapSize, false)
+        return Bitmap.createScaledBitmap(imageBitmap, 75, 100, false)
     }
 
     /**
