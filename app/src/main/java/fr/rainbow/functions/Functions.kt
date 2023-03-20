@@ -399,12 +399,11 @@ object Functions {
     }
 
     private fun resizeMapIcons(context: Context, iconId: Int): Bitmap {
-        val bitmapSize = 200
         val imageBitmap: Bitmap = BitmapFactory.decodeResource(
             context.resources,
             iconId
         )
-        return Bitmap.createScaledBitmap(imageBitmap, bitmapSize, bitmapSize, false)
+        return Bitmap.createScaledBitmap(imageBitmap, 75, 100, false)
     }
 
     fun updatingTempValue(temp: TextView, value: Any) {
