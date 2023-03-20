@@ -130,7 +130,7 @@ class MapFragment : Fragment() {
             Log.d("DEBUGMAP", favorites.find { it.name == place.name }.toString())
             if(favorites.find { it.name == place.name } != null) {
                 val fav = favorites.find { it.name == place.name }
-                updatingWeatherBmpIc(marker, requireContext(), fav!!.weatherData!!.hourly.weathercode[Functions.findCurrentSlotHourly(fav)])
+                updatingWeatherBmpIc(marker, requireContext(), fav!!.weatherData!!.hourly.weathercode[findCurrentSlotHourly(fav)])
             }
  }
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cities.get(0).latLng, 8f))

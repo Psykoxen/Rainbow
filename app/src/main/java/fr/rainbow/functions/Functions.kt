@@ -415,8 +415,7 @@ object Functions {
 
     fun findCurrentSlotHourly(data: Favorite): Int {
             var current = LocalDateTime.now()
-            if (data.datetime!!.date_time != null) {
-                var current = data.datetime!!.date_time}
+
                 for (i in 0 until data.weatherData!!.hourly.time.size) {
                 if (data.weatherData!!.hourly.time[i] < current.toString()) {
                     if (data.weatherData!!.hourly.time[i+1] > current.toString()) {
