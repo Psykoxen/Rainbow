@@ -36,6 +36,7 @@ import fr.rainbow.dataclasses.Position
 import fr.rainbow.dataclasses.TimeAtLocation
 import fr.rainbow.dataclasses.WeatherData
 import fr.rainbow.functions.Functions
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.*
