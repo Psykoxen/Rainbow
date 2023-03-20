@@ -2,12 +2,9 @@ package fr.rainbow.adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.R
 import fr.rainbow.dataclasses.Favorite
@@ -22,16 +19,6 @@ import kotlinx.android.synthetic.main.item_favorite_big.view.*
 class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val context: Context,private var onItemClicked: ((favorite: Favorite) -> Unit))
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val differCallBack  = object : DiffUtil.ItemCallback<Favorite>()
-    {
-        override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
-            return  oldItem == newItem
-        }
-        override fun areContentsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
-            return  oldItem == newItem
-        }
-    }
-    val differ = AsyncListDiffer(this, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType==1){
@@ -51,9 +38,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        //val favoriteItem : Favorite = favorites[position]
-        //al favoriteItem  differ.currentList[position]
-        val favoriteItem = differ.currentList[position]
+        val favoriteItem : Favorite = favorites[position]
         if (getItemViewType(position)==1){
             (holder as ViewHolderBig).bind(favoriteItem)
             holder.itemView.ic_less.setOnClickListener {
@@ -86,17 +71,16 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
 
     fun moveItemInRecyclerViewList(from: Int, to: Int) {
 
-        val list = differ.currentList.toMutableList()
+        val list = favorites
+
         val fromLocation = list[from]
         list.removeAt(from)
         if (to < from) {
-            //+1 because it start from 0 on the upside. otherwise it will not change the locations accordingly
             list.add(to + 1 , fromLocation)
         } else {
-            //-1 because it start from length + 1 on the down side. otherwise it will not change the locations accordingly
             list.add(to - 1, fromLocation)
         }
-        differ.submitList(list)
+
     }
 
     private var onItemClickListener: ((Favorite) -> Unit)? = null
@@ -131,7 +115,6 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
 
     inner    class ViewHolderBig(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bind(favorite: Favorite) {
-                Log.d("FAVORITE",favorite.toString())
                 if (favorite.isGPS) {
                     itemView.ic_location_big.visibility = View.VISIBLE
                 } else {

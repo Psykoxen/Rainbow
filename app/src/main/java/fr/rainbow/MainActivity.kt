@@ -96,7 +96,6 @@ class MainActivity : AppCompatActivity() {
             }
             if(favorite.isGPS)
                 updateHomeGps()
-            Log.d("test",favorite.toString())
         }
     }
 

@@ -72,16 +72,7 @@ class HomeFragment : Fragment() {
 
         favorites = MainActivity.favorites
 
-        val newFavorites =  favorites.toMutableList()
-
         recyclerView = root.findViewById(R.id.favorite_list)
-        /**with(recyclerView) {
-            layoutManager = LinearLayoutManager(this.context)
-            adapter = FavoriteAdapter(favorites, context){
-                favorite ->
-                (activity as MainActivity).openYourActivity(favorite)
-            }
-        }**/
 
         //
         val adapter = context?.let {
@@ -89,7 +80,7 @@ class HomeFragment : Fragment() {
                 (activity as MainActivity).openYourActivity(favorite)
             }
         }
-        adapter?.differ?.submitList(newFavorites)
+
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this.context)
         itemTouchHelper.attachToRecyclerView(recyclerView)
@@ -120,7 +111,6 @@ class HomeFragment : Fragment() {
                 favorites.add(to, favorite)
                 context?.let { Functions.writeFile(it,favorites) }
 
-                Log.d("test","$favorites")
                 return true
             }
 
