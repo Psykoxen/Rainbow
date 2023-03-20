@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.startActivity
+import androidx.recyclerview.widget.AsyncListDiffer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import fr.rainbow.DetailedActivity
 import fr.rainbow.R
@@ -25,6 +27,16 @@ import kotlinx.android.synthetic.main.item_favorite_big.view.*
 class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val context: Context,private var onItemClicked: ((favorite: Favorite) -> Unit))
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private val differCallBack  = object : DiffUtil.ItemCallback<Favorite>()
+    {
+        override fun areItemsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
+            return  oldItem == newItem
+        }
+        override fun areContentsTheSame(oldItem: Favorite, newItem: Favorite): Boolean {
+            return  oldItem == newItem
+        }
+    }
+    val differ = AsyncListDiffer(this, differCallBack)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if(viewType==1){
@@ -44,13 +56,11 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        val favoriteItem : Favorite = favorites[position]
+        //val favoriteItem : Favorite = favorites[position]
+        //al favoriteItem  differ.currentList[position]
+        val favoriteItem = differ.currentList[position]
         if (getItemViewType(position)==1){
             (holder as ViewHolderBig).bind(favoriteItem)
-            holder.itemView.setOnClickListener {
-
-                onItemClicked(favoriteItem)
-            }
             holder.itemView.ic_less.setOnClickListener {
                 favoriteItem.isBig = false
                 Functions.writeFile(context,favorites)
@@ -64,17 +74,37 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
                 Functions.writeFile(context,favorites)
                 notifyDataSetChanged()
             }
-
-            holder.itemView.setOnClickListener {
-                onItemClicked(favoriteItem)
+        }
+        holder.itemView.setOnClickListener {
+            onItemClicked(favoriteItem)
+        }
+        holder.itemView.setOnLongClickListener {
+            onItemClickListener?.let {
+                it(favoriteItem)
             }
-
+            true
         }
 
 
 
-
     }
+
+    fun moveItemInRecyclerViewList(from: Int, to: Int) {
+
+        val list = differ.currentList.toMutableList()
+        val fromLocation = list[from]
+        list.removeAt(from)
+        if (to < from) {
+            //+1 because it start from 0 on the upside. otherwise it will not change the locations accordingly
+            list.add(to + 1 , fromLocation)
+        } else {
+            //-1 because it start from length + 1 on the down side. otherwise it will not change the locations accordingly
+            list.add(to - 1, fromLocation)
+        }
+        differ.submitList(list)
+    }
+
+    private var onItemClickListener: ((Favorite) -> Unit)? = null
 
     override fun getItemCount(): Int = favorites.size
 

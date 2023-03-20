@@ -1,6 +1,5 @@
 package fr.rainbow.ui.home
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -15,15 +14,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.location.*
 import com.google.gson.Gson
 import fr.rainbow.BuildConfig
-import fr.rainbow.DetailedActivity
 import fr.rainbow.MainActivity
 import fr.rainbow.R
 import fr.rainbow.adapters.FavoriteAdapter
@@ -31,6 +29,8 @@ import fr.rainbow.databinding.FragmentHomeBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.Position
 import fr.rainbow.dataclasses.WeatherData
+import fr.rainbow.functions.Functions
+import kotlinx.android.synthetic.main.fragment_settings.*
 import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_favorite_big.*
 import kotlinx.android.synthetic.main.item_favorite_big.view.*
@@ -73,19 +73,77 @@ class HomeFragment : Fragment() {
 
         favorites = MainActivity.favorites
 
+        val favoritess =  favorites.toMutableList()
+
         recyclerView = root.findViewById(R.id.favorite_list)
-        with(recyclerView) {
+        /**with(recyclerView) {
             layoutManager = LinearLayoutManager(this.context)
             adapter = FavoriteAdapter(favorites, context){
                 favorite ->
                 (activity as MainActivity).openYourActivity(favorite)
             }
+        }**/
+
+        //
+        val adapter = context?.let {
+            FavoriteAdapter(favorites, it){ favorite ->
+                (activity as MainActivity).openYourActivity(favorite)
+            }
         }
+        adapter?.differ?.submitList(favoritess)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(this.context)
+        itemTouchHelper.attachToRecyclerView(recyclerView)
+        //
+
+
         initAllData()
 
         initGps()
         Log.d("test",gps.toString())
         return root
+
+    }
+
+    private val itemTouchHelper by lazy {
+        val simpleItemTouchCallback = object : ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.START or ItemTouchHelper.END, 0) {
+
+            override fun onMove(recyclerView: RecyclerView,
+                                viewHolder: RecyclerView.ViewHolder,
+                                target: RecyclerView.ViewHolder): Boolean {
+                val adapter = recyclerView.adapter as FavoriteAdapter
+                val from = viewHolder.adapterPosition
+                val to = target.adapterPosition
+                adapter.moveItemInRecyclerViewList(from, to)
+                adapter.notifyItemMoved(from, to)
+
+                val favorite = favorites[from]
+                favorites.removeAt(from)
+                favorites.add(to, favorite)
+                context?.let { Functions.writeFile(it,favorites) }
+
+                Log.d("test","$favorites")
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            }
+
+            override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+                super.onSelectedChanged(viewHolder, actionState)
+
+                if (actionState == ItemTouchHelper.ACTION_STATE_DRAG) {
+                    viewHolder?.itemView?.alpha = 0.5f
+                }
+
+            }
+
+            override fun clearView(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder) {
+                super.clearView(recyclerView, viewHolder)
+                viewHolder.itemView.alpha = 1.0f
+            }
+        }
+        ItemTouchHelper(simpleItemTouchCallback)
 
     }
 
