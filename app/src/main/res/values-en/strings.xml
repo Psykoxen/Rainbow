@@ -9,7 +9,7 @@
     <string name="network">Network</string>
     <string name="appwidget_text">Example</string>
     <string name="add_widget">Add widget</string>
-    <string name="app_widget_description">Current Position for widget</string>
+    <string name="app_widget_description">Widget Current Position</string>
     <string name="light">Light</string>
     <string name="dark">Dark</string>
     <string name="add_pos">add position to favorite</string>

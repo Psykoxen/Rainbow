@@ -5,7 +5,7 @@
     android:initialLayout="@layout/rainbow_favorite_large_widget"
     android:minWidth="250dp"
     android:minHeight="50dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/rainbow_widget_preview"
 
     android:previewLayout="@layout/rainbow_favorite_large_widget"
     android:targetCellWidth="4"

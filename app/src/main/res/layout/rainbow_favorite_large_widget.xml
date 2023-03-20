@@ -17,6 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/widgetText"
+        android:text="Your Position"
         android:textSize="25sp"
         android:textColor="@color/white"
         />
@@ -44,7 +45,7 @@
         android:id="@+id/weather_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_water_drop"
+        android:src="@drawable/weather_ic_clear_day"
         android:layout_alignParentRight="true"/>
 
 </LinearLayout>
