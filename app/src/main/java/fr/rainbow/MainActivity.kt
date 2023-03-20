@@ -60,7 +60,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun testInitFavorite(){
+    private fun testInitFavorite(){
         favorites.add(Favorite("Your Position", 0.0 ,0.0, true, true,true,null,null))
         Functions.writeFile(this,favorites)
         Log.e("error","erreur je ne devrais pas être là")

@@ -4,7 +4,6 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -82,7 +81,7 @@ class DetailedActivity : AppCompatActivity() {
         returnMessage()
     }
 
-    fun createHoursPrevision(favorite: Favorite, recyclerHourView: RecyclerView)
+    private fun createHoursPrevision(favorite: Favorite, recyclerHourView: RecyclerView)
     {
         val index = findCurrentSlotHourly(favorite)
         for (i in index..index+20)
@@ -122,13 +121,13 @@ class DetailedActivity : AppCompatActivity() {
 
     private fun requestData(dayView: RecyclerView, hourView: RecyclerView, favorite: Favorite) {
         val data = favorite.weatherData
-        updatingBackgroundShapeColor(detailed_activity_layout,data?.hourly!!.weathercode[findCurrentSlotHourly(favorite)],data.daily!!.sunset[2],data.daily!!.sunrise[2],favorite.datetime!!.date_time)
-        if (updatingUvIc(uv_icon, data?.daily!!.uv_index_max[1])!=0) {
+        updatingBackgroundShapeColor(detailed_activity_layout,data?.hourly!!.weathercode[findCurrentSlotHourly(favorite)],data.daily.sunset[2],data.daily.sunrise[2],favorite.datetime!!.date_time)
+        if (updatingUvIc(uv_icon, data.daily.uv_index_max[1])!=0) {
             label_uv.visibility = View.GONE
             uv_icon.visibility = View.GONE
             barrierUV.visibility = View.GONE
         }
-        updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(favorite)],data.daily!!.sunset[2],data.daily!!.sunrise[2],favorite.datetime!!.date_time)
+        updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(favorite)],data.daily.sunset[2],data.daily.sunrise[2],favorite.datetime!!.date_time)
         updatingTempValue(
             temperature_now_value,
             data.hourly.temperature_2m[findCurrentSlotHourly(favorite)]
@@ -145,8 +144,8 @@ class DetailedActivity : AppCompatActivity() {
             temperature_now_unit.setTypeface(null, Typeface.BOLD)
             temperature_now_value.setTypeface(null, Typeface.BOLD)
         }
-        updatingTempValue(sunrise_value, data.daily!!.sunrise[0].substring(data.daily.sunrise[0].indexOf("T")+1,data.daily.sunrise[0].length))
-        updatingTempValue(sunset_value, data.daily!!.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
+        updatingTempValue(sunrise_value, data.daily.sunrise[0].substring(data.daily.sunrise[0].indexOf("T")+1,data.daily.sunrise[0].length))
+        updatingTempValue(sunset_value, data.daily.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
         createHoursPrevision(favorite, hourView)
         createDayPrevision(data, dayView)
         if (favorite.name.contains("-")){
