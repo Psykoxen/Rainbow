@@ -62,18 +62,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun testInitFavorite(){
-        val fav0 = Favorite("Your Position", 0.0 ,0.0, true, true,true,null,null)
-        val fav1 = Favorite("Mont Blanc",45.832622,6.865175,false,false,true,null,null)
-        val fav2 = Favorite("Villeurbanne",45.786,4.883,false,false,true,null,null)
-        val fav3 = Favorite("Montpellier",43.610,3.876,false,false,true,null,null)
-        val fav4 = Favorite("Agde",43.309,3.475,false,false,true,null,null)
-        val fav5 = Favorite("Marseille",43.296,5.369,false,false,true,null,null)
-        favorites.add(fav0)
-        favorites.add(fav1)
-        favorites.add(fav2)
-        favorites.add(fav3)
-        favorites.add(fav4)
-        favorites.add(fav5)
+        favorites.add(Favorite("Your Position", 0.0 ,0.0, true, true,true,null,null))
         Functions.writeFile(this,favorites)
         Log.e("error","erreur je ne devrais pas être là")
     }
