@@ -41,17 +41,14 @@ class SettingsFragment : Fragment() {
     @SuppressLint("UseRequireInsteadOfGet")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val root: View = binding.root
-        val radioGroup = root.findViewById<RadioGroup>(R.id.idRGgroup)
-        radioGroup.setOnCheckedChangeListener { _, checkedId ->
-            when (checkedId) {
-                R.id.idRBLight -> {
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                }
-                R.id.idRBDark -> {
+
+        switch1.setOnCheckedChangeListener{_,isChecked ->
+            if (isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }else{
                     AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                }
             }
+
         }
         gpsAddButton.setOnClickListener {
             (activity as MainActivity).addGps()
