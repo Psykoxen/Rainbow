@@ -25,7 +25,6 @@ class MainActivity : AppCompatActivity() {
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         val prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE)
         if(prefs.getBoolean("firstrun",true)){
             testInitFavorite()
@@ -91,7 +90,9 @@ class MainActivity : AppCompatActivity() {
     fun openYourActivity(favoriteItem: Favorite) {
         val detailedIntent = Intent(this, DetailedActivity::class.java)
         detailedIntent.putExtra("favorite",favoriteItem)
-        resultLauncher.launch(detailedIntent)
+        if (favoriteItem.weatherData != null) {
+            resultLauncher.launch(detailedIntent)
+        }
     }
 
     fun addGps(){
