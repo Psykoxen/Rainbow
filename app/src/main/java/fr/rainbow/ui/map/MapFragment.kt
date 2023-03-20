@@ -1,13 +1,11 @@
 package fr.rainbow.ui.map
 
-import android.graphics.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -18,7 +16,6 @@ import fr.rainbow.R
 import fr.rainbow.databinding.FragmentMapBinding
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.MapsData
-import fr.rainbow.functions.Functions
 import fr.rainbow.functions.Functions.findCurrentSlotHourly
 import fr.rainbow.functions.Functions.updatingWeatherBmpIc
 import okhttp3.*
@@ -41,9 +38,6 @@ class MapFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val mapViewModel =
-            ViewModelProvider(this).get(MapViewModel::class.java)
-
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -98,7 +92,7 @@ class MapFragment : Fragment() {
     }
 
     private fun getWeatherCode(googleMap: GoogleMap) {
-        cities.getAll().forEach() { city ->
+        cities.getAll().forEach { city ->
             val request = Request.Builder()
                 .url("https://api.open-meteo.com/v1/forecast?latitude=${city.latLng.latitude}&longitude=${city.latLng.longitude}&hourly=weathercode")
                 .build()
@@ -118,11 +112,6 @@ class MapFragment : Fragment() {
         }
     }
 
-    private fun resizeImage(view: View?, bitmap: Bitmap) {
-        val resized = Bitmap.createScaledBitmap(bitmap, 400, 400, true)
-        //ivImage.setImageBitmap(resized)
-    }
-
     private fun addMarkers2(city: Cities, googleMap: GoogleMap, weatherCode: Int) {
         val marker = googleMap.addMarker(
             MarkerOptions()
@@ -130,25 +119,6 @@ class MapFragment : Fragment() {
                 .position(city.latLng)
         )
         updatingWeatherBmpIc(marker, requireContext(), weatherCode)
-    }
-    private fun addMarkers(googleMap: GoogleMap) {
-        cities.getAll().forEach() { place ->
-            val marker = googleMap.addMarker(
-                MarkerOptions()
-                    //.title(place.name)
-                    .position(place.latLng)
-            )
-            if(favorites.find { it.name == place.name } != null) {
-                val fav = favorites.find { it.name == place.name }
-                fav?.weatherData?.let { data ->
-                    updatingWeatherBmpIc(marker, requireContext(), data.hourly.weathercode[Functions.findCurrentSlotHourly(data)])
-                }
-            }
-
-            val hourly = "https://api.open-meteo.com/v1/forecast?latitude=45.75&longitude=4.85&hourly=weathercode"
-            val daily = "https://api.open-meteo.com/v1/forecast?latitude=45.75&longitude=4.85&daily=weathercode&timezone=auto"
-        }
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(cities.get(0).latLng, 8f))
     }
 
     override fun onDestroyView() {

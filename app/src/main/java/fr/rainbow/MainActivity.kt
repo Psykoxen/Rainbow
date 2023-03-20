@@ -3,10 +3,7 @@ package fr.rainbow
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -29,10 +26,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE);
+        val prefs = getSharedPreferences("com.mycompany.myAppName", MODE_PRIVATE)
         if(prefs.getBoolean("firstrun",true)){
             testInitFavorite()
-            prefs.edit().putBoolean("firstrun", false).commit();
+            prefs.edit().putBoolean("firstrun", false).apply()
         }
         initFavorite()
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -64,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    fun testInitFavorite(){
+    private fun testInitFavorite(){
         val fav0 = Favorite("Your Position", 0.0 ,0.0, true, true,true,null)
         val fav1 = Favorite("Mont Blanc",45.832622,6.865175,false,false,true,null)
         val fav2 = Favorite("Villeurbanne",45.786,4.883,false,false,true,null)
@@ -81,12 +78,12 @@ class MainActivity : AppCompatActivity() {
         Log.e("error","erreur je ne devrais pas être là")
     }
 
-    fun initFavorite(){
+    private fun initFavorite(){
         favorites = Functions.readFile(this)
     }
 
 
-    var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+    private var resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             val data: Intent? = result.data
             val favorite = (data?.getSerializableExtra("favorite") as? Favorite)!!
@@ -122,18 +119,14 @@ class MainActivity : AppCompatActivity() {
             Functions.writeFile(this,favorites)
             updateHomeGps()
         }else{
-            Toast.makeText(this, "Impossible d'avoir plusieurs fois sa position", Toast.LENGTH_LONG).show()
-
+            Toast.makeText(this, R.string.samePos, Toast.LENGTH_LONG).show()
         }
 
     }
 
-    private fun updateHomeGps(){
+    private fun updateHomeGps() {
         val fm: FragmentManager = supportFragmentManager
-        val fragment: HomeFragment? = fm.findFragmentByTag("HomeFragment") as HomeFragment?
-        if (fragment != null) {
-            fragment.initGps()
-        };
+        (fm.findFragmentByTag("HomeFragment") as HomeFragment?)?.initGps()
     }
 
 

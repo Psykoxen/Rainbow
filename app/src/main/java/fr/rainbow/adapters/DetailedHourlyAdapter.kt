@@ -3,7 +3,6 @@ package fr.rainbow.adapters
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,6 @@ import fr.rainbow.R
 import fr.rainbow.dataclasses.HourWeatherData
 import fr.rainbow.functions.Functions.dayUpdatingWeatherIc
 import fr.rainbow.functions.Functions.updatingTempValue
-import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.item_hour_weather.view.*
 
 
@@ -60,7 +58,7 @@ class DetailedHourlyAdapter(private val hourWeatherList: ArrayList<HourWeatherDa
             }
 
             updatingTempValue(itemView.wind_value,hourWeather.windspeed_10m)
-            itemView.wind_arrow.setRotation(hourWeather.winddirection_10m.toFloat())
+            itemView.wind_arrow.rotation = hourWeather.winddirection_10m.toFloat()
         }
     }
 

@@ -1,19 +1,14 @@
 package fr.rainbow.adapters
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import fr.rainbow.DetailedActivity
 import fr.rainbow.R
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.functions.Functions
@@ -109,7 +104,7 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
     override fun getItemCount(): Int = favorites.size
 
     override fun getItemViewType(position: Int): Int {
-        return if(favorites.get(position).isBig){
+        return if(favorites[position].isBig){
             1
         }else{
             0
@@ -119,17 +114,17 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
     inner    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             fun bind(favorite: Favorite) {
                 if (favorite.isGPS) {
-                    itemView.ic_location.setVisibility(View.VISIBLE)
+                    itemView.ic_location.visibility = View.VISIBLE
                 } else {
-                    itemView.ic_location.setVisibility(View.GONE)
+                    itemView.ic_location.visibility = View.GONE
                 }
                 updatingTempValue(itemView.city_label2,favorite.name)
                 if(favorite.weatherData!= null){
                     updatingBackgroundShape(itemView.fav_section,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunset[2])
                     updatingWeatherIc(itemView.weather_icon2,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunset[2])
 
-                    updatingTempValue(itemView.temperature_now_value2,favorite.weatherData!!.hourly.temperature_2m.get(
-                        findCurrentSlotHourly(favorite.weatherData!!)).toString())
+                    updatingTempValue(itemView.temperature_now_value2,
+                        favorite.weatherData!!.hourly.temperature_2m[findCurrentSlotHourly(favorite.weatherData!!)].toString())
                 }
             }
         }
@@ -138,16 +133,16 @@ class FavoriteAdapter(private val favorites : ArrayList<Favorite>, private val c
             fun bind(favorite: Favorite) {
                 Log.d("FAVORITE",favorite.toString())
                 if (favorite.isGPS) {
-                    itemView.ic_location_big.setVisibility(View.VISIBLE)
+                    itemView.ic_location_big.visibility = View.VISIBLE
                 } else {
-                    itemView.ic_location_big.setVisibility(View.GONE)
+                    itemView.ic_location_big.visibility = View.GONE
                 }
                 updatingTempValue(itemView.city_label,favorite.name)
                 if(favorite.weatherData!=null){
                     updatingBackgroundShape(itemView.main_section,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunset[2])
                     updatingWeatherIc(itemView.weather_icon,favorite.weatherData!!.hourly.weathercode[findCurrentSlotHourly(favorite.weatherData)],favorite.weatherData!!.daily.sunset[2])
-                    updatingTempValue(itemView.temperature_now_value,favorite.weatherData!!.hourly.temperature_2m.get(
-                        findCurrentSlotHourly(favorite.weatherData!!)).toString())
+                    updatingTempValue(itemView.temperature_now_value,
+                        favorite.weatherData!!.hourly.temperature_2m[findCurrentSlotHourly(favorite.weatherData!!)].toString())
                     updatingTempValue(itemView.tmp_min_value, favorite.weatherData!!.daily.temperature_2m_min[0])
                     updatingTempValue(itemView.tmp_max_value, favorite.weatherData!!.daily.temperature_2m_max[0])
                     itemView.rain_probability.progress = favorite.weatherData!!.hourly.precipitation_probability[findCurrentSlotHourly(favorite.weatherData)]

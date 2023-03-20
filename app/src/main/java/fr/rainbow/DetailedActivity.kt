@@ -63,15 +63,15 @@ class DetailedActivity : AppCompatActivity() {
 
         requestData(recyclerDayView,recyclerHourView, favorite.weatherData!!)
         if(favorite.isFavorite){
-            btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_full)
+            btn_favorite.setBackgroundResource(R.drawable.ic_star_full)
         }
         btn_favorite.setOnClickListener {
             if(favorite.isFavorite){
                 favorite.isFavorite = false
-                btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_empty)
+                btn_favorite.setBackgroundResource(R.drawable.ic_star_empty)
             }else{
                 favorite.isFavorite = true
-                btn_favorite.setBackgroundResource(fr.rainbow.R.drawable.ic_star_full)
+                btn_favorite.setBackgroundResource(R.drawable.ic_star_full)
             }
         }
     }
@@ -80,7 +80,7 @@ class DetailedActivity : AppCompatActivity() {
         returnMessage()
     }
 
-    fun createHoursPrevision(weatherData: WeatherData, recyclerHourView: RecyclerView)
+    private fun createHoursPrevision(weatherData: WeatherData, recyclerHourView: RecyclerView)
     {
         val index = findCurrentSlotHourly(weatherData)
         for (i in index..index+20)
@@ -101,7 +101,7 @@ class DetailedActivity : AppCompatActivity() {
         }
         recyclerHourView.adapter!!.notifyDataSetChanged()
     }
-    fun createDayPrevision(weatherData: WeatherData, recyclerDayView: RecyclerView)
+    private fun createDayPrevision(weatherData: WeatherData, recyclerDayView: RecyclerView)
     {
 
         for (i in 3 until weatherData.daily.time.size)
@@ -119,13 +119,15 @@ class DetailedActivity : AppCompatActivity() {
     }
 
     private fun requestData(dayView: RecyclerView, hourView: RecyclerView, data: WeatherData) {
-        updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)],data.daily!!.sunset[2])
+        updatingBackgroundShapeColor(detailed_activity_layout,data.hourly.weathercode[findCurrentSlotHourly(data)],
+            data.daily.sunset[2])
         if (updatingUvIc(uv_icon, data.daily.uv_index_max[1])!=0) {
             label_uv.visibility = View.GONE
             uv_icon.visibility = View.GONE
             barrierUV.visibility = View.GONE
         }
-        updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)],data.daily!!.sunset[2])
+        updatingWeatherIc(weather_icon, data.hourly.weathercode[findCurrentSlotHourly(data)],
+            data.daily.sunset[2])
         updatingTempValue(
             temperature_now_value,
             data.hourly.temperature_2m[findCurrentSlotHourly(data)]
@@ -142,14 +144,14 @@ class DetailedActivity : AppCompatActivity() {
             temperature_now_unit.setTypeface(null, Typeface.BOLD)
             temperature_now_value.setTypeface(null, Typeface.BOLD)
         }
-        updatingTempValue(sunrise_value, data.daily!!.sunrise[0].substring(data.daily.sunrise[0].indexOf("T")+1,data.daily.sunrise[0].length))
-        updatingTempValue(sunset_value, data.daily!!.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
+        updatingTempValue(sunrise_value, data.daily.sunrise[0].substring(data.daily.sunrise[0].indexOf("T")+1,data.daily.sunrise[0].length))
+        updatingTempValue(sunset_value, data.daily.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
         createHoursPrevision(data, hourView)
         createDayPrevision(data, dayView)
         cityName.text = favorite.name
     }
 
-    fun returnMessage() {
+    private fun returnMessage() {
         val returnIntent = intent.apply {
             putExtra("favorite",favorite)
         }

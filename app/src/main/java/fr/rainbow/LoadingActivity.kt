@@ -7,8 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 
 class LoadingActivity : AppCompatActivity() {
 
-    private lateinit var handler: Handler
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loading)

@@ -13,7 +13,6 @@ import fr.rainbow.functions.Functions.dayUpdatingWeatherIc
 import fr.rainbow.functions.Functions.getDayName
 import fr.rainbow.functions.Functions.isTomorrow
 import fr.rainbow.functions.Functions.updatingTempValue
-import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.item_day_weather.view.*
 import kotlinx.android.synthetic.main.item_hour_weather.view.weather_icon
 
@@ -44,7 +43,7 @@ class DetailedDayAdapter(private val dayWeatherList: ArrayList<DayWeatherData>, 
 
             dayUpdatingWeatherIc(itemView.weather_icon, dayWeather.weathercode)
             if (isTomorrow(dayWeather.time)){
-                itemView.date_label.text = "Tomorrow"
+                itemView.date_label.text = R.string.tomorrow.toString()
             } else {
                 itemView.date_label.text = getDayName(dayWeather.time)
             }

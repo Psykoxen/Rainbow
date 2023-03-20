@@ -1,18 +1,15 @@
 package fr.rainbow.ui.search
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.libraries.places.api.Places
 import fr.rainbow.BuildConfig
 import fr.rainbow.R
 import fr.rainbow.databinding.FragmentSearchBinding
 import android.util.Log
-import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.Status
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
@@ -20,7 +17,6 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.gson.Gson
 import fr.rainbow.dataclasses.Favorite
 import fr.rainbow.dataclasses.WeatherData
-import fr.rainbow.DetailedActivity
 import fr.rainbow.MainActivity
 import okhttp3.*
 import java.io.IOException
