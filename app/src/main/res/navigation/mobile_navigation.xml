@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_search"
-        android:name="fr.rainbow.ui.search.SearchFragment"
-        android:label="@string/search"
-        tools:layout="@layout/fragment_search" />
-
-    <fragment
         android:id="@+id/navigation_map"
         android:name="fr.rainbow.ui.map.MapFragment"
         android:label="@string/map"
