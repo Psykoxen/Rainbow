@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/loadingText"
-        android:text="Rainbow"
+        android:text="@string/app_name"
         android:textSize="18sp"
         android:textStyle="bold"
         android:layout_below="@id/weather_icon"
