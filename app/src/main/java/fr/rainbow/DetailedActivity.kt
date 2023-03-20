@@ -23,6 +23,7 @@ import fr.rainbow.functions.Functions.updatingTempValue
 import fr.rainbow.functions.Functions.updatingUvIc
 import fr.rainbow.functions.Functions.updatingWeatherIc
 import kotlinx.android.synthetic.main.activity_detailed.*
+import kotlinx.android.synthetic.main.item_favorite.view.*
 import kotlinx.android.synthetic.main.item_hour_weather.view.*
 import okhttp3.*
 
@@ -148,7 +149,9 @@ class DetailedActivity : AppCompatActivity() {
         updatingTempValue(sunset_value, data.daily!!.sunset[0].substring(data.daily.sunset[0].indexOf("T")+1,data.daily.sunset[0].length))
         createHoursPrevision(favorite, hourView)
         createDayPrevision(data, dayView)
-        cityName.text = favorite.name
+        if (favorite.name.contains("-")){
+            cityName.text = favorite.name.replace("-"," ")
+        }
     }
 
     private fun returnMessage() {
