@@ -1,7 +1,9 @@
-<p align="center"> <img alt="Rainbow App" src="https://github.com/Psykoxen/Rainbow/blob/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" /></p>
 
 # Rainbow : Application Android de météo et de géolocalisation
+
 Rainbow est une application Android open source qui permet aux utilisateurs de visualiser la météo, de créer des emplacements favoris, d'utiliser une carte interactive, de rechercher des lieux et de recevoir des notifications en cas d'alertes météo dans la zone sélectionnée.
+<p align="center"> <img alt="Rainbow App" src="https://github.com/Psykoxen/Rainbow/blob/main/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" /></p>
+
 
 ## Fonctionnalités
 ### Visualisation de la météo
